@@ -50,21 +50,12 @@ export function Signup({ setShowSignup }) {
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="phone">전화번호</Label>
+                            <Label htmlFor="PW">비밀번호</Label>
                             <Input
-                                id="phone"
-                                placeholder="010-1234-7890"
-                                type="tel"
+                                id="PW"
+                                placeholder="비밀번호"
+                                required
                             />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="job-title">직업</Label>
-                            <Input id="job-title" placeholder="직업명" />
-                        </div>
-                        
-                        <div className="space-y-2">
-                            <Label htmlFor="profile">프로필 사진 올리기</Label>
-                            <Input id="profile" type="file" />
                         </div>
                         <Button className="w-full" type="submit">
                             회원가입 하기
