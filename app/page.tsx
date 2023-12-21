@@ -21,7 +21,7 @@ export default function Home() {
             </div>
             <div className="lg:flex justify-between items-center p-6 lg:p-10">
 
-                <div className="lg:w-1/2">
+                <div className="lg:w-1/2 h-32">
                     <h1 className="text-4xl font-bold mb-4">
                         서비스 소개
                     </h1>
