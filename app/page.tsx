@@ -51,7 +51,7 @@ export default function Home() {
                                     variant="outline"
                                     onClick={() => setShowLogin(true)}
                                 >
-                                    로그인
+                                    로그인-
                                 </Button>
                                 <Button
                                     className="w-full lg:w-auto"
