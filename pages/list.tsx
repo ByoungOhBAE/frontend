@@ -8,9 +8,19 @@ interface ListPageProps {
 
 const OtherPage: React.FC<ListPageProps> = ({ data }) => {
   // data를 사용하여 UI를 렌더링
+  // 컴포넌트화 필요!
   return (
     <div>
       {/* UI 구성 요소 */}
+      <ul>
+        {data.map((book) => (
+          <li>
+            <h3>
+              {book.book_name}
+            </h3>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
@@ -26,9 +36,6 @@ export const getServerSideProps: GetServerSideProps<ListPageProps> = async () =>
     props: {
       data,
     },
-    // <div>
-    //   <p>kid{data.level}</p>
-    // </div>
   };
 };
 
