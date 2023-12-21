@@ -50,10 +50,10 @@ export function Signup({ setShowSignup }) {
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="PW">비밀번호</Label>
+                            <Label htmlFor="PW">비밀번호 확인</Label>
                             <Input
                                 id="PW"
-                                placeholder="비밀번호"
+                                placeholder="비밀번호 확인"
                                 required
                             />
                         </div>
