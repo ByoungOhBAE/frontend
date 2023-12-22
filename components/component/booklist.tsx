@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Avatar } from "@/components/ui/avatar"
 import { CardHeader, CardContent, Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { useBookList } from '@/components/component/usebooklist';
 
 export default function Booklist({ setShowBooklist }) {
   return (
@@ -31,100 +32,75 @@ export default function Booklist({ setShowBooklist }) {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
 
           <Card>
-            <Link href="/list"> 
-            {/* 아직 이 링크는 예시로 걸어논거고 연결되는 주소가 없음 */}
+            <Link href="/list">
+              {/* 아직 이 링크는 예시로 걸어논거고 연결되는 주소가 없음 */}
               <CardHeader>
                 <Avatar className="w-12 h-12" src="/placeholder.svg?height=100&width=100" />
-                <h2 className="ml-4 text-lg font-semibold">Flight Details</h2>
+                <h2 className="ml-4 text-lg font-semibold">
+                  <BookListComponent bookId={1} infoType="book_name" />
+                </h2>
               </CardHeader>
               <CardContent>
                 <p className="text-sm">
-                  Flight number: <span className="font-medium">FL001</span>
+                  작가 : <span className="font-medium"><BookListComponent bookId={1} infoType="author" /></span>
                 </p>
                 <p className="text-sm">
-                  Departure: <span className="font-medium">New York</span>
+                  장르 : <span className="font-medium"><BookListComponent bookId={1} infoType="genre" /></span>
                 </p>
                 <p className="text-sm">
-                  Destination: <span className="font-medium">Los Angeles</span>
+                  난이도 : <span className="font-medium"><BookListComponent bookId={1} infoType="level" /></span>
+                </p>
+              
+              </CardContent>
+            </Link>
+          </Card>
+          <Card>
+            <Link href="/list">
+              {/* 아직 이 링크는 예시로 걸어논거고 연결되는 주소가 없음 */}
+              <CardHeader>
+                <Avatar className="w-12 h-12" src="/placeholder.svg?height=100&width=100" />
+                <h2 className="ml-4 text-lg font-semibold">
+                  <BookListComponent bookId={2} infoType="book_name" />
+                </h2>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm">
+                  작가 : <span className="font-medium"><BookListComponent bookId={2} infoType="author" /></span>
                 </p>
                 <p className="text-sm">
-                  Departure Time: <span className="font-medium">10:00 AM</span>
+                  장르 : <span className="font-medium"><BookListComponent bookId={2} infoType="genre" /></span>
                 </p>
+                <p className="text-sm">
+                  난이도 : <span className="font-medium"><BookListComponent bookId={2} infoType="level" /></span>
+                </p>
+              
+              </CardContent>
+            </Link>
+          </Card>
+          <Card>
+            <Link href="/list">
+              {/* 아직 이 링크는 예시로 걸어논거고 연결되는 주소가 없음 */}
+              <CardHeader>
+                <Avatar className="w-12 h-12" src="/placeholder.svg?height=100&width=100" />
+                <h2 className="ml-4 text-lg font-semibold">
+                  <BookListComponent bookId={3} infoType="book_name" />
+                </h2>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm">
+                  작가 : <span className="font-medium"><BookListComponent bookId={3} infoType="author" /></span>
+                </p>
+                <p className="text-sm">
+                  장르 : <span className="font-medium"><BookListComponent bookId={3} infoType="genre" /></span>
+                </p>
+                <p className="text-sm">
+                  난이도 : <span className="font-medium"><BookListComponent bookId={3} infoType="level" /></span>
+                </p>
+              
               </CardContent>
             </Link>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <Avatar className="w-12 h-12" src="/placeholder.svg?height=100&width=100" />
-              <h2 className="ml-4 text-lg font-semibold">Flight Status</h2>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm">
-                Status: <Badge variant="success">On Time</Badge>
-              </p>
-              <p className="text-sm">
-                Gate: <span className="font-medium">B12</span>
-              </p>
-              <p className="text-sm">
-                Seat: <span className="font-medium">14A</span>
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <Avatar className="w-12 h-12" src="/placeholder.svg?height=100&width=100" />
-              <h2 className="ml-4 text-lg font-semibold">Flight Status</h2>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm">
-                Status: <Badge variant="success">On Time</Badge>
-              </p>
-              <p className="text-sm">
-                Gate: <span className="font-medium">B12</span>
-              </p>
-              <p className="text-sm">
-                Seat: <span className="font-medium">14A</span>
-              </p>
-            </CardContent>
-          </Card>
-
-
-          <Card>
-            <CardHeader>
-              <Avatar className="w-12 h-12" src="/placeholder.svg?height=100&width=100" />
-              <h2 className="ml-4 text-lg font-semibold">Flight Status</h2>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm">
-                Status: <Badge variant="success">On Time</Badge>
-              </p>
-              <p className="text-sm">
-                Gate: <span className="font-medium">B12</span>
-              </p>
-              <p className="text-sm">
-                Seat: <span className="font-medium">14A</span>
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <Avatar className="w-12 h-12" src="/placeholder.svg?height=100&width=100" />
-              <h2 className="ml-4 text-lg font-semibold">Passenger Information</h2>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm">
-                Name: <span className="font-medium">John Doe</span>
-              </p>
-              <p className="text-sm">
-                Passport: <span className="font-medium">123456789</span>
-              </p>
-              <p className="text-sm">
-                Frequent Flyer: <Badge variant="secondary">Platinum</Badge>
-              </p>
-            </CardContent>
-          </Card>
         </div>
       </main>
     </div>
@@ -150,3 +126,37 @@ function PlaneIcon(props) {
     </svg>
   )
 }
+
+
+
+// 북리스트 가져오기 위한 인터페이스
+
+interface BookListComponentProps {
+  bookId: number;
+  infoType: 'book_name' | 'author'; // 여기에 필요한 다른 정보 타입을 추가할 수 있습니다.
+}
+
+function BookListComponent({ bookId, infoType }: BookListComponentProps) {
+  const { bookList, isLoading, isError } = useBookList();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error loading data</div>;
+
+  // 특정 ID의 책 찾기
+  const book = bookList.find(book => book.id === bookId);
+
+  // 원하는 정보 반환
+  return (
+    <div>
+      {book ? (
+        <p>{book[infoType]}</p> // infoType에 따라 다른 정보 표시
+      ) : (
+        <p>책을 찾을 수 없습니다.</p>
+      )}
+    </div>
+  );
+}
+
+
+
+
