@@ -26,7 +26,7 @@ export default function Home() {
                         프로젝트 제목
                     </h2>
                 </div>
-                <div className="lg:flex justify-between items-center p-6 lg:p-10">
+                <div className="lg:flex justify-between p-6 lg:p-10">
 
                     <div className="lg:w-1/2">
                         <h1 className="text-4xl font-bold mb-4">
