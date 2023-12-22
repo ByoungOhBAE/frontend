@@ -49,7 +49,7 @@ export function Signup({ setShowSignup }) {
     };
     return (
         <main key="1" className="p-6">
-            <Card className="max-w-3xl mx-auto">
+            <Card className="min-w-96 mx-auto">
                 <CardHeader>
                     <Button
                         className="mb-2 text-xs"
@@ -66,19 +66,20 @@ export function Signup({ setShowSignup }) {
                 </CardHeader>
                 <CardContent className="space-y-6">
                     <form className="space-y-4" onSubmit={handleSubmit}>
-                        <div className="space-y-2">
-                            <Label htmlFor="name">이름</Label>
+                        <div className="space-y-2 flex justify-between items-center">
+                            <Label htmlFor="name" className="font-medium lg:w-1/5">이름</Label>
                             <Input 
                                 id="name" 
                                 placeholder="홍길동" 
                                 required 
                                 value={formData.name}
                                 onChange={handleChange}
+                                className="font-medium lg:w-3/5"
                             />
                         </div>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="ID">아이디</Label>
+                        <div className="space-y-2 flex justify-between items-center">
+                            <Label htmlFor="ID" className="font-medium lg:w-1/5">아이디</Label>
                             <Input
                                 id="email"
                                 placeholder="johndoe@example.com"
@@ -86,10 +87,11 @@ export function Signup({ setShowSignup }) {
                                 type="email"
                                 value={formData.email}
                                 onChange={handleChange}
+                                className="font-medium lg:w-3/5"
                             />
                         </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="PW">비밀번호</Label>
+                        <div className="space-y-2 flex justify-between items-center">
+                            <Label htmlFor="PW" className="font-medium lg:w-1/5">비밀번호</Label>
                             <Input
                                 id="password"
                                 placeholder="비밀번호"
@@ -97,10 +99,11 @@ export function Signup({ setShowSignup }) {
                                 type="password"
                                 value={formData.password}
                                 onChange={handleChange}
+                                className="font-medium lg:w-3/5"
                             />
                         </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="PW_re">비밀번호 확인</Label>
+                        <div className="space-y-2 flex justify-between items-center">
+                            <Label htmlFor="PW_re" className="font-medium lg:w-1/5">비밀번호 확인</Label>
                             <Input
                                 id="confirmPassword"
                                 placeholder="비밀번호 확인"
@@ -108,6 +111,7 @@ export function Signup({ setShowSignup }) {
                                 type="password"
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
+                                className="font-medium lg:w-3/5"
                             />
                         </div>
                         <Button className="w-full" type="submit">
