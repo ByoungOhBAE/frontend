@@ -25,7 +25,7 @@ export default function Booklist({ setShowBooklist }) {
           <span className="ml-2 font-semibold text-lg">마이페이지</span>
         </Link>
 
-        <Button variant="outline" onClick={() => setShowBooklist(false)}>뒤로가기</Button>
+        <Button variant="outline" onClick={() => setShowBooklist(false)}>로그아웃</Button>
       </header>
       <main className="p-4">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
