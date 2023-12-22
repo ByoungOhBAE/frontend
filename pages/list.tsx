@@ -27,7 +27,7 @@ const OtherPage: React.FC<ListPageProps> = ({ data }) => {
 
 export const getServerSideProps: GetServerSideProps<ListPageProps> = async () => {
   // 서버 측에서 API를 호출하여 데이터를 가져옴
-  const res = await fetch('http://43.201.63.247/api/BookList/');
+  const res = await fetch('http://43.201.148.150/api/BookList/');
   const data = await res.json();
 
   console.log(data);
