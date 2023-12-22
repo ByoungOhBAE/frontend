@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge"
 export default function Booklist({ setShowBooklist }) {
   return (
     <div className="min-h-screen min-w-full bg-[#F3F4F6]">
-      <header className="flex justify-between items-center bg-white p-4 shadow-md ">
+      <header className="flex justify-between items-center bg-white p-4 shadow-md">
         <Link href="#" className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100">
             <span className="ml-2 font-semibold text-lg">북리스트</span>
         </Link>
