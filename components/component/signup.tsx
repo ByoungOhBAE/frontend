@@ -42,6 +42,7 @@ export function Signup({ setShowSignup }) {
             const response = await axios.post('http://127.0.0.1:8000/api/signup/', formData);
             // const data = response.data;
             console.log("회원가입 성공:", response.data);
+            setShowSignup(false);
         } catch (error) {
             console.error('회원가입 실패:', error);
         }

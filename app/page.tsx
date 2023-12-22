@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Login } from "@/components/component/login";
 import { Signup } from "@/components/component/signup";
 import  Booklist  from '@/components/component/booklist';
-//시부랄 임포트 중괄호 규칙 다름 북리스트는 중괄호 넣으면 오류남
+// 임포트 중괄호 규칙 다름 북리스트는 중괄호 넣으면 오류남
 export default function Home() {
     const [showLogin, setShowLogin] = useState(false);
     const [showSignup, setShowSignup] = useState(false);
@@ -43,9 +43,9 @@ export default function Home() {
 
                         <div className="lg:w-1/2">
 
-                            <Button className="text-4xl font-bold mb-4" onClick={() => setShowBooklist(true)}>
+                            <h2 className="text-4xl font-bold mb-4">
                                 서비스 소개
-                            </Button>
+                            </h2>
 
                             <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
                                 유아시기는 만3세~만5세인데, 유아기의 아이가
@@ -61,7 +61,7 @@ export default function Home() {
                         <div className="lg:w-1/2 lg:flex justify-end">
                             {showLogin ? (
                                 // 로그인 상태가 true일 때 Login 컴포넌트를 렌더링.
-                                <Booklist setShowLogin={setShowLogin} />
+                                <Login setShowLogin={setShowLogin} setShowBooklist={setShowBooklist} setShowSignup={setShowSignup}/>
                             ) : showSignup ? (
                                 <Signup setShowSignup={setShowSignup} />
                             ) : (
