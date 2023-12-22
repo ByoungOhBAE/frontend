@@ -1,29 +1,43 @@
 "use client";
 
 import React, { useState } from 'react';
+import axios from 'axios';
+import router from 'next/router';
+import { redirect } from 'next/dist/server/api-utils';
 
 export function Login({ setShowLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('/api/login', { // API 경로는 제작후 넣을것
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
+      const response = await axios.post('http://127.0.0.1:8000/api/token/', { // API 경로는 제작후 넣을것
+        email,
+        password,
+        // method: 'POST',
+        // headers: {
+        //   'Content-Type': 'application/json',
+        // },
+        // body: JSON.stringify({ email, password }),
       });
 
-      if (response.ok) {
-        // 로그인 성공 처리
-        setShowLogin(false);
-      } else {
-        // 에러 처리
-        console.error('Login failed');
-      }
+      // if (response.ok) {
+      //   console.log(response);
+      //   // 로그인 성공 처리
+      //   setShowLogin(false);
+      // } else {
+      //   // 에러 처리
+      //   console.error('Login failed');
+      // }
+      localStorage.setItem('access_token', response.data.access);
+      localStorage.setItem('refresh_token', response.data.refresh);
+
+
+      window.location.href = '/list';
+      console.log('a')
+
     } catch (error) {
       console.error('An error occurred:', error);
     }
@@ -56,7 +70,7 @@ export function Login({ setShowLogin }) {
         </div>
         <div className="flex items-center justify-between">
           <button 
-            type="submit" 
+            type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             로그인

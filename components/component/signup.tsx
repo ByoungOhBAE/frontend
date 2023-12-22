@@ -6,8 +6,46 @@ import { Button } from "@/components/ui/button";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import axios from 'axios';
+import router from 'next/router';
+
+// const fetchSign = async () => {
+//     try {
+//         const response = await axios.get('http://127.0.0.1:8000/api/signup/');
+//         const data = response.data;
+//         console.log(data);
+//     } catch (error) {
+//         console.error('Error fetching data:', error);
+//     }
+// };
 
 export function Signup({ setShowSignup }) {
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+    });
+
+    const handleChange = (event) => {
+        const { id, value } = event.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [id]: value,
+        }));
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/api/signup/', formData);
+            // const data = response.data;
+            console.log("회원가입 성공:", response.data);
+        } catch (error) {
+            console.error('회원가입 실패:', error);
+        }
+    };
     return (
         <main key="1" className="p-6">
             <Card className="max-w-3xl mx-auto">
@@ -26,35 +64,49 @@ export function Signup({ setShowSignup }) {
                     </p>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                    <form className="space-y-4">
+                    <form className="space-y-4" onSubmit={handleSubmit}>
                         <div className="space-y-2">
                             <Label htmlFor="name">이름</Label>
-                            <Input id="name" placeholder="홍길동" required />
+                            <Input 
+                                id="name" 
+                                placeholder="홍길동" 
+                                required 
+                                value={formData.name}
+                                onChange={handleChange}
+                            />
                         </div>
 
                         <div className="space-y-2">
                             <Label htmlFor="ID">아이디</Label>
                             <Input
-                                id="ID"
+                                id="email"
                                 placeholder="johndoe@example.com"
                                 required
                                 type="email"
+                                value={formData.email}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="PW">비밀번호</Label>
                             <Input
-                                id="PW"
+                                id="password"
                                 placeholder="비밀번호"
                                 required
+                                type="password"
+                                value={formData.password}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="PW">비밀번호 확인</Label>
+                            <Label htmlFor="PW_re">비밀번호 확인</Label>
                             <Input
-                                id="PW"
+                                id="confirmPassword"
                                 placeholder="비밀번호 확인"
                                 required
+                                type="password"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
                             />
                         </div>
                         <Button className="w-full" type="submit">
