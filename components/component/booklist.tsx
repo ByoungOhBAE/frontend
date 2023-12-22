@@ -11,17 +11,23 @@ import { Badge } from "@/components/ui/badge"
 export default function Booklist({ setShowBooklist }) {
   return (
     <div className="min-h-screen min-w-full bg-[#F3F4F6]">
-      <header className="flex justify-between items-center bg-white p-4 shadow-md">
-        <Link href="#">
-          <span className="ml-2 font-semibold text-lg">북리스트</span>
+      <header className="flex justify-between items-center bg-white p-4 shadow-md ">
+        <Link href="#" className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100">
+            <span className="ml-2 font-semibold text-lg">북리스트</span>
         </Link>
-        <Link href="#">
+        <Link href="#" className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-green-100 hover:ring-green-100">
           <span className="ml-2 font-semibold text-lg">5세 추천</span>
         </Link>
-        <Link href="#">
+        <Link href="#" className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-yellow-100 hover:ring-yellow-100">
           <span className="ml-2 font-semibold text-lg">6세 추천</span>
         </Link>
-        <Link href="#">
+        <Link href="#" className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-pink-100 hover:ring-pink-100">
+          <span className="ml-2 font-semibold text-lg">7세 추천</span>
+        </Link>
+        <Link href="#" className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-purple-100 hover:ring-purple-100">
+          <span className="ml-2 font-semibold text-lg">게시판</span>
+        </Link>
+        <Link href="#" className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-gray-100 hover:ring-gray-100">
           <span className="ml-2 font-semibold text-lg">마이페이지</span>
         </Link>
 

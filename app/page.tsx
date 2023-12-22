@@ -69,14 +69,14 @@ export default function Home() {
                                 <>
                                     <div className="space-x-4">
                                         <Button
-                                            className="w-full lg:w-auto"
+                                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                             variant="outline"
                                             onClick={() => setShowLogin(true)}
                                         >
                                             로그인
                                         </Button>
                                         <Button
-                                            className="w-full lg:w-auto"
+                                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                             variant="outline"
                                             onClick={() => setShowSignup(true)}
                                         >
