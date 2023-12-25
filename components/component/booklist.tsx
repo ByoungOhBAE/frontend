@@ -24,12 +24,41 @@ export default function Booklist({ setShowBooklist }) {
   const currentBooks = bookList.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
   const totalPages = Math.ceil(bookList.length / PER_PAGE);
 
+  // import React from 'react';
+  // import ComponentOne from './ComponentOne';
+  // import ComponentTwo from './ComponentTwo';
+  // import ComponentThree from './ComponentThree';
+  
+  // export default function MyComponent({ selectedBookId }) {
+  //   let content;
+  
+  //   switch(selectedBookId) {
+  //     case 1:
+  //       content = <ComponentOne />;
+  //       break;
+  //     case 2:
+  //       content = <ComponentTwo />;
+  //       break;
+  //     case 3:
+  //       content = <ComponentThree />;
+  //       break;
+  //     default:
+  //       content = <div>Default content or another component</div>;
+  //   }
+  
+  //   return (
+  //     <div>
+  //       {content}
+  //     </div>
+  //   );
+  // }
+
   return (
     <div className="min-h-screen min-w-full bg-[#F3F4F6]">
       <Navibar setShowBooklist={setShowBooklist} />
       <main className="p-4">
         {selectedBookId ? (
-          <BookDetailComponent bookId={selectedBookId} />
+          <BookDetailComponent bookId={selectedBookId} setSelectedBookId={setSelectedBookId} />
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {/* 책 목록 렌더링 */}
@@ -59,7 +88,7 @@ export default function Booklist({ setShowBooklist }) {
                 {/* 밑은 호버 띄우기 */}
                 <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => showBookDetails(book.id)}>
                   <h2 className="text-white ml-4 text-lg font-semibold">
-                    {/* BookListComponent */}
+                    {book.book_name}
                   </h2>
                   <p className="text-white text-lg">바로가기</p>
                 </div>
@@ -69,36 +98,16 @@ export default function Booklist({ setShowBooklist }) {
         )
         }
 
-        <div>
-          <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>이전</button>
-          <span>페이지 {currentPage} / {totalPages}</span>
-          <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>다음</button>
+        <div className="flex items-center justify-center">
+          <Button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>이전 페이지</Button>
+          <span> {currentPage} / {totalPages}</span>
+          <Button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>다음 페이지</Button>
         </div>
 
       </main >
     </div >
   );
 }
-
-function PlaneIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" />
-    </svg>
-  )
-}
-
 
 
 // 북리스트 가져오기 위한 인터페이스

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button } from "@/components/ui/button";
 
-const BookDetailComponent = ({ bookId }) => {
+const BookDetailComponent = ({ bookId, setSelectedBookId }) => {
     const [book, setBook] = useState(null);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
@@ -44,6 +44,10 @@ const BookDetailComponent = ({ bookId }) => {
                     )}
                     <Button onClick={goToPreviousPage}>이전 페이지</Button>
                     <Button onClick={goToNextPage}>다음 페이지</Button>
+                    <Button onClick={() => {
+                        setSelectedBookId(null);
+                        
+                    }}>뒤로가기</Button>
                 </div>
             ) : (
                 <div>Loading...</div>
