@@ -1,13 +1,17 @@
 import Image from 'next/image'
 "use client";
 import React, { useState } from "react";
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Login } from "@/components/component/login";
 import { Signup } from "@/components/component/signup";
 import Booklist from '@/components/component/booklist';
+
 // 임포트 중괄호 규칙 다름 북리스트는 중괄호 넣으면 오류남
 export default function Home() {
+    
     const [showLogin, setShowLogin] = useState(false);
     const [showSignup, setShowSignup] = useState(false);
     const [showBooklist, setShowBooklist] = useState(false);
@@ -19,6 +23,8 @@ export default function Home() {
         height: '100%',
         backgroundAttachment: 'scroll',
     };
+
+
 
     return (
         <div className="min-h-screen p-6 lg:p-10 bg-cover bg-center" style={backgroundStyle}>
@@ -34,6 +40,7 @@ export default function Home() {
             <div className="lg:flex justify-between p-6 lg:p-10">
                 {showBooklist ? (
                     // 로그인 상태가 true일 때 Login 컴포넌트를 렌더링.
+
 
                     <Booklist setShowBooklist={setShowBooklist} />
 
