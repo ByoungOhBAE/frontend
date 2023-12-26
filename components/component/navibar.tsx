@@ -4,7 +4,7 @@ import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet"
 import Link from "next/link"
 import { NavigationMenuLink, NavigationMenuList, NavigationMenu } from "@/components/ui/navigation-menu"
 
-export function Navibar({ setShowBooklist }) {
+export function Navibar({ setSelecteCompoId }) {
   return (
     <div className="flex flex-col ">
       <header className="flex items-center h-0 px-0 border-b shrink-0 lg:h-20 lg:px-4 md:px-6">
@@ -24,16 +24,16 @@ export function Navibar({ setShowBooklist }) {
               북키즈
             </h2>
             <div className="grid gap-2 py-6">
-              <div className="flex w-full items-center py-2 text-lg font-semibold" href="#">
+              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(null)}>
                 북리스트
               </div>
-              <div className="flex w-full items-center py-2 text-lg font-semibold" href="#">
+              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(3)}>
                 게시판
               </div>
-              <div className="flex w-full items-center py-2 text-lg font-semibold" href="#">
+              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(1)}>
                 마이페이지
               </div>
-              <div className="flex w-full items-center py-2 text-lg font-semibold" href="#">
+              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(null)}>
                 북리스트
               </div>
               <Button variant="outline" onClick={() => setShowBooklist(false)}>로그아웃</Button>
@@ -49,21 +49,21 @@ export function Navibar({ setShowBooklist }) {
           <NavigationMenuList>
             <NavigationMenuLink asChild>
               <div className="flex space-x-4">
-                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100">
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(null)}>
                   <span className="ml-2 font-semibold text-lg">북리스트</span>
                 </div>
               </div>
             </NavigationMenuLink>
             <NavigationMenuLink asChild>
               <div className="flex space-x-4">
-                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100">
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(3)}>
                   <span className="ml-2 font-semibold text-lg">게시판</span>
                 </div>
               </div>
             </NavigationMenuLink>
             <NavigationMenuLink asChild>
               <div className="flex space-x-4">
-                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100">
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(1)}>
                   <span className="ml-2 font-semibold text-lg">마이페이지</span>
                 </div>
               </div>

@@ -1,11 +1,13 @@
-"use client";
+'use client';
 
 import React, { useState } from "react";
 import axios from "axios";
-import router from "next/router";
-import { redirect } from "next/dist/server/api-utils";
+import { useRouter } from 'next/navigation';
 
-export function Login({ setShowLogin, setShowBooklist, setShowSignup}) {
+
+export default function Login({ setShowLogin, setShowBooklist, setShowSignup }) {
+    
+    const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -24,9 +26,10 @@ export function Login({ setShowLogin, setShowBooklist, setShowSignup}) {
             localStorage.setItem("access_token", response.data.access);
             localStorage.setItem("refresh_token", response.data.refresh);
 
-            setShowBooklist(true);
+            router.push('/mainpage');
         } catch (error) {
             console.error("An error occurred:", error);
+            setError("로그인 실패: " + error.message);
         }
     };
 
@@ -74,9 +77,9 @@ export function Login({ setShowLogin, setShowBooklist, setShowSignup}) {
                     </button>
                     <button
                         onClick={() => {
-                          setShowLogin(false);
-                          setShowSignup(true);
-                          
+                            setShowLogin(false);
+                            setShowSignup(true);
+
                         }}
                         // type="submit"
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -92,6 +95,7 @@ export function Login({ setShowLogin, setShowBooklist, setShowSignup}) {
                         닫기
                     </button>
                 </div>
+                {error && <p className="text-red-500">{error}</p>}
             </form>
         </div>
     );

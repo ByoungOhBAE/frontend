@@ -2,7 +2,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { BookListComponent } from '@/components/component/booklist';
+import { BookListComponent } from '@/pages/booklist';
 import { Button } from "@/components/ui/button"
 
 const BookPage = () => {

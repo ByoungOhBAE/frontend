@@ -4,9 +4,9 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Login } from "@/components/component/login";
+import  Login  from "@/components/component/login";
 import { Signup } from "@/components/component/signup";
-import Booklist from '@/components/component/booklist';
+// import Booklist from '@/pages/booklist';
 
 // 임포트 중괄호 규칙 다름 북리스트는 중괄호 넣으면 오류남
 export default function Home() {
@@ -39,10 +39,7 @@ export default function Home() {
             <div className="lg:flex justify-between p-6 lg:p-10">
                 {showBooklist ? (
                     // 로그인 상태가 true일 때 Login 컴포넌트를 렌더링.
-
-
-                    <Booklist setShowBooklist={setShowBooklist} />
-
+                    <div></div>
                 ) : (
                     // 로그인 상태가 false일 때 기본 화면을 렌더링.
                     <>
@@ -93,9 +90,10 @@ export default function Home() {
                             )}
                         </div>
                     </>
-                )}
+                )
+                }
 
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }
