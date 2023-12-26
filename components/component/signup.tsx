@@ -28,6 +28,8 @@ export function Signup({ setShowSignup }) {
         confirmPassword: "",
     });
 
+    const [errorMessage, setErrorMessage] = useState("");   // 에러 메시지 상태 추가
+
     const handleChange = (event) => {
         const { id, value } = event.target;
         setFormData((prevData) => ({
@@ -38,15 +40,57 @@ export function Signup({ setShowSignup }) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+    
+        // 간단한 유효성 검사
+        if (!isValidKoreanName(formData.name)) {
+            console.error('이름은 한글로만 입력해주세요.');
+            return;
+        }
+
+        if (formData.name.length < 2) {
+            console.error('이름은 최소 2글자 이상이어야 합니다.');
+            return;
+        }
+    
+        if (!isValidEmail(formData.email)) {
+            console.error('유효한 이메일 주소를 입력해주세요.');
+            return;
+        }
+    
+        if (formData.password.length < 6) {
+            console.error('비밀번호는 최소 6글자 이상이어야 합니다.');
+            return;
+        }
+    
+        if (formData.password !== formData.confirmPassword) {
+            console.error('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+            return;
+        }
+
+        setErrorMessage("");    // 에러 메시지 초기화
+    
         try {
             const response = await axios.post('http://127.0.0.1:8000/api/signup/', formData);
-            // const data = response.data;
             console.log("회원가입 성공:", response.data);
             setShowSignup(false);
         } catch (error) {
             console.error('회원가입 실패:', error);
         }
     };
+    
+    // 이메일 유효성 검사 함수
+    const isValidEmail = (email) => {
+        // 간단한 이메일 형식 검사, 실제로는 더 강력한 검사 필요
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    // 한글 이름 유효성 검사 함수
+    const isValidKoreanName = (name) => {
+        const koreanNameRegex = /^[가-힣]+$/;
+        return koreanNameRegex.test(name);
+    };
+
     return (
         <main key="1" className="p-6">
             <Card className="min-w-96 mx-auto">
@@ -59,12 +103,15 @@ export function Signup({ setShowSignup }) {
                         <ArrowLeftIcon className="mr-2 h-4 w-4" />
                         뒤로가기
                     </Button>
-                    <h2 className="text-2xl font-medium">회원가입 하기</h2>
+                    <h2 className="text-xl font-medium">회원가입 하기</h2>
                     <p className="text-gray-500">
                         회원가입 정보를 입력해 주세요
                     </p>
                 </CardHeader>
                 <CardContent className="space-y-6">
+                    {errorMessage && (
+                        <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
+                    )}
                     <form className="space-y-4" onSubmit={handleSubmit}>
                         <div className="space-y-2 flex justify-between items-center">
                             <Label htmlFor="name" className="font-medium lg:w-1/5">이름</Label>
@@ -113,6 +160,9 @@ export function Signup({ setShowSignup }) {
                                 onChange={handleChange}
                                 className="font-medium lg:w-3/5"
                             />
+                        </div>
+                        <div>
+                            <input type="checkbox" class="appearance-none checked:bg-blue-500 ..." />
                         </div>
                         <Button className="w-full" type="submit">
                             회원가입 하기
