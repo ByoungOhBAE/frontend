@@ -6,9 +6,27 @@ import { Button } from "@/components/ui/button";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from 'axios';
 import router from 'next/router';
+
+interface CheckboxExampleProps {
+    isChecked: boolean;
+    toggleCheckbox: () => void;
+  }
+
+  function CheckboxExample({ isChecked, toggleCheckbox }: CheckboxExampleProps) {
+    return (
+      <div>
+        <input
+          type="checkbox"
+          checked={isChecked}
+          onChange={toggleCheckbox}
+        />
+        <span>{isChecked ? '개인정보 동의(확인)' : '개인정보 동의(확인완료)'}</span>
+      </div>
+    );
+  }
 
 // const fetchSign = async () => {
 //     try {
@@ -29,6 +47,7 @@ export function Signup({ setShowSignup }) {
     });
 
     const [errorMessage, setErrorMessage] = useState("");   // 에러 메시지 상태 추가
+    const [isChecked, setIsChecked] = useState(false);
 
     const handleChange = (event) => {
         const { id, value } = event.target;
@@ -36,6 +55,10 @@ export function Signup({ setShowSignup }) {
             ...prevData,
             [id]: value,
         }));
+    };
+
+    const toggleCheckbox = () => {
+        setIsChecked(!isChecked);
     };
 
     const handleSubmit = async (event) => {
@@ -162,7 +185,14 @@ export function Signup({ setShowSignup }) {
                             />
                         </div>
                         <div>
-                            <input type="checkbox" class="appearance-none checked:bg-blue-500 ..." />
+                            {/* <input type="checkbox" class="appearance-none checked:bg-blue-500 ..." /> */}
+                            <input
+                                type="checkbox"
+                                checked={isChecked}
+                                onChange={toggleCheckbox}
+                            />
+                            {/* 체크박스 상태에 따라 보여지는 텍스트 */}
+                            <span>{isChecked ? 'Checked' : 'Unchecked'}</span>
                         </div>
                         <Button className="w-full" type="submit">
                             회원가입 하기
