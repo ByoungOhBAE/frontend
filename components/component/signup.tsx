@@ -9,13 +9,16 @@ import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import axios from 'axios';
 import router from 'next/router';
+import Modal from '@/components/component/modal';
+import './modal.css';
 
 interface CheckboxExampleProps {
     isChecked: boolean;
     toggleCheckbox: () => void;
-  }
+}
 
-  function CheckboxExample({ isChecked, toggleCheckbox }: CheckboxExampleProps) {
+// 개인정보 체크박스
+function CheckboxExample({ isChecked, toggleCheckbox }: CheckboxExampleProps) {
     return (
       <div>
         <input
@@ -23,20 +26,10 @@ interface CheckboxExampleProps {
           checked={isChecked}
           onChange={toggleCheckbox}
         />
-        <span>{isChecked ? '개인정보 동의(확인)' : '개인정보 동의(확인완료)'}</span>
+        <span>{isChecked ? '개인정보 동의(확인완료)' : '개인정보 동의(확인)'}</span>
       </div>
     );
-  }
-
-// const fetchSign = async () => {
-//     try {
-//         const response = await axios.get('http://127.0.0.1:8000/api/signup/');
-//         const data = response.data;
-//         console.log(data);
-//     } catch (error) {
-//         console.error('Error fetching data:', error);
-//     }
-// };
+}
 
 export function Signup({ setShowSignup }) {
     const [formData, setFormData] = useState({
@@ -47,7 +40,8 @@ export function Signup({ setShowSignup }) {
     });
 
     const [errorMessage, setErrorMessage] = useState("");   // 에러 메시지 상태 추가
-    const [isChecked, setIsChecked] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);      // 체크박스
+    const [isModalOpen, setModalOpen] = useState(false);
 
     const handleChange = (event) => {
         const { id, value } = event.target;
@@ -61,32 +55,53 @@ export function Signup({ setShowSignup }) {
         setIsChecked(!isChecked);
     };
 
+    // 이용약관 및 개인정보 동의 팝업
+    const openModal = () => {
+        setModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+    };
+
+    // const Popup = () => (
+    //     PopupOpen && (
+    //       <div className="popup">
+    //         <p>이용약관</p>
+    //         <p>a</p>
+    //         <p>b</p>
+    //         {/* 기타 필요한 내용도 추가 가능 */}
+    //         <button onClick={closePopup}>닫기</button>
+    //       </div>
+    //     )
+    // );
+
     const handleSubmit = async (event) => {
         event.preventDefault();
     
         // 간단한 유효성 검사
         if (!isValidKoreanName(formData.name)) {
-            console.error('이름은 한글로만 입력해주세요.');
+            setErrorMessage('이름은 한글로만 입력해주세요.');
             return;
         }
 
         if (formData.name.length < 2) {
-            console.error('이름은 최소 2글자 이상이어야 합니다.');
+            setErrorMessage('이름은 최소 2글자 이상이어야 합니다.');
             return;
         }
     
         if (!isValidEmail(formData.email)) {
-            console.error('유효한 이메일 주소를 입력해주세요.');
+            setErrorMessage('유효한 이메일 주소를 입력해주세요.');
             return;
         }
     
         if (formData.password.length < 6) {
-            console.error('비밀번호는 최소 6글자 이상이어야 합니다.');
+            setErrorMessage('비밀번호는 최소 6글자 이상이어야 합니다.');
             return;
         }
     
         if (formData.password !== formData.confirmPassword) {
-            console.error('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+            setErrorMessage('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
             return;
         }
 
@@ -97,7 +112,12 @@ export function Signup({ setShowSignup }) {
             console.log("회원가입 성공:", response.data);
             setShowSignup(false);
         } catch (error) {
-            console.error('회원가입 실패:', error);
+            if (error.response) {
+                setErrorMessage(error.response.data.message);
+            } else {
+                console.error('회원가입 실패:', error.message);
+                setErrorMessage("회원가입에 실패했습니다. 다시 시도해주세요.");   
+            }
         }
     };
     
@@ -185,21 +205,26 @@ export function Signup({ setShowSignup }) {
                             />
                         </div>
                         <div>
-                            {/* <input type="checkbox" class="appearance-none checked:bg-blue-500 ..." /> */}
-                            <input
-                                type="checkbox"
-                                checked={isChecked}
-                                onChange={toggleCheckbox}
-                            />
-                            {/* 체크박스 상태에 따라 보여지는 텍스트 */}
-                            <span>{isChecked ? 'Checked' : 'Unchecked'}</span>
+                            <span>
+                                개인정보 동의에 대한 자세한 내용은{' '}
+                                <button onClick={openModal} className="text-sky-500">
+                                    여기
+                                </button>
+                                를 확인하세요.
+                            </span>
                         </div>
-                        <Button className="w-full" type="submit">
+                        <CheckboxExample isChecked={isChecked} toggleCheckbox={toggleCheckbox} />
+                        {!isChecked && (
+                            <div className="text-red-500 text-sm mt-2">개인정보 동의에 체크해주세요.</div>
+                        )}
+                        <Button className="w-full" type="submit" disabled={!isChecked}>
                             회원가입 하기
                         </Button>
                     </form>
                 </CardContent>
             </Card>
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+            </Modal>
         </main>
     );
 }
