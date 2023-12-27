@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Button } from "@/components/ui/button";
 
-const Yongtae = ({ bookId, setSelectedCompoId }) => {
+const Userwritepage = ({ bookId, setSelecteCompoId }) => {
     const [book, setBook] = useState(null);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [title, setTitle] = useState('');
@@ -19,19 +19,8 @@ const Yongtae = ({ bookId, setSelectedCompoId }) => {
                 });
         }
     }, [bookId]);
-
-    const goToNextPage = () => {
-        if (currentPageIndex < book.BookDetail.length - 1) {
-            setCurrentPageIndex(currentPageIndex + 1);
-        }
-    };
-
-    const goToPreviousPage = () => {
-        if (currentPageIndex > 0) {
-            setCurrentPageIndex(currentPageIndex - 1);
-        }
-    };
-
+//bookId임시로 받아오는 것 userId api로 받아오는대로 교체 필
+    
     const handleSubmit = () => {
         console.log(title, content);
         // 여기서 서버로 데이터를 전송하는 로직을 구현합니다.
@@ -46,7 +35,7 @@ const Yongtae = ({ bookId, setSelectedCompoId }) => {
             {book ? (
                 <>
                     <button class="bg-green hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" style={{ marginBottom: '1rem'}}>목록</button>
-                    <button class="bg-green hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" style={{ marginLeft: '1rem'}}>뒤로가기</button>   
+                    <button class="bg-green hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" style={{ marginLeft: '1rem'}} onClick={() => setSelecteCompoId(5)}>뒤로가기</button>   
                     <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
                         <input
                             type="text"
@@ -112,4 +101,4 @@ const Yongtae = ({ bookId, setSelectedCompoId }) => {
     );
 };
 
-export default Yongtae;
+export default Userwritepage;

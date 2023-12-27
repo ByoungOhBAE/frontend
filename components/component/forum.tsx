@@ -7,17 +7,6 @@ const Forum = ({ bookId, setSelectedCompoId }) => {
     const [book, setBook] = useState(null);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
-    useEffect(() => {
-        if (bookId) {
-            axios.get(`http://127.0.0.1:8000/api/BookList/${bookId}`)
-                .then(response => {
-                    setBook(response.data);
-                })
-                .catch(error => {
-                    console.error('Error fetching book data:', error);
-                });
-        }
-    }, [bookId]);
 
     return (
         <div>

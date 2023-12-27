@@ -5,6 +5,7 @@ import Forum from '@/components/component/forum';
 import Booklist from '@/components/component/booklist';
 import Mypage from '@/components/component/mypage';
 import Inhaforum from '@/components/component/inhaforum';
+import Userwritepage from '@/components/component/userwritepage';
 
 
 
@@ -22,7 +23,9 @@ export default function Mainpage({ }) {
       case 3:
         return <Mypage setSelecteCompoId={setSelecteCompoId} />;
       case 4:
-        return <Inhaforum  />;
+        return <Inhaforum />;
+      case 5:
+        return <Userwritepage bookId={selectedBookId} setSelecteCompoId={setSelecteCompoId} />;
       default:
         return <Booklist setSelecteCompoId={setSelecteCompoId} setSelectedBookId={setSelectedBookId} />;
     }
