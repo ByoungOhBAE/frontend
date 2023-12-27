@@ -39,8 +39,8 @@ export function Navibar({ setSelecteCompoId }) {
               <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(5)}>
                 임시userwritepage
               </div>
-              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(4)}>
-                inhaforum
+              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(6)}>
+                Player
               </div>
               <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(10)}>
                 이동준
@@ -99,18 +99,12 @@ export function Navibar({ setSelecteCompoId }) {
             </NavigationMenuLink>
             <NavigationMenuLink asChild>
               <div className="flex space-x-4">
-                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(3)}>
-                  <span className="ml-2 font-semibold text-lg">inhaforum</span>
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(6)}>
+                  <span className="ml-2 font-semibold text-lg">Player</span>
                 </div>
               </div>
             </NavigationMenuLink>
-            <NavigationMenuLink asChild>
-              <div className="flex space-x-4">
-                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(3)}>
-                  <span className="ml-2 font-semibold text-lg">inhaforum</span>
-                </div>
-              </div>
-            </NavigationMenuLink>
+          
             <NavigationMenuLink asChild>
               <div className="flex space-x-4">
                 <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(10)}>
@@ -118,7 +112,7 @@ export function Navibar({ setSelecteCompoId }) {
                 </div>
               </div>
             </NavigationMenuLink>
-           
+
             <NavigationMenuLink asChild>
               <div className="flex space-x-4">
                 <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(11)}>
@@ -140,7 +134,7 @@ export function Navibar({ setSelecteCompoId }) {
 
 
 
-      
+
     </div>
   );
 }

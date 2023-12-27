@@ -9,6 +9,7 @@ import Userwritepage from '@/components/component/userwritepage';
 import LeeDongjun2 from '@/components/component/leedongjun2';
 import LeeDongjun3 from '@/components/component/leedongjun3';
 import LeeDongjun from '@/components/component/leedongjun';
+import Player from '@/components/component/player';
 
 import './globals.css'
 export default function Mainpage({ }) {
@@ -27,6 +28,9 @@ export default function Mainpage({ }) {
         return <Inhaforum />;
       case 5:
         return <Userwritepage bookId={selectedBookId} setSelecteCompoId={setSelecteCompoId} />;
+      case 6:
+        return <Player />;
+
       case 10:
         return <LeeDongjun bookId={1} setSelecteCompoId={setSelecteCompoId} />;
       case 11:
