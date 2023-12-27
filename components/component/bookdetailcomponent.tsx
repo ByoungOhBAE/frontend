@@ -45,7 +45,7 @@ const BookDetailComponent = ({ bookId, setSelecteCompoId }) => {
                     <Button onClick={goToPreviousPage}>이전 페이지</Button>
                     <Button onClick={goToNextPage}>다음 페이지</Button>
                     <Button onClick={() => {
-                        setSelectedBookId(null);
+                        
                         setSelecteCompoId(null);
                     }}>뒤로가기</Button>
                 </div>

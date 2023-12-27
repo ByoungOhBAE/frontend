@@ -1,4 +1,4 @@
-'use client';
+
 
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
@@ -8,7 +8,8 @@ import { useBookList } from '@/components/component/usebooklist';
 
 const PER_PAGE = 8;
 
-export default function Booklist({ setSelecteCompoId, setSelectedBookId}) {
+export default function Booklist({ setSelecteCompoId, setSelectedBookId }) {
+  
   const PER_PAGE = 8;
   const [currentPage, setCurrentPage] = useState(1);
   const { bookList } = useBookList();
@@ -48,23 +49,23 @@ export default function Booklist({ setSelecteCompoId, setSelectedBookId}) {
 
           {/* 밑은 호버 띄우기 */}
           <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-            onClick={() => {
-              showBookDetails(book.id);
-              setSelecteCompoId(2);
-            }}>
-            <h2 className="text-white ml-4 text-lg font-semibold">
-              {book.book_name}
-            </h2>
-            <p className="text-white text-lg">바로가기</p>
-          </div>
+            onClick={() =>
+              showBookDetails(book.id)
+            }>
+          <h2 className="text-white ml-4 text-lg font-semibold">
+            {book.book_name}
+          </h2>
+          <p className="text-white text-lg">바로가기</p>
         </div>
-      ))}
-      <div className="flex items-center justify-center">
-        <Button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>이전 페이지</Button>
-        <span> {currentPage} / {totalPages}</span>
-        <Button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>다음 페이지</Button>
-      </div>
-    </div>
+        </div>
+  ))
+}
+<div className="flex items-center justify-center">
+  <Button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>이전 페이지</Button>
+  <span> {currentPage} / {totalPages}</span>
+  <Button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>다음 페이지</Button>
+</div>
+    </div >
   )
 }
 
