@@ -36,7 +36,8 @@ export function Navibar({ setSelecteCompoId }) {
               <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(null)}>
                 북리스트
               </div>
-              <Button variant="outline" onClick={() => setShowBooklist(false)}>로그아웃</Button>
+
+              <Button variant="outline" onClick={() => setSelecteCompoId(false)}>로그아웃</Button>
             </div>
           </SheetContent>
         </Sheet>
@@ -75,6 +76,7 @@ export function Navibar({ setSelecteCompoId }) {
                 </div>
               </div>
             </NavigationMenuLink>
+            
             <Button variant="outline" onClick={() => setShowBooklist(false)}>로그아웃</Button>
           </NavigationMenuList>
         </NavigationMenu>
