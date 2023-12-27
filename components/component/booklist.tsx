@@ -8,12 +8,13 @@ import { useBookList } from '@/components/component/usebooklist';
 
 const PER_PAGE = 8;
 
-export default function Booklist({ setSelecteCompoId }) {
+export default function Booklist({ setSelecteCompoId, setSelectedBookId}) {
   const PER_PAGE = 8;
   const [currentPage, setCurrentPage] = useState(1);
   const { bookList } = useBookList();
   const showBookDetails = (bookId) => {
     setSelectedBookId(bookId);
+    setSelecteCompoId(2);
   };
   const currentBooks = bookList ? bookList.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE) : [];
   const totalPages = bookList ? Math.ceil(bookList.length / PER_PAGE) : 0;

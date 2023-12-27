@@ -64,7 +64,7 @@ export default function Home() {
                         <div className="lg:w-1/5 lg:flex justify-center">
                             {showLogin ? (
                                 // 로그인 상태가 true일 때 Login 컴포넌트를 렌더링.
-                                <Login setShowLogin={setShowLogin} setShowBooklist={setShowBooklist} />
+                                <Login setShowLogin={setShowLogin} setShowSignup={setShowSignup}/>
                             ) : showSignup ? (
                                 <Signup setShowSignup={setShowSignup} />
                             ) : (

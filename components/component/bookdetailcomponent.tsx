@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button } from "@/components/ui/button";
 
-const BookDetailComponent = ({ bookId, setSelectedBookId, setSelecteCompoId }) => {
+const BookDetailComponent = ({ bookId, setSelecteCompoId }) => {
     const [book, setBook] = useState(null);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
 

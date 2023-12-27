@@ -5,7 +5,7 @@ import axios from "axios";
 import { useRouter } from 'next/navigation';
 
 
-export default function Login({ setShowLogin, setShowBooklist, setShowSignup }) {
+export default function Login({ setShowLogin, setShowSignup }) {
     
     const router = useRouter();
     const [email, setEmail] = useState("");
