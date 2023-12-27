@@ -1,36 +1,9 @@
 // components/BookDetailComponent.js 또는 .tsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button } from "@/components/ui/button";
 
-const Dasomi = ({ bookId, setSelectedCompoId }) => {
-    const [book, setBook] = useState(null);
-    const [currentPageIndex, setCurrentPageIndex] = useState(0);
+const Mypage = ({ setSelecteCompoId }) => {
     const [selectedMenu, setSelectedMenu] = useState(''); /*클릭하면 나오도록*/
-
-    useEffect(() => {
-        if (bookId) {
-            axios.get(`http://127.0.0.1:8000/api/BookList/${bookId}`)
-                .then(response => {
-                    setBook(response.data);
-                })
-                .catch(error => {
-                    console.error('Error fetching book data:', error);
-                });
-        }
-    }, [bookId]);
-
-    const goToNextPage = () => {
-        if (currentPageIndex < book.BookDetail.length - 1) {
-            setCurrentPageIndex(currentPageIndex + 1);
-        }
-    };
-
-    const goToPreviousPage = () => {
-        if (currentPageIndex > 0) {
-            setCurrentPageIndex(currentPageIndex - 1);
-        }
-    };
 
     const handleMenuClick = (menu) => {
         setSelectedMenu(menu);
@@ -83,4 +56,4 @@ const Dasomi = ({ bookId, setSelectedCompoId }) => {
     );
 };
 
-export default Dasomi;
+export default Mypage;
