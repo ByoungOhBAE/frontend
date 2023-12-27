@@ -1,11 +1,10 @@
 "use client"
-import { Navibar } from '../components/component/navibar';
+import { Navibar } from '@/components/component/navibar';
 import React, { useState } from 'react';
-import BookDetailComponent from '../components/component/bookdetailcomponent'; // 상세 정보 컴포넌트 임포트
-import Forum from '../components/component/forum';
-import Booklist from '../components/component/booklist';
-import Mypage from '../components/component/mypage';
-
+import Forum from '@/components/component/forum';
+import Booklist from '@/components/component/booklist';
+import Mypage from '@/components/component/mypage';
+import Inhaforum from '@/components/component/inhaforum';
 
 
 
@@ -19,11 +18,11 @@ export default function Mainpage({ }) {
       case 1:
         return <Booklist setSelecteCompoId={setSelecteCompoId} setSelectedBookId={setSelectedBookId} />;
       case 2:
-        return <BookDetailComponent bookId={selectedBookId} setSelecteCompoId={setSelecteCompoId} />;
+        return <Forum bookId={selectedBookId} setSelecteCompoId={setSelecteCompoId} />;
       case 3:
         return <Mypage setSelecteCompoId={setSelecteCompoId} />;
       case 4:
-        return <Booklist setSelecteCompoId={setSelecteCompoId} setSelectedBookId={setSelectedBookId} />;
+        return <Inhaforum  />;
       default:
         return <Booklist setSelecteCompoId={setSelecteCompoId} setSelectedBookId={setSelectedBookId} />;
     }
