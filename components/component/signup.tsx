@@ -86,12 +86,13 @@ export function Signup({ setShowSignup }) {
         setModalContent(privacyContent); // privacyContent는 개인정보 동의 내용을 담고 있는 변수
         setModalOpen(true);
         setContentType('privacy');
-        setModalCheckboxChecked(isCheckedTerms); // 모달 체크박스 상태 초기화
+        setModalCheckboxChecked(isChecked); // 모달 체크박스 상태 초기화
     };
 
     const closeModal = () => {
         setModalOpen(false);
         setModalContent("");
+        setModalCheckboxChecked(false);
     };
 
     const handleSubmit = async (event) => {
