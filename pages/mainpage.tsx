@@ -6,7 +6,8 @@ import Booklist from '@/components/component/booklist';
 import Mypage from '@/components/component/mypage';
 import Inhaforum from '@/components/component/inhaforum';
 import Userwritepage from '@/components/component/userwritepage';
-
+import LeeDongjun2 from '@/components/component/leedongjun2';
+import LeeDongjun3 from '@/components/component/leedongjun3';
 
 
 import './globals.css'
@@ -26,6 +27,10 @@ export default function Mainpage({ }) {
         return <Inhaforum />;
       case 5:
         return <Userwritepage bookId={selectedBookId} setSelecteCompoId={setSelecteCompoId} />;
+      case 11:
+        return <LeeDongjun2 bookId={1} setSelecteCompoId={setSelecteCompoId} />;
+      case 12:
+        return <LeeDongjun3 bookId={1} setSelecteCompoId={setSelecteCompoId} />;
       default:
         return <Booklist setSelecteCompoId={setSelecteCompoId} setSelectedBookId={setSelectedBookId} />;
     }
