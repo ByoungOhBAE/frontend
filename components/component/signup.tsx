@@ -236,7 +236,7 @@ export function Signup({ setShowSignup }) {
                         <span>
                             개인정보 수집/이용 동의에 대한 자세한 내용은{' '}
                             <button onClick={openPrivacyModal} className="text-sky-500">
-                                여기
+                                여기(개인정보 처리방침)
                             </button>
                             를 확인하세요.
                             </span>
