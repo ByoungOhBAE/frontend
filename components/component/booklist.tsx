@@ -137,7 +137,3 @@ function BookListComponent({ bookId, infoType }: BookListComponentProps) {
     </div>
   );
 }
-
-
-
-
