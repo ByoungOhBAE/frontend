@@ -45,7 +45,12 @@ export function Navibar({ setSelecteCompoId }) {
               <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(4)}>
                 inhaforum
               </div>
-
+              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(11)}>
+                이동준2
+              </div>
+              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(12)}>
+                게시판 목록
+              </div>
               <Button variant="outline" onClick={() => setSelecteCompoId(false)}>로그아웃</Button>
             </div>
           </SheetContent>
@@ -106,7 +111,41 @@ export function Navibar({ setSelecteCompoId }) {
                 </div>
               </div>
             </NavigationMenuLink>
-            
+            <NavigationMenuLink asChild>
+              <div className="flex space-x-4">
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(8)}>
+                  <span className="ml-2 font-semibold text-lg">이동준</span>
+                </div>
+              </div>
+            </NavigationMenuLink>
+            <NavigationMenuLink asChild>
+              <div className="flex space-x-4">
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(9)}>
+                  <span className="ml-2 font-semibold text-lg">강용태</span>
+                </div>
+              </div>
+            </NavigationMenuLink>
+            <NavigationMenuLink asChild>
+              <div className="flex space-x-4">
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(10)}>
+                  <span className="ml-2 font-semibold text-lg">박인하</span>
+                </div>
+              </div>
+            </NavigationMenuLink>
+            <NavigationMenuLink asChild>
+              <div className="flex space-x-4">
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(11)}>
+                  <span className="ml-2 font-semibold text-lg">이동준2</span>
+                </div>
+              </div>
+            </NavigationMenuLink>
+            <NavigationMenuLink asChild>
+              <div className="flex space-x-4">
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(12)}>
+                  <span className="ml-2 font-semibold text-lg">게시판 목록</span>
+                </div>
+              </div>
+            </NavigationMenuLink>
             <Button variant="outline" onClick={() => setShowBooklist(false)}>로그아웃</Button>
           </NavigationMenuList>
         </NavigationMenu>
