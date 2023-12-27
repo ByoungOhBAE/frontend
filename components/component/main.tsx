@@ -11,6 +11,8 @@ import  Dongmin  from '@/components/component/dongmin';
 import  Leedongjun  from '@/components/component/leedongjun';
 import  Yongtae  from '@/components/component/yongtae';
 import  Inha  from '@/components/component/inha';
+import  LeeDongjun2  from '@/components/component/leedongjun2';
+import  LeeDongjun3  from '@/components/component/leedongjun3';
 
 export default function Mainpage({ setShowBooklist }) {
   const [selectedBookId, setSelectedBookId] = useState(null);
@@ -41,6 +43,10 @@ export default function Mainpage({ setShowBooklist }) {
         return <Yongtae bookId={1} setSelecteCompoId={setSelecteCompoId} />;
       case 10:
         return <Inha bookId={1} setSelecteCompoId={setSelecteCompoId} />;
+      case 11:
+        return <LeeDongjun2 bookId={1} setSelecteCompoId={setSelecteCompoId} />;
+      case 12:
+        return <LeeDongjun3 bookId={1} setSelecteCompoId={setSelecteCompoId} />;
       default:
         return <Booklist bookId={selectedBookId} setSelectedBookId={setSelectedBookId} />;
     }
