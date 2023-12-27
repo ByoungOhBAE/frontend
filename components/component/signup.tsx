@@ -11,14 +11,17 @@ import axios from 'axios';
 import router from 'next/router';
 import Modal from '@/components/component/modal';
 import './modal.css';
+import termsContent from './termsContent';
+import privacyContent from './privacyContent';
+
 
 interface CheckboxExampleProps {
     isChecked: boolean;
     toggleCheckbox: () => void;
 }
 
-// 개인정보 체크박스
-function CheckboxExample({ isChecked, toggleCheckbox }: CheckboxExampleProps) {
+// 개인정보 및 이용약관 체크박스
+function CheckboxExample({ isChecked, toggleCheckbox, label }) {
     return (
       <div>
         <input
@@ -26,7 +29,7 @@ function CheckboxExample({ isChecked, toggleCheckbox }: CheckboxExampleProps) {
           checked={isChecked}
           onChange={toggleCheckbox}
         />
-        <span>{isChecked ? '개인정보 동의(확인완료)' : '개인정보 동의(확인)'}</span>
+        <span>{isChecked ? `${label} 동의(확인완료)` : `${label} 동의(확인)`}</span>
       </div>
     );
 }
@@ -40,8 +43,12 @@ export function Signup({ setShowSignup }) {
     });
 
     const [errorMessage, setErrorMessage] = useState("");   // 에러 메시지 상태 추가
-    const [isChecked, setIsChecked] = useState(false);      // 체크박스
+    const [isChecked, setIsChecked] = useState(false);      // 개인정보 동의 체크박스
+    const [isCheckedTerms, setIsCheckedTerms] = useState(false);    // 이용약관 동의 체크박스
     const [isModalOpen, setModalOpen] = useState(false);
+    const [modalContent, setModalContent] = useState(""); // 모달 내용을 담을 상태 추가
+    const [contentType, setContentType] = useState("");
+    const [modalCheckboxChecked, setModalCheckboxChecked] = useState(false); // 모달 내 체크박스 상태를 관리하는 상태 추가
 
     const handleChange = (event) => {
         const { id, value } = event.target;
@@ -51,30 +58,41 @@ export function Signup({ setShowSignup }) {
         }));
     };
 
-    const toggleCheckbox = () => {
-        setIsChecked(!isChecked);
+    const toggleCheckbox = (type) => {
+        if (type === 'terms') {
+            setIsCheckedTerms(!isCheckedTerms);
+        } else {
+            setIsChecked(!isChecked);
+        }
     };
 
-    // 이용약관 및 개인정보 동의 팝업
-    const openModal = () => {
+    const handleModalCheckboxChange = () => {
+        setModalCheckboxChecked(!modalCheckboxChecked);
+        if (contentType === 'terms') {
+          setIsCheckedTerms(!modalCheckboxChecked);
+        } else {
+          setIsChecked(!modalCheckboxChecked);
+        }
+    };
+
+    const openTermsModal = () => {
+        setModalContent(termsContent); // termsContent는 이용약관 내용을 담고 있는 변수
         setModalOpen(true);
+        setContentType('terms');
+        setModalCheckboxChecked(isCheckedTerms); // 모달 체크박스 상태 초기화
+    };
+    
+      const openPrivacyModal = () => {
+        setModalContent(privacyContent); // privacyContent는 개인정보 동의 내용을 담고 있는 변수
+        setModalOpen(true);
+        setContentType('privacy');
+        setModalCheckboxChecked(isCheckedTerms); // 모달 체크박스 상태 초기화
     };
 
     const closeModal = () => {
         setModalOpen(false);
+        setModalContent("");
     };
-
-    // const Popup = () => (
-    //     PopupOpen && (
-    //       <div className="popup">
-    //         <p>이용약관</p>
-    //         <p>a</p>
-    //         <p>b</p>
-    //         {/* 기타 필요한 내용도 추가 가능 */}
-    //         <button onClick={closePopup}>닫기</button>
-    //       </div>
-    //     )
-    // );
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -206,25 +224,41 @@ export function Signup({ setShowSignup }) {
                         </div>
                         <div>
                             <span>
-                                개인정보 동의에 대한 자세한 내용은{' '}
-                                <button onClick={openModal} className="text-sky-500">
+                                이용약관에 대한 자세한 내용은{' '}
+                                <button onClick={openTermsModal} className="text-sky-500">
                                     여기
                                 </button>
                                 를 확인하세요.
                             </span>
                         </div>
-                        <CheckboxExample isChecked={isChecked} toggleCheckbox={toggleCheckbox} />
-                        {!isChecked && (
-                            <div className="text-red-500 text-sm mt-2">개인정보 동의에 체크해주세요.</div>
+                        <div>
+                        <span>
+                            개인정보 수집/이용 동의에 대한 자세한 내용은{' '}
+                            <button onClick={openPrivacyModal} className="text-sky-500">
+                                여기
+                            </button>
+                            를 확인하세요.
+                            </span>
+                        </div>
+                        <CheckboxExample isChecked={isCheckedTerms} toggleCheckbox={() => toggleCheckbox('terms')} label="이용약관" />
+                        <CheckboxExample isChecked={isChecked} toggleCheckbox={() => toggleCheckbox('privacy')} label="개인정보 수집/이용" />
+                        {!(isChecked && isCheckedTerms) && (
+                            <div className="text-red-500 text-sm mt-2">이용약관 및 개인정보 수집/이용 동의에 체크해주세요.</div>
                         )}
-                        <Button className="w-full" type="submit" disabled={!isChecked}>
+                        <Button className="w-full" type="submit" disabled={!isChecked || !isCheckedTerms}>
                             회원가입 하기
                         </Button>
                     </form>
                 </CardContent>
             </Card>
-            <Modal isOpen={isModalOpen} onClose={closeModal}>
-            </Modal>
+            <Modal 
+                isOpen={isModalOpen} 
+                onClose={closeModal} 
+                content={modalContent} 
+                contentType={contentType} 
+                parentCheckboxChecked={contentType === 'terms' ? isCheckedTerms : isChecked}
+                handleParentCheckboxChange={handleModalCheckboxChange}
+            />
         </main>
     );
 }
