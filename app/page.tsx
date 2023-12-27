@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Login } from "@/components/component/login";
 import { Signup } from "@/components/component/signup";
 import Booklist from '@/components/component/booklist';
-
+import  Mainpage  from '@/components/component/main';
 // 임포트 중괄호 규칙 다름 북리스트는 중괄호 넣으면 오류남
 export default function Home() {
 
@@ -41,7 +41,7 @@ export default function Home() {
                     // 로그인 상태가 true일 때 Login 컴포넌트를 렌더링.
 
 
-                    <Booklist setShowBooklist={setShowBooklist} />
+                    <Mainpage setShowBooklist={setShowBooklist} />
 
                 ) : (
                     // 로그인 상태가 false일 때 기본 화면을 렌더링.

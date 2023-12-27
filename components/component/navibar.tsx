@@ -4,7 +4,7 @@ import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet"
 import Link from "next/link"
 import { NavigationMenuLink, NavigationMenuList, NavigationMenu } from "@/components/ui/navigation-menu"
 
-export function Navibar({ setShowBooklist }) {
+export function Navibar({ setShowBooklist, setSelecteCompoId }) {
   return (
     <div className="flex flex-col ">
       <header className="flex items-center h-0 px-0 border-b shrink-0 lg:h-20 lg:px-4 md:px-6">
@@ -36,7 +36,25 @@ export function Navibar({ setShowBooklist }) {
               <div className="flex w-full items-center py-2 text-lg font-semibold" href="#">
                 북리스트
               </div>
-              <Button variant="outline" onClick={() => setShowBooklist(false)}>로그아웃</Button>
+              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(8)}>
+                이동준
+              </div>
+              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(7)}>
+                정동민
+              </div>
+              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(10)}>
+                박인하
+              </div>
+              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(9)}>
+                강용태
+              </div>
+              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(5)}>
+                황채정
+              </div>
+              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(6)}>
+                김다소미
+              </div>
+              <Button variant="outline" onClick={() => setSelecteCompoId(false)}>로그아웃</Button>
             </div>
           </SheetContent>
         </Sheet>
@@ -72,6 +90,48 @@ export function Navibar({ setShowBooklist }) {
               <div className="flex space-x-4">
                 <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100">
                   <span className="ml-2 font-semibold text-lg">북리스트</span>
+                </div>
+              </div>
+            </NavigationMenuLink>
+            <NavigationMenuLink asChild>
+              <div className="flex space-x-4">
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(5)}>
+                  <span className="ml-2 font-semibold text-lg">황채정</span>
+                </div>
+              </div>
+            </NavigationMenuLink>
+            <NavigationMenuLink asChild>
+              <div className="flex space-x-4">
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(6)}>
+                  <span className="ml-2 font-semibold text-lg">김다소미</span>
+                </div>
+              </div>
+            </NavigationMenuLink>
+            <NavigationMenuLink asChild>
+              <div className="flex space-x-4">
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(7)}>
+                  <span className="ml-2 font-semibold text-lg">정동민</span>
+                </div>
+              </div>
+            </NavigationMenuLink>
+            <NavigationMenuLink asChild>
+              <div className="flex space-x-4">
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(8)}>
+                  <span className="ml-2 font-semibold text-lg">이동준</span>
+                </div>
+              </div>
+            </NavigationMenuLink>
+            <NavigationMenuLink asChild>
+              <div className="flex space-x-4">
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(9)}>
+                  <span className="ml-2 font-semibold text-lg">강용태</span>
+                </div>
+              </div>
+            </NavigationMenuLink>
+            <NavigationMenuLink asChild>
+              <div className="flex space-x-4">
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(10)}>
+                  <span className="ml-2 font-semibold text-lg">박인하</span>
                 </div>
               </div>
             </NavigationMenuLink>

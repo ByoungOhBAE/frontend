@@ -55,7 +55,7 @@ export default function Booklist({ setShowBooklist }) {
 
   return (
     <div className="min-h-screen min-w-full bg-[#F3F4F6]">
-      <Navibar setShowBooklist={setShowBooklist} />
+      
       <main className="p-4">
         {selectedBookId ? (
           <BookDetailComponent bookId={selectedBookId} setSelectedBookId={setSelectedBookId} />
