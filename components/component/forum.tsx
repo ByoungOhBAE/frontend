@@ -1,12 +1,23 @@
-// components/BookDetailComponent.js 또는 .tsx
+// components/forum.js 또는 .tsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 
-const Forum = ({ bookId, setSelectedCompoId }) => {
-    const [book, setBook] = useState(null);
+const Forum = ({ postId }) => {
+    const [post, setPost] = useState(null);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
+    useEffect(() => {
+        if (postId) {
+            axios.get(`http://127.0.0.1:8000/api/posts/${postId}/`)
+                .then(response => {
+                    setPost(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching post data:', error);
+                });
+        }
+    }, [postId]);
 
     //수정
     const [comment, setcomment] =useState("")
@@ -18,19 +29,27 @@ const Forum = ({ bookId, setSelectedCompoId }) => {
             뒤로가기
         </button>
 
-        {/* 게시물 내용 */}
-        <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-            <h1 className="text-3xl font-bold mb-4">게시물 제목</h1>
-            <div style={{display: 'flex', justifyContent: 'space-between'}}>
-            <p className="text-gray-700 mb-2 text-lg font-bold"> 홍길동</p>
-            <p className="text-gray-700 mb-4 text-lg font-bold"> 2023-12-27</p>
+        {/* 상세 게시물 및 댓글 관련 내용 */}
+        {/* post가 null이 아닐 때만 내용을 렌더링 */}
+        {post && (
+            <div>
+                {/* 게시물 내용 */}
+                <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+                    <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
+                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <p className="text-gray-700 mb-2 text-lg font-bold"> {post.user_name}</p>
+                    <p className="text-gray-700 mb-4 text-lg font-bold"> {post.created_at}</p>
+                    </div>
+                    <div><br></br></div>
+                    <div className="text-gray-800">
+                        {/* 게시물 본문 내용 */}
+                        {post.content}
+                    </div>
+                </div>
             </div>
-            <div><br></br></div>
-            <div className="text-gray-800">
-                {/* 게시물 본문 내용 */}
-                본문 즉 질문이 들어갈 자리입니다...
-            </div>
-        </div>
+        )}
+
+        
 
         {/* 댓글 테이블 */}
         <div className="bg-white p-6 rounded-lg shadow-md mb-6">

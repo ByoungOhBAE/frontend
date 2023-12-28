@@ -86,13 +86,7 @@ export default function Login({ setShowLogin, setShowSignup }) {
                         회원가입하기
                     </button>
                     {/* 임시 땜빵용 이 부분은 회원가입 호출 연결로 바꿔야 함 */}
-                    <button
-                        type="button"
-                        onClick={() => setShowLogin(false)}
-                        className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-                    >
-                        닫기
-                    </button>
+
                 </div>
                 {error && <p className="text-red-500">{error}</p>}
             </form>

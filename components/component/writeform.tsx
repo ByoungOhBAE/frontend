@@ -16,7 +16,7 @@ const WriteForm = ({ onCancel }) => {
         try {
             // JWT 토큰 가져오기 (예: localStorage에서)
             const token = Cookies.get('token');
-
+            
             const response = await axios.post('http://127.0.0.1:8000/api/posts/', {
                 title: postTitle,
                 content: postContent,
