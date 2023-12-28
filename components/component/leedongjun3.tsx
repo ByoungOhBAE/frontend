@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import WriteForm from "@/components/component/writeform";
 
 const Leedongjun3 = ({ bookId, setSelectedCompoId }) => {
-    const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [showWrite, setShowWrite] = useState(false);
     const [showSearch, setShowSearch] = useState(true);
     const [posts, setPosts] = useState([]);
@@ -19,6 +18,18 @@ const Leedongjun3 = ({ bookId, setSelectedCompoId }) => {
                 console.error('Error fetching post data:', error);
             });
     }, []);
+
+    const handleWriteButtonClick = () => {
+        setShowWrite(true);
+        setShowSearch(false);
+    };
+
+    const handleBackButtonClick = () => {
+        setShowWrite(false); // 작성 폼을 닫아주기
+        setShowSearch(true); // 검색창 열기
+        // 이전 페이지로 돌아가는 로직 추가
+        // 예를 들어, 다시 목록 페이지로 이동하거나 이전 상태로 복원하는 등의 동작을 수행
+    };
 
     return (
         <div className="container mx-auto px-4">
@@ -46,7 +57,10 @@ const Leedongjun3 = ({ bookId, setSelectedCompoId }) => {
                 </div>
             </div>
     
-            {/* 테이블 */}
+            {/* 테이블 or 작성 폼 */}
+            {showWrite ? (
+                <WriteForm onCancel={() => setShowWrite(false)} />
+            ) : (
             <div className="bg-white p-4 rounded-lg shadow-md">
                 <table className="min-w-full">
                     <thead className="bg-gray-100">
@@ -69,6 +83,7 @@ const Leedongjun3 = ({ bookId, setSelectedCompoId }) => {
                     </tbody>
                 </table>
             </div>
+            )}
     
             {/* 작성하기 버튼 */}
             <div className="text-right my-6">
