@@ -11,7 +11,7 @@ import { Signup } from "@/components/component/signup";
 // 임포트 중괄호 규칙 다름 북리스트는 중괄호 넣으면 오류남
 export default function Home() {
 
-    const [showLogin, setShowLogin] = useState(false);
+    const [showLogin, setShowLogin] = useState(true);
     const [showSignup, setShowSignup] = useState(false);
     const [showBooklist, setShowBooklist] = useState(false);
 
@@ -67,30 +67,14 @@ export default function Home() {
                             </p>
                         </div>
                         <div className="lg:w-1/5 lg:flex justify-center">
-                            {showLogin ? (
+                            {showSignup ? (
+                                <Signup setShowSignup={setShowSignup} /> 
                                 // 로그인 상태가 true일 때 Login 컴포넌트를 렌더링.
-                                <Login setShowLogin={setShowLogin} setShowSignup={setShowSignup}/>
-                            ) : showSignup ? (
-                                <Signup setShowSignup={setShowSignup} />
+
                             ) : (
                                 // 로그인 상태가 false일 때 기본 화면을 렌더링.
                                 <>
-                                    <div className="space-x-4">
-                                        <Button
-                                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                            variant="outline"
-                                            onClick={() => setShowLogin(true)}
-                                        >
-                                            로그인
-                                        </Button>
-                                        <Button
-                                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                            variant="outline"
-                                            onClick={() => setShowSignup(true)}
-                                        >
-                                            회원가입
-                                        </Button>
-                                    </div>
+                                    <Login setShowLogin={setShowLogin} setShowSignup={setShowSignup}/>
                                 </>
                             )}
                         </div>
