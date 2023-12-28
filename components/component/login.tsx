@@ -23,7 +23,7 @@ export default function Login({ setShowLogin, setShowSignup }) {
                     password,
                 }
             );
-            const { token } = response.data;
+            const token = response.data.access;
             Cookies.set("token", token);
             router.push('/mainpage');
         } catch (error) {
