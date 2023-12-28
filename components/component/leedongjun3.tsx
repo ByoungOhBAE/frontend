@@ -2,8 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button } from "@/components/ui/button";
+import WriteForm from "@/components/component/writeform";
 
 const Leedongjun3 = ({ bookId, setSelectedCompoId }) => {
+    const [currentPageIndex, setCurrentPageIndex] = useState(0);
+    const [showWrite, setShowWrite] = useState(false);
+    const [showSearch, setShowSearch] = useState(true);
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
@@ -20,18 +24,25 @@ const Leedongjun3 = ({ bookId, setSelectedCompoId }) => {
         <div className="container mx-auto px-4">
             {/* 상단 버튼과 검색 창 */}
             <div className="flex justify-between items-center my-6">
-                <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
+                <button 
+                    className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
+                    onClick={handleBackButtonClick}
+                >
                     뒤로가기
                 </button>
                 <div className="flex items-center">
-                    <input
-                        type="text"
-                        placeholder="검색어를 입력하세요"
-                        className="p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-                    />
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded ml-2 transition duration-300 ease-in-out">
-                        검색
-                    </button>
+                    {showSearch && (
+                        <>
+                            <input
+                                type="text"
+                                placeholder="검색어를 입력하세요"
+                                className="p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                            />
+                            <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded ml-2 transition duration-300 ease-in-out">
+                                검색
+                            </button>
+                        </>
+                    )}
                 </div>
             </div>
     
@@ -61,9 +72,16 @@ const Leedongjun3 = ({ bookId, setSelectedCompoId }) => {
     
             {/* 작성하기 버튼 */}
             <div className="text-right my-6">
-                <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
-                    작성하기
-                </button>
+                {showSearch && (
+                        <>
+                            <Button 
+                                className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
+                                onClick={handleWriteButtonClick}
+                            >
+                                작성하기
+                            </Button>
+                        </>
+                    )}
             </div>
         </div>
     );
