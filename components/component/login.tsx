@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from 'next/navigation';
-
+import Cookies from "js-cookie";
 
 export default function Login({ setShowLogin, setShowSignup }) {
     
@@ -23,9 +23,8 @@ export default function Login({ setShowLogin, setShowSignup }) {
                     password,
                 }
             );
-            localStorage.setItem("access_token", response.data.access);
-            localStorage.setItem("refresh_token", response.data.refresh);
-
+            const token = response.data.access;
+            Cookies.set("token", token);
             router.push('/mainpage');
         } catch (error) {
             console.error("An error occurred:", error);
@@ -84,7 +83,7 @@ export default function Login({ setShowLogin, setShowSignup }) {
                         // type="submit"
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
-                        회원가입
+                        회원가입하기
                     </button>
                     {/* 임시 땜빵용 이 부분은 회원가입 호출 연결로 바꿔야 함 */}
                     <button

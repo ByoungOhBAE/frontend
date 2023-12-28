@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button } from "@/components/ui/button";
 import WriteForm from "@/components/component/writeform";
+import Forum from './forum';
 
 const Leedongjun3 = ({ bookId, setSelectedCompoId }) => {
     const [showWrite, setShowWrite] = useState(false);
     const [showSearch, setShowSearch] = useState(true);
     const [posts, setPosts] = useState([]);
+    const [selectedPostId, setSelectedPostId] = useState(null);
 
     useEffect(() => {
         axios.get(`http://127.0.0.1:8000/api/posts/`)
@@ -30,6 +32,18 @@ const Leedongjun3 = ({ bookId, setSelectedCompoId }) => {
         // 이전 페이지로 돌아가는 로직 추가
         // 예를 들어, 다시 목록 페이지로 이동하거나 이전 상태로 복원하는 등의 동작을 수행
     };
+
+    const selectPost = (postId) => {
+        setSelectedPostId(postId);
+    };
+
+    const goBack = () => {
+        setSelectedPostId(null);
+    };
+
+    if (selectedPostId) {
+        return <Forum postId={selectedPostId} goBack={goBack} />;
+    }
 
     return (
         <div className="container mx-auto px-4">
@@ -73,7 +87,7 @@ const Leedongjun3 = ({ bookId, setSelectedCompoId }) => {
                     </thead>
                     <tbody>
                         {posts.map(post => (
-                            <tr key={post.id} className="cursor-pointer hover:bg-gray-50">
+                            <tr key={post.id} className="cursor-pointer hover:bg-gray-50" onClick={() => selectPost(post.id)}>
                                 <td className="border-b border-gray-200 p-4 text-center">{post.id}</td>
                                 <td className="border-b border-gray-200 p-4 text-center">{post.title}</td>
                                 <td className="border-b border-gray-200 p-4 text-center">{post.user_name}</td>

@@ -15,6 +15,11 @@ export default function Home() {
     const [showSignup, setShowSignup] = useState(false);
     const [showBooklist, setShowBooklist] = useState(false);
 
+
+
+
+    
+
     const backgroundStyle: React.CSSProperties = {
         backgroundImage: 'url("/field.jpg")',
         backgroundPosition: 'center',

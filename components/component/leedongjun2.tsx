@@ -1,11 +1,13 @@
 // components/BookDetailComponent.js 또는 .tsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
+import AudioPlayer from 'react-audio-player';
 import { Button } from "@/components/ui/button";
 
 const Leedongjun2 = ({ bookId, setSelectedCompoId }) => {
     const [book, setBook] = useState(null);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
+    const audioRef = useRef();
 
     useEffect(() => {
         if (bookId) {
@@ -28,6 +30,17 @@ const Leedongjun2 = ({ bookId, setSelectedCompoId }) => {
     const goToPreviousPage = () => {
         if (currentPageIndex > 0) {
             setCurrentPageIndex(currentPageIndex - 1);
+        }
+    };
+
+    const togglePlayPause = () => {
+        if (audioRef.current) {
+        const player = audioRef.current.audioEl.current;
+        if (player.paused) {
+            player.play();
+        } else {
+            player.pause();
+        }
         }
     };
 
@@ -68,7 +81,15 @@ const Leedongjun2 = ({ bookId, setSelectedCompoId }) => {
                             <p>사과</p>
                         </div>
                     </div>
-        
+                    <AudioPlayer
+                        ref={audioRef}
+                        preload="none"
+                        src="/audio/photo.mp3"
+                        style={{
+                        background: 'transparent',
+                        width: '100%',
+                        }}
+                    />
                     {/* 버튼 컨테이너 */}
                     <div className="flex justify-between mt-6">
                         <div className="buttons-container flex justify-center mt-3">
@@ -78,7 +99,7 @@ const Leedongjun2 = ({ bookId, setSelectedCompoId }) => {
                                 </svg>
                                 이전
                             </button>
-                            <button className="flex items-center justify-center px-7 py-3 text-lg font-semibold cursor-pointer border-0 rounded-lg bg-green-500 text-white shadow-md transition duration-300 hover:bg-green-600 mr-3">
+                            <button onClick={togglePlayPause} className="flex items-center justify-center px-7 py-3 text-lg font-semibold cursor-pointer border-0 rounded-lg bg-green-500 text-white shadow-md transition duration-300 hover:bg-green-600 mr-3">
                                 <svg className="w-7 h-7 mr-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
                                 </svg>

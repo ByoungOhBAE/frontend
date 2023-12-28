@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import axios from 'axios';
+import Cookies from "js-cookie";
 
 const WriteForm = ({ onCancel }) => {
     const [postTitle, setPostTitle] = useState("");
@@ -11,11 +12,10 @@ const WriteForm = ({ onCancel }) => {
         // 글 작성 로직 추가
         // 예: 서버에 데이터 전송
         event.preventDefault(); // 폼의 기본 제출 동작을 방지
-        console.log(postTitle);
-        console.log(postContent);
+
         try {
             // JWT 토큰 가져오기 (예: localStorage에서)
-            const token = localStorage.getItem('access_token');
+            const token = Cookies.get('token');
 
             const response = await axios.post('http://127.0.0.1:8000/api/posts/', {
                 title: postTitle,
