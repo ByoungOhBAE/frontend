@@ -1,29 +1,54 @@
 import AudioPlayer from 'react-audio-player';
 import React, { useState, useRef, useEffect  } from 'react';
+import { Motion } from 'framer-motion';
 
 const BookContent = () => {
-    const backgroundStyle = {
-        backgroundImage: 'url("/image/mouse2.png")', // public 폴더에 저장된 이미지 경로
+
+    const containerStyle = {
+        display: 'flex',
+        flexDirection: 'row',
+        width: '1200px',
+        height: '600px',
+         // 검은색 테두리 적용
+        overflow: 'hidden', // 둥근 테두리 내부로 내용물이 넘치지 않도록 설정
+    };
+
+    const imageContainerStyle = {
+        backgroundImage: 'url("/image/mouse2.png")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        width: '1100px', // 이미지의 너비
-        height: '600px', // 이미지의 높이
-        display: 'flex', // 내부 콘텐츠를 중앙에 배치
-        justifyContent: 'center', // 가로 중앙 정렬
-        alignItems: 'center', // 세로 중앙 정렬
-        color: 'white', // 글자 색상을 흰색으로 설정
-        textShadow: '2px 2px 4px #000000', // 글자에 그림자를 추가
-        padding: '20px', // 내부 여백을 추가.
-        boxSizing: 'border-box', // 패딩을 포함한 총 크기를 유지
+        width: '50%',
+        height: '100%',
+        borderRadius: '50% / 5%',
+        border: '2px solid black',
+
+    };
+
+    const textContainerStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '50% / 5%',
+        backgroundColor: 'ivory',
+        color: 'black',
+        width: '50%',
+        height: '100%',
+        padding: '20px',
+        boxSizing: 'border-box',
+        lineHeight: '2',
+        border: '2px solid black',
     };
 
     return (
-        <div style={backgroundStyle}>
-        <h1 className="text-2xl font-bold mb-4">시골 쥐 서울 쥐</h1>
-        <p> 시골 쥐가 서울 구경을 올라왔습니다. 처음 길이라 허둥허둥하면서,짐차를 두 번 세 번이나 갈아타고, 간신히 서울까지 왔습니다. 직행차를 타면 빨리 온다는 말도 들었지만, 그래도 짐차를 타야 먹을 것이 많고
+        <div style={containerStyle}>
+        {/* <h1 className="text-2xl font-bold mb-4">시골 쥐 서울 쥐</h1> */}
+        <div style={imageContainerStyle}></div>
+        <div style={textContainerStyle}>
+        <p className='font-semibold'> 시골 쥐가 서울 구경을 올라왔습니다. 처음 길이라 허둥허둥하면서,짐차를 두 번 세 번이나 갈아타고, 간신히 서울까지 왔습니다. 직행차를 타면 빨리 온다는 말도 들었지만, 그래도 짐차를 타야 먹을 것이 많고
             사람의 눈에 들킬 염려도 적으므로, 짐차를 타고 온 것이었습니다. 기차가 한강 철교를 건널 때에는 어떻게 무서운 소리가 크게 나는지, 어지러워서 내려다보지도 못하고 왔지마는, 서울까지 다 왔다는 말을 들을
             때에는 기쁜 것 같고 시원한 것 같으면서도, 가슴이 울렁울렁하였습니다. 남대문 정거장에 내려서, 자아 인제 어디로 가야 하나 하고 망설이고 섰노라니까,  “여보, 여보!”
             하고, 뒤에서 부르는 소리가 들렸습니다. 보니까, 이름은 몰라도 역시 자기와 같은 쥐이므로 할아버지나 만난 것처럼 기뻐서, “처음 뵙습니다만, 길을 좀 아르켜 주십시오. 서울은 시골서 처음 올라와서 그럽니다.” 하고, 애걸하듯이 물었습니다. “글쎄, 처음부터 당신이 시골서 처음 온 양반인 줄 짐작했습니다. 서울구경하러 올라오셨구려”</p>
+        </div>
         </div>
     );
 };
@@ -112,17 +137,15 @@ const Player = () => {
 
     // 오디오를 일시정지하는 함수
     const togglePlayPause = () => {
-        if (audioRef.current) {
-        const player = audioRef.current.audioEl.current;
-        if (player.paused) {
-            player.play();
+        if (isPlaying) {
+            audioRef.current.audioEl.current.pause();
         } else {
-            player.pause();
+            audioRef.current.audioEl.current.play();
         }
-        }
+        setIsPlaying(!isPlaying); // 재생 상태를 반전시킵니다.
     };
     return (
-        <div>
+        
         <div className="container mx-auto">
             {/* BookContent 컴포넌트 */}
             <BookContent />
@@ -140,48 +163,29 @@ const Player = () => {
                   width: '100%',
                 }}
             />
-
-            {/* 프로그레스 바와 시간 표시 */}
             <div className="flex items-center gap-2">
-                <span>{formatTime(currentTime)}</span>
-                <input
-                    type="range"
-                    className="progress-bar"
-                    value={(currentTime / duration) * 100 || 0}
-                    step="1"
-                    min="0"
-                    max="100"
-                    onChange={(e) => {
-                        const newTime = (duration / 100) * e.target.value;
-                        audioRef.current.audioEl.current.currentTime = newTime;
-                        setCurrentTime(newTime);
-                    }}
-                />
-                <span>{formatTime(duration)}</span>
-            </div>
+                    <span className="text-lg font-semibold text-white">{formatTime(currentTime)}</span>
+                    <input
+                        type="range"
+                        className="progress-bar appearance-none h-2 rounded bg-gray-300 outline-none opacity-70 transition-opacity duration-200 ease-in w-full"
+                        value={(currentTime / duration) * 100 || 0}
+                        step="1"
+                        min="0"
+                        max="100"
+                        onChange={(e) => {
+                            const newTime = (duration / 100) * e.target.value;
+                            audioRef.current.audioEl.current.currentTime = newTime;
+                            setCurrentTime(newTime);
+                        }}
+                    />
+                    <span className="text-lg font-semibold text-white">{formatTime(duration)}</span>
+                </div>
 
-            {/* 버튼 부분 추가 */}
-            <div className="bg-slate-50 text-slate-500 dark:bg-slate-600 dark:text-slate-200 rounded-b-xl flex items-center">
+            <div 
+            className="bg-slate-50 text-slate-500 dark:bg-slate-600 dark:text-slate-200 rounded-b-xl flex items-center opacity-0 hover:opacity-100 transition-opacity duration-500">
+                
             <div className="flex-auto flex items-center justify-evenly">
                 
-                <button type="button" aria-label="Rewind 10 seconds">
-                <svg width="24" height="24" fill="none">
-                    <path
-                    d="M6.492 16.95c2.861 2.733 7.5 2.733 10.362 0 2.861-2.734 2.861-7.166 0-9.9-2.862-2.733-7.501-2.733-10.362 0A7.096 7.096 0 0 0 5.5 8.226"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    />
-                    <path
-                    d="M5 5v3.111c0 .491.398.889.889.889H9"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    />
-                </svg>
-                </button>
             </div>
             {/* 일시정지 버튼 */}
             <button
@@ -189,38 +193,10 @@ const Player = () => {
                 onClick={togglePlayPause} // 이 버튼을 클릭하면 재생/일시정지 기능이 작동합니다.
                 className="bg-white text-slate-900 dark:bg-slate-100 dark:text-slate-700 flex-none -my-2 mx-auto w-20 h-20 rounded-full ring-1 ring-slate-900/5 shadow-md flex items-center justify-center"
                 aria-label="Play/Pause"
-            >
-                {isPlaying ? (
-                <svg width="30" height="32" fill="currentColor">
-                    <rect x="6" y="4" width="4" height="24" rx="2" />
-                    <rect x="20" y="4" width="4" height="24" rx="2" />
-                </svg>
-                ) : (
-                // 세모 버튼
-                <svg width="30" height="32" fill="currentColor">
-                    <polygon points="5 3 19 12 5 21 5 3" /> 
-                </svg>
-                )}
+            >{isPlaying ? '⏸️' : '⏯️'}
             </button>
             <div className="flex-auto flex items-center justify-evenly">
-                <button type="button" aria-label="Skip 10 seconds">
-                <svg width="24" height="24" fill="none">
-                    <path
-                    d="M17.509 16.95c-2.862 2.733-7.501 2.733-10.363 0-2.861-2.734-2.861-7.166 0-9.9 2.862-2.733 7.501-2.733 10.363 0 .38.365.711.759.991 1.176"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    />
-                    <path
-                    d="M19 5v3.111c0 .491-.398.889-.889.889H15"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    />
-                </svg>
-                </button>
+                
                 {/* 볼륨 컨트롤 버튼 */}
                 <div className="relative">
                     <button
@@ -247,7 +223,7 @@ const Player = () => {
             </div>
             </div>
         </div>
-        </div>
+        
     );
 };
 
