@@ -49,26 +49,8 @@ export function Navibar({ setSelecteCompoId }) {
               <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(1)}>
                 북리스트
               </div>
-              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(2)}>
-                게시판
-              </div>
               <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(3)}>
                 마이페이지
-              </div>
-              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(4)}>
-                inhaforum
-              </div>
-              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(5)}>
-                임시userwritepage
-              </div>
-              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(6)}>
-                Player
-              </div>
-              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(10)}>
-                이동준
-              </div>
-              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(11)}>
-                이동준2
               </div>
               <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(12)}>
                 게시판 목록
