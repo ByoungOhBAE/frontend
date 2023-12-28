@@ -12,7 +12,7 @@ const Mypage = ({ setSelecteCompoId }) => {
     return ( //보여주는 부분 return 안에있는거만 마이페이지처럼 꾸며라.
         <div className="min-h-screen bg-gray-100 flex flex-col md:flex-row">
             {/* 프로필 & 메뉴 섹션 */}
-            <div className="bg-white p-10 flex flex-col w-1/3">
+            <div className="bg-white p-10 flex flex-col w-1/3" >
                 {/* 프로필 영역 */}
                 <div className="text-center mb-10">
                     <div className="w-80 h-80 rounded-full overflow-hidden mx-auto mb-20">
@@ -22,7 +22,7 @@ const Mypage = ({ setSelecteCompoId }) => {
                     <p className="text-gray-500 mb-3">user@example.com</p>
                 </div>
                 {/* 메뉴 영역 - 책갈피 스타일 */}
-                <ul className="space-y-2">
+                <ul style={{ listStyle: 'none', padding: 0, textAlign: 'center', width: '100%' }}>
                     {['bookList', 'menu1', 'menu2', 'menu3'].map((menu) => (
                         <li
                             key={menu}
