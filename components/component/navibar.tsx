@@ -151,7 +151,7 @@ export function Navibar({ setSelecteCompoId }) {
             </NavigationMenuLink>
             <NavigationMenuLink asChild>
               <div className="flex space-x-4">
-                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setShowBooklist(false)}>
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={handleLogout}>
                   <button className="ml-2 font-semibold text-lg">로그아웃</button>
                 </div>
               </div>
