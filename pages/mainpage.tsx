@@ -16,6 +16,9 @@ export default function Mainpage({ }) {
   const [SelecteCompoId, setSelecteCompoId] = useState<number | null>(0);
   const [selectedBookId, setSelectedBookId] = useState(null);
 
+
+
+
   const renderContent = () => {
     switch (SelecteCompoId) {
       case 1:

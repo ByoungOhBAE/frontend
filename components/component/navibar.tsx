@@ -1,10 +1,32 @@
-import React from 'react';
+
 import { Button } from "@/components/ui/button"
 import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet"
 import Link from "next/link"
+import React, { useState } from 'react';
+
 import { NavigationMenuLink, NavigationMenuList, NavigationMenu } from "@/components/ui/navigation-menu"
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+interface User {
+  id: number;
+  username: string;
+  email: string;
+}
 
 export function Navibar({ setSelecteCompoId }) {
+  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+
+
+
+
+  const handleLogout = () => {
+    Cookies.remove("token");
+    router.push("/");
+  };
+
+
+
   return (
     <div className="flex flex-col ">
       <header className="flex items-center h-0 px-0 border-b shrink-0 lg:h-20 lg:px-4 md:px-6">
@@ -51,7 +73,7 @@ export function Navibar({ setSelecteCompoId }) {
               <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(12)}>
                 게시판 목록
               </div>
-              <Button variant="outline" onClick={() => setSelecteCompoId(false)}>로그아웃</Button>
+              <Button variant="outline" onClick={handleLogout}>로그아웃</Button>
             </div>
           </SheetContent>
         </Sheet>
