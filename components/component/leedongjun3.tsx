@@ -76,7 +76,7 @@ const Leedongjun3 = ({ bookId, setSelectedCompoId }) => {
                             <tr key={post.id} className="cursor-pointer hover:bg-gray-50">
                                 <td className="border-b border-gray-200 p-4 text-center">{post.id}</td>
                                 <td className="border-b border-gray-200 p-4 text-center">{post.title}</td>
-                                <td className="border-b border-gray-200 p-4 text-center">{post.User.name}</td>
+                                {/* <td className="border-b border-gray-200 p-4 text-center">{post.User.name}</td> */}
                                 <td className="border-b border-gray-200 p-4 text-center">{post.created_at}</td>
                             </tr>
                         ))}
