@@ -227,7 +227,7 @@ export function Signup({ setShowSignup }) {
                             <span>
                                 이용약관에 대한 자세한 내용은{' '}
                                 <button onClick={openTermsModal} className="text-sky-500">
-                                    여기
+                                    여기(서비스 이용약관)
                                 </button>
                                 를 확인하세요.
                             </span>
