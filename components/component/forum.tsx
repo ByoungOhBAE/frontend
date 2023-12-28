@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 
-const Forum = ({ bookId, setSelectedCompoId }) => {
+const Forum = ({ postId, goBack }) => {
     const [book, setBook] = useState(null);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
@@ -11,7 +11,7 @@ const Forum = ({ bookId, setSelectedCompoId }) => {
     return (
         <div className="container mx-auto px-4">
         {/* 뒤로가기 버튼 */}
-        <button className="bg-white-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out mb-4">
+        <button className="bg-white-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out mb-4" onClick={goBack}>
             <img src='https://kr.seaicons.com/wp-content/uploads/2015/11/Arrows-Undo-icon.png' className='w-8 h-8'/>
             
         </button>
