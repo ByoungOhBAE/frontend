@@ -65,25 +65,25 @@ export function Navibar({ setSelecteCompoId }) {
             <NavigationMenuLink asChild>
               <div className="flex space-x-4">
                 <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(1)}>
-                  <span className="ml-2 font-semibold text-lg">북리스트</span>
+                  <button className="ml-2 font-semibold text-lg">북리스트</button>
                 </div>
               </div>
             </NavigationMenuLink>
-            <NavigationMenuLink asChild>
+            {/* <NavigationMenuLink asChild>
               <div className="flex space-x-4">
                 <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(2)}>
                   <span className="ml-2 font-semibold text-lg">게시판</span>
                 </div>
               </div>
-            </NavigationMenuLink>
+            </NavigationMenuLink> */}
             <NavigationMenuLink asChild>
               <div className="flex space-x-4">
                 <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(3)}>
-                  <span className="ml-2 font-semibold text-lg">마이페이지</span>
+                  <button className="ml-2 font-semibold text-lg">마이페이지</button>
                 </div>
               </div>
             </NavigationMenuLink>
-            <NavigationMenuLink asChild>
+            {/* <NavigationMenuLink asChild>
               <div className="flex space-x-4">
                 <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(4)}>
                   <span className="ml-2 font-semibold text-lg">inhaforum</span>
@@ -96,16 +96,16 @@ export function Navibar({ setSelecteCompoId }) {
                   <span className="ml-2 font-semibold text-lg">임시userwritepage</span>
                 </div>
               </div>
-            </NavigationMenuLink>
-            <NavigationMenuLink asChild>
+            </NavigationMenuLink> */}
+            {/* <NavigationMenuLink asChild>
               <div className="flex space-x-4">
                 <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(6)}>
                   <span className="ml-2 font-semibold text-lg">Player</span>
                 </div>
               </div>
-            </NavigationMenuLink>
+            </NavigationMenuLink> */}
           
-            <NavigationMenuLink asChild>
+            {/* <NavigationMenuLink asChild>
               <div className="flex space-x-4">
                 <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(10)}>
                   <span className="ml-2 font-semibold text-lg">이동준</span>
@@ -119,15 +119,22 @@ export function Navibar({ setSelecteCompoId }) {
                   <span className="ml-2 font-semibold text-lg">이동준2</span>
                 </div>
               </div>
-            </NavigationMenuLink>
+            </NavigationMenuLink> */}
             <NavigationMenuLink asChild>
               <div className="flex space-x-4">
                 <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(12)}>
-                  <span className="ml-2 font-semibold text-lg">게시판 목록</span>
+                  <button className="ml-2 font-semibold text-lg">게시판 목록</button>
                 </div>
               </div>
             </NavigationMenuLink>
-            <Button variant="outline" onClick={() => setShowBooklist(false)}>로그아웃</Button>
+            <NavigationMenuLink asChild>
+              <div className="flex space-x-4">
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setShowBooklist(false)}>
+                  <button className="ml-2 font-semibold text-lg">로그아웃</button>
+                </div>
+              </div>
+            </NavigationMenuLink>
+            
           </NavigationMenuList>
         </NavigationMenu>
       </header>
