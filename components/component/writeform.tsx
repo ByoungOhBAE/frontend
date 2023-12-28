@@ -1,17 +1,38 @@
 // writeform.tsx
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
+import axios from 'axios';
 
 const WriteForm = ({ onCancel }) => {
     const [postTitle, setPostTitle] = useState("");
     const [postContent, setPostContent] = useState("");
 
-    const handlePostSubmit = () => {
+    const handlePostSubmit = async (event) => {
         // 글 작성 로직 추가
         // 예: 서버에 데이터 전송
+        event.preventDefault(); // 폼의 기본 제출 동작을 방지
+        console.log(postTitle);
+        console.log(postContent);
+        try {
+            // JWT 토큰 가져오기 (예: localStorage에서)
+            const token = localStorage.getItem('access_token');
 
-        // 작성이 완료된 후 폼 닫기
-        onCancel();
+            const response = await axios.post('http://127.0.0.1:8000/api/posts/', {
+                title: postTitle,
+                content: postContent,
+                User: '1',
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
+                }
+            });
+
+            console.log('Post submitted:', response.data);
+            // 작성이 완료된 후 폼 닫기
+            onCancel();
+        }catch(error){
+            console.error('Error submitting post:', error);
+        }
     };
 
     return (
