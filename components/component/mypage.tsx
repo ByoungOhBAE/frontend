@@ -12,33 +12,32 @@ const Mypage = ({ setSelecteCompoId }) => {
     return ( //보여주는 부분 return 안에있는거만 마이페이지처럼 꾸며라.
         <div className="min-h-screen bg-gray-100 flex flex-col md:flex-row">
             {/* 프로필 & 메뉴 섹션 */}
-            <div className="bg-white p-4 flex flex-col w-1/4">
+            <div className="bg-white p-10 flex flex-col w-1/3">
                 {/* 프로필 영역 */}
-                <div className="text-center mb-4">
-                    <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-3">
-                        <img src="path_to_profile_image.jpg" alt="Profile" className="object-cover w-full h-full" />
+                <div className="text-center mb-10">
+                    <div className="w-80 h-80 rounded-full overflow-hidden mx-auto mb-20">
+                        <img src="/images/kid.png" alt="Profile" className="object-cover w-full h-full rounded-full" />
                     </div>
                     <h2 className="text-xl font-semibold">사용자</h2>
                     <p className="text-gray-500 mb-3">user@example.com</p>
                 </div>
+                {/* 메뉴 영역 - 책갈피 스타일 */}
+                <ul className="space-y-2">
+                    {['bookList', 'menu1', 'menu2', 'menu3'].map((menu) => (
+                        <li
+                            key={menu}
+                            onClick={() => handleMenuClick(menu)}
+                            className={`cursor-pointer p-2 ${
+                                selectedMenu === menu
+                                    ? 'bg-blue-500 text-white'
+                                    : 'text-gray-700 hover:bg-blue-100'
+                            }`}
+                        >
+                            {menu === 'bookList' ? '내 책 목록' : `메뉴 ${menu.charAt(4)}`}
+                        </li>
+                    ))}
+                </ul>
 
-                 {/* 메뉴 영역 */}
-                 <ul className="space-y-2">
-                    {/* 메뉴 항목 - 클릭 이벤트 추가 */}
-                    <li onClick={() => handleMenuClick('bookList')} className="text-gray-700 hover:text-blue-500 cursor-pointer">내 책 목록</li>
-                </ul>
-                <ul className="space-y-2">
-                    {/* 메뉴 항목 - 클릭 이벤트 추가 */}
-                    <li onClick={() => handleMenuClick('bookList')} className="text-gray-700 hover:text-blue-500 cursor-pointer">메뉴1</li>
-                </ul>
-                <ul className="space-y-2">
-                    {/* 메뉴 항목 - 클릭 이벤트 추가 */}
-                    <li onClick={() => handleMenuClick('bookList')} className="text-gray-700 hover:text-blue-500 cursor-pointer">메뉴2</li>
-                </ul>
-                <ul className="space-y-2">
-                    {/* 메뉴 항목 - 클릭 이벤트 추가 */}
-                    <li onClick={() => handleMenuClick('bookList')} className="text-gray-700 hover:text-blue-500 cursor-pointer">메뉴3</li>
-                </ul>
             </div>
 
             {/* 콘텐츠 섹션 */}
