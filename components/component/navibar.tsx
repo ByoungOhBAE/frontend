@@ -28,6 +28,7 @@ export function Navibar({ setSelecteCompoId }) {
 
 
 
+
   return (
     <div className="flex flex-col ">
       <header className="flex items-center h-0 px-0 border-b shrink-0 lg:h-20 lg:px-4 md:px-6">
