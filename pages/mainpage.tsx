@@ -1,20 +1,22 @@
 "use client"
 import { Navibar } from '@/components/component/navibar';
 import React, { useState } from 'react';
-import Forum from '@/components/component/forum';
-import Booklist from '@/components/component/booklist';
+import Board_write from '@/components/component/board_detail';
+import Book_list from '@/components/component/book_list';
 import Mypage from '@/components/component/mypage';
-import Inhaforum from '@/components/component/inhaforum';
+import Board_update from '@/components/component/board_update';
 import Userwritepage from '@/components/component/userwritepage';
-import LeeDongjun2 from '@/components/component/leedongjun2';
-import LeeDongjun3 from '@/components/component/leedongjun3';
-import LeeDongjun from '@/components/component/leedongjun';
+import Quiz_image from '@/components/component/quiz_image';
+import Board_list from '@/components/component/board_list';
+import Quiz from '@/components/component/quiz';
 import Player from '@/components/component/player';
 
 import './globals.css'
 export default function Mainpage({ }) {
   const [SelecteCompoId, setSelecteCompoId] = useState<number | null>(0);
   const [selectedBookId, setSelectedBookId] = useState(null);
+ 
+
 
  
 
@@ -22,26 +24,26 @@ export default function Mainpage({ }) {
   const renderContent = () => {
     switch (SelecteCompoId) {
       case 1:
-        return <Booklist setSelecteCompoId={setSelecteCompoId} setSelectedBookId={setSelectedBookId} />;
+        return <Book_list setSelecteCompoId={setSelecteCompoId} setSelectedBookId={setSelectedBookId} />;
       case 2:
-        return <Forum bookId={selectedBookId} setSelecteCompoId={setSelecteCompoId} />;
+        return <Board_detail bookId={selectedBookId} setSelecteCompoId={setSelecteCompoId} />;
       case 3:
         return <Mypage setSelecteCompoId={setSelecteCompoId} />;
       case 4:
-        return <Inhaforum />;
+        return <Board_write />;
       case 5:
         return <Userwritepage bookId={selectedBookId} setSelecteCompoId={setSelecteCompoId} />;
       case 6:
         return <Player />;
 
       case 10:
-        return <LeeDongjun bookId={1} setSelecteCompoId={setSelecteCompoId} />;
+        return <Quiz bookId={1} setSelecteCompoId={setSelecteCompoId} />;
       case 11:
-        return <LeeDongjun2 bookId={1} setSelecteCompoId={setSelecteCompoId} />;
+        return <Quiz_image bookId={1} setSelecteCompoId={setSelecteCompoId} />;
       case 12:
-        return <LeeDongjun3 bookId={1} setSelecteCompoId={setSelecteCompoId} />;
+        return <Board_list bookId={1} setSelecteCompoId={setSelecteCompoId} />;
       default:
-        return <Booklist setSelecteCompoId={setSelecteCompoId} setSelectedBookId={setSelectedBookId} />;
+        return <Book_list setSelecteCompoId={setSelecteCompoId} setSelectedBookId={setSelectedBookId} />;
     }
   };
   const backgroundStyle: React.CSSProperties = {
@@ -75,4 +77,23 @@ export default function Mainpage({ }) {
       </div>
     </div>
   );
+}
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const token = req.cookies.token; // 토큰을 쿠키에서 추출
+
+  // 토큰이 없는 경우 메인 페이지로 리디렉션
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  // 로그인이 되어 있으면 페이지 데이터 반환
+  return {
+    props: {}, // 필요한 props
+  };
 }

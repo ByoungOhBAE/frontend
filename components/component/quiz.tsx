@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button } from "@/components/ui/button";
 
-const Leedongjun = ({ bookId, setSelectedCompoId }) => {
+const Quiz = ({ bookId, setSelectedCompoId }) => {
     const [book, setBook] = useState(null);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
@@ -104,4 +104,4 @@ const Leedongjun = ({ bookId, setSelectedCompoId }) => {
     );
 };
 
-export default Leedongjun;
+export default Quiz;

@@ -4,7 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 
-const Forum = ({ postId, goBack }) => {
+const Board_detail = ({ postId, goBack }) => {
     const [post, setPost] = useState(null);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
@@ -52,7 +52,7 @@ const handlePostSubmit = async (event) => {
 };
 
     return (
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 py-6">
         {/* 뒤로가기 버튼 */}
         <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out mb-4" onClick={goBack}>
             뒤로가기
@@ -116,4 +116,4 @@ const handlePostSubmit = async (event) => {
 );
 };
 
-export default Forum;
+export default Board_detail;
