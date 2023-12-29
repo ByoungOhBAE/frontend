@@ -5,17 +5,21 @@ import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
 import { useBookList } from '@/components/component/usebooklist';
-
+import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation';
 const PER_PAGE = 8;
 
 export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
   
+
   const PER_PAGE = 8;
   const [currentPage, setCurrentPage] = useState(1);
   const { bookList } = useBookList();
-  const showBookDetails = (bookId) => {
-    setSelectedBookId(bookId);
-    setSelecteCompoId(6);
+
+  const router = useRouter();
+  const showBookDetails = (BookId) => {
+    router.push(`/player/${BookId}`);
   };
   const currentBooks = bookList ? bookList.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE) : [];
   const totalPages = bookList ? Math.ceil(bookList.length / PER_PAGE) : 0;
@@ -29,7 +33,7 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
         <div key={book.id}
 
           className="relative group overflow-hidden rounded-lg"
-          onClick={() => showBookDetails(book.id)}>
+        >
 
           {/* 책 정보 렌더링 */}
           <Card style={{
@@ -48,15 +52,16 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
           </Card>
 
           {/* 밑은 호버 띄우기 */}
+
           <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-            onClick={() =>
-              showBookDetails(book.id)
-            }>
-          <h2 className="text-white ml-4 text-lg font-semibold">
-            {book.book_name}
-          </h2>
-          <p className="text-white text-lg">바로가기</p>
-        </div>
+            onClick={() => showBookDetails(book.id)}
+              >
+              <h2 className="text-white ml-4 text-lg font-semibold">
+                {book.book_name}
+              </h2>
+              <p className="text-white text-lg">바로가기</p>
+            </div>
+          
         </div>
   ))
 }

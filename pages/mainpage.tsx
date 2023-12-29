@@ -9,12 +9,13 @@ import Userwritepage from '@/components/component/userwritepage';
 import Quiz_image from '@/components/component/quiz_image';
 import Board_list from '@/components/component/board_list';
 import Quiz from '@/components/component/quiz';
-import Player from '@/components/component/player';
-
+import Player from '@/pages/player/[bookid]';
+import { useRouter } from 'next/navigation';
 import './globals.css'
 export default function Mainpage({ }) {
   const [SelecteCompoId, setSelecteCompoId] = useState<number | null>(0);
   const [selectedBookId, setSelectedBookId] = useState(null);
+  const router = useRouter();
  
 
 
@@ -34,7 +35,7 @@ export default function Mainpage({ }) {
       case 5:
         return <Userwritepage bookId={selectedBookId} setSelecteCompoId={setSelecteCompoId} />;
       case 6:
-        return <Player />;
+        return  router.push('/player/?history=${selectedBookId}');
 
       case 10:
         return <Quiz bookId={1} setSelecteCompoId={setSelecteCompoId} />;

@@ -1,7 +1,8 @@
 import AudioPlayer from 'react-audio-player';
 import React, { useState, useRef, useEffect } from 'react';
 import { Motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams, useParams } from 'next/navigation';
+import '../globals.css'
 
 const BookContent = () => {
 
@@ -56,12 +57,17 @@ const BookContent = () => {
 
 const Player = () => {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const audioRef = useRef();
     const [currentTime, setCurrentTime] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [duration, setDuration] = useState(0);
     const [volume, setVolume] = useState(0.75); // 초기 볼륨을 75%로 설정
     const [isVolumeVisible, setIsVolumeVisible] = useState(false);  // 볼륨 바 표시 여부
+    const params = useParams();
+    const bookid = searchParams.get('bookid')
+    console.log(params)
+
 
 
     useEffect(() => {
@@ -156,6 +162,7 @@ const Player = () => {
         <div className="container mx-auto">
             {/* BookContent 컴포넌트 */}
             <BookContent />
+            <h1>Player ID: {bookid}</h1>
 
             {/* AudioPlayer */}
             <AudioPlayer
