@@ -5,21 +5,17 @@ import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
 import { useBookList } from '@/components/component/usebooklist';
-import { useRouter } from 'next/navigation';
-import { useParams } from 'next/navigation'
-import { useSearchParams } from 'next/navigation';
+
 const PER_PAGE = 8;
 
 export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
   
-
   const PER_PAGE = 8;
   const [currentPage, setCurrentPage] = useState(1);
   const { bookList } = useBookList();
-
-  const router = useRouter();
-  const showBookDetails = (BookId) => {
-    router.push(`/player/${BookId}`);
+  const showBookDetails = (bookId) => {
+    setSelectedBookId(bookId);
+    setSelecteCompoId(6);
   };
   const currentBooks = bookList ? bookList.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE) : [];
   const totalPages = bookList ? Math.ceil(bookList.length / PER_PAGE) : 0;

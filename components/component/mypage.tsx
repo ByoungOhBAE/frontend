@@ -59,10 +59,14 @@ const Mypage = ({
                         `http://127.0.0.1:8000/api/user/${userData.id}/learningstatus`
                     );
                     const userBookList = bookListResponse.data;
-
+                    
+                    const readingResponse = await axios.get(
+                        `http://127.0.0.1:8000/api/user/${userData.id}/readingstatus`
+                    );
+                    const readingList = readingResponse.data;
                     // 상태 업데이트
-                    setReadBookCount(userData.readBookCount);
-                    setQuizCount(userData.quizCount);
+                    setReadBookCount(readingList.readbooknum);
+                    setQuizCount(userBookList.numdata);
                     setWrongPercentage(userBookList.wrongpercentage);
                     setBookList(userBookList);
                 } catch (error) {
@@ -85,7 +89,7 @@ const Mypage = ({
                     selectedTheme === "white" 
                         ? "#ffffff"
                         : selectedTheme === "cyan" 
-                        ? "#f3f4f6" 
+                        ? "#e0ffff" 
                         : selectedTheme === "sky" 
                         ? "#ebf8ff" 
                         : selectedTheme === "indigo" 
@@ -102,7 +106,7 @@ const Mypage = ({
                         selectedTheme === "white" 
                             ? "#ffffff"
                             : selectedTheme === "cyan" 
-                            ? "#f3f4f6" 
+                            ? "#e0ffff" 
                             : selectedTheme === "sky" 
                             ? "#ebf8ff" 
                             : selectedTheme === "indigo" 
@@ -184,7 +188,7 @@ const Mypage = ({
                 <form>
                     <legend> Choose a theme: </legend>
                     <div className="flex justify-between">
-                        {["cyan", "sky", "indigo", "pink"].map((theme) => (
+                        {["white", "cyan", "sky", "indigo", "pink"].map((theme) => (
                             <label key={theme} className="flex items-center">
                                 <input
                                     type="radio" 
