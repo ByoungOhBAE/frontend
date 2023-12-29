@@ -15,6 +15,8 @@ import './globals.css'
 export default function Mainpage({ }) {
   const [SelecteCompoId, setSelecteCompoId] = useState<number | null>(0);
   const [selectedBookId, setSelectedBookId] = useState(null);
+ 
+
 
  
 
@@ -75,4 +77,23 @@ export default function Mainpage({ }) {
       </div>
     </div>
   );
+}
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const token = req.cookies.token; // 토큰을 쿠키에서 추출
+
+  // 토큰이 없는 경우 메인 페이지로 리디렉션
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  // 로그인이 되어 있으면 페이지 데이터 반환
+  return {
+    props: {}, // 필요한 props
+  };
 }
