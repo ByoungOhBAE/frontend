@@ -55,6 +55,7 @@ export function Navibar({ setSelecteCompoId }) {
               <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(12)}>
                 게시판 목록
               </div>
+              
               <Button variant="outline" onClick={handleLogout}>로그아웃</Button>
             </div>
           </SheetContent>
