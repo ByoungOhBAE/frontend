@@ -85,7 +85,7 @@ const Mypage = ({
                     selectedTheme === "white" 
                         ? "#ffffff"
                         : selectedTheme === "cyan" 
-                        ? "#f3f4f6" 
+                        ? "#e0ffff" 
                         : selectedTheme === "sky" 
                         ? "#ebf8ff" 
                         : selectedTheme === "indigo" 
@@ -102,7 +102,7 @@ const Mypage = ({
                         selectedTheme === "white" 
                             ? "#ffffff"
                             : selectedTheme === "cyan" 
-                            ? "#f3f4f6" 
+                            ? "#e0ffff" 
                             : selectedTheme === "sky" 
                             ? "#ebf8ff" 
                             : selectedTheme === "indigo" 
@@ -184,7 +184,7 @@ const Mypage = ({
                 <form>
                     <legend> Choose a theme: </legend>
                     <div className="flex justify-between">
-                        {["cyan", "sky", "indigo", "pink"].map((theme) => (
+                        {["white", "cyan", "sky", "indigo", "pink"].map((theme) => (
                             <label key={theme} className="flex items-center">
                                 <input
                                     type="radio" 
