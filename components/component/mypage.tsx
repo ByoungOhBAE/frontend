@@ -89,7 +89,7 @@ const Mypage = ({
                     selectedTheme === "white" 
                         ? "#ffffff"
                         : selectedTheme === "cyan" 
-                        ? "#e0ffff" 
+                        ? "#e5ffff" 
                         : selectedTheme === "sky" 
                         ? "#ebf8ff" 
                         : selectedTheme === "indigo" 
@@ -97,6 +97,8 @@ const Mypage = ({
                         : selectedTheme === "pink" 
                         ? "#fff5f7" 
                         : "#ffffff",
+                borderRadius: "20px",
+                overflow: "hidden",
             }}
         >
             {/* 프로필 & 메뉴 섹션 */}
@@ -106,7 +108,7 @@ const Mypage = ({
                         selectedTheme === "white" 
                             ? "#ffffff"
                             : selectedTheme === "cyan" 
-                            ? "#e0ffff" 
+                            ? "#e5ffff" 
                             : selectedTheme === "sky" 
                             ? "#ebf8ff" 
                             : selectedTheme === "indigo" 
