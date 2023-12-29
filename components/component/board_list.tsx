@@ -3,15 +3,20 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button } from "@/components/ui/button";
 import Board_write from "@/components/component/board_write";
-import Forum from './board_detail';
+import Board_detail from './board_detail';
 
-const Board_list = ({ bookId, setSelectedCompoId }) => {
+const Board_list = ({ }) => {
     const [showWrite, setShowWrite] = useState(false);
     const [showSearch, setShowSearch] = useState(true);
     const [posts, setPosts] = useState([]);
     const [selectedPostId, setSelectedPostId] = useState(null);
 
     useEffect(() => {
+        fetchGetData();
+    }, []);
+
+    // 게시물 데이터를 불러오는 함수
+    const fetchGetData = async () => {
         axios.get(`http://127.0.0.1:8000/api/posts/`)
             .then(response => {
                 setPosts(response.data);
@@ -19,7 +24,7 @@ const Board_list = ({ bookId, setSelectedCompoId }) => {
             .catch(error => {
                 console.error('Error fetching post data:', error);
             });
-    }, []);
+    };
 
     const handleWriteButtonClick = () => {
         setShowWrite(true);
@@ -42,7 +47,11 @@ const Board_list = ({ bookId, setSelectedCompoId }) => {
     };
 
     if (selectedPostId) {
-        return <Forum postId={selectedPostId} goBack={goBack} />;
+        return <Board_detail 
+                    postId={selectedPostId} 
+                    goBack={goBack}
+                    fetchGetData_board_list={fetchGetData} 
+                />;
     }
 
     return (
@@ -73,7 +82,7 @@ const Board_list = ({ bookId, setSelectedCompoId }) => {
     
             {/* 테이블 or 작성 폼 */}
             {showWrite ? (
-                <Board_write onCancel={() => setShowWrite(false)} />
+                <Board_write onCancel={() => {setShowWrite(false); setShowSearch(true);}} fetchGetData={fetchGetData} />
             ) : (
             <div className="bg-white p-4 rounded-lg shadow-md">
                 <table className="min-w-full">

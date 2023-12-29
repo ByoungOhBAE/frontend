@@ -1,17 +1,44 @@
 // components/WriteForm.js 또는 .tsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
+import axios from 'axios';
+import Cookies from 'js-cookie';
  
-const Board_update = ({ onCancel }) => {
-    const [postTitle, setPostTitle] = useState("");
-    const [postContent, setPostContent] = useState("");
- 
-    const handlePostSubmit = () => {
-        // 글 작성 로직 추가
-        // 예: 서버에 데이터 전송
- 
-        // 작성이 완료된 후 폼 닫기
-        onCancel();
+const Board_update = ({ onCancel, goBack, postId, PostTitle, PostContent, fetchGetData_board_list}) => {
+    const [postTitle, setPostTitle] = useState(PostTitle);
+    const [postContent, setPostContent] = useState(PostContent);
+    const [file, setFile] = useState(null);
+    useEffect(() => {
+
+    }, []);
+
+    const handlePutSubmit = async (event) => {
+        event.preventDefault(); // 폼의 기본 제출 동작을 방지
+
+        try {
+            // JWT 토큰 가져오기 (예: localStorage에서)
+            const token = Cookies.get('token');
+            
+            const user_id = Cookies.get('user_id');
+            const response = await axios.put(`http://127.0.0.1:8000/api/posts/${postId}/`, {
+                id: postId,
+                User: user_id,
+                title: postTitle,
+                content: postContent,
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
+                }
+            });
+
+            console.log('Post submitted:', response.data);
+            fetchGetData_board_list();
+            // 작성이 완료된 후 폼 닫기
+            onCancel();
+            goBack();
+        }catch(error){
+            console.error('Error submitting post:', error);
+        }
     };
     
     const handleFileChange = (event) => {
@@ -21,7 +48,7 @@ const Board_update = ({ onCancel }) => {
     return (
         <div>
             <h2 className="text-2xl font-bold mb-4">글 수정하기</h2>
-            <form onSubmit={handlePostSubmit}>
+            <form onSubmit={handlePutSubmit}>
                 {/* 제목 입력 */}
                 <div className="mb-4">
                     <label htmlFor="postTitle" className="block text-sm font-bold mb-2">제목</label>
