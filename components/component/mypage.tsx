@@ -59,10 +59,14 @@ const Mypage = ({
                         `http://127.0.0.1:8000/api/user/${userData.id}/learningstatus`
                     );
                     const userBookList = bookListResponse.data;
-
+                    
+                    const readingResponse = await axios.get(
+                        `http://127.0.0.1:8000/api/user/${userData.id}/readingstatus`
+                    );
+                    const readingList = readingResponse.data;
                     // 상태 업데이트
-                    setReadBookCount(userData.readBookCount);
-                    setQuizCount(userData.quizCount);
+                    setReadBookCount(readingList.readbooknum);
+                    setQuizCount(userBookList.numdata);
                     setWrongPercentage(userBookList.wrongpercentage);
                     setBookList(userBookList);
                 } catch (error) {
