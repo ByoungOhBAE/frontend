@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button } from "@/components/ui/button";
-import WriteForm from "@/components/component/writeform";
-import Forum from './forum';
+import Board_write from "@/components/component/board_write";
+import Forum from './board_detail';
 
-const Leedongjun3 = ({ bookId, setSelectedCompoId }) => {
+const Board_list = ({ bookId, setSelectedCompoId }) => {
     const [showWrite, setShowWrite] = useState(false);
     const [showSearch, setShowSearch] = useState(true);
     const [posts, setPosts] = useState([]);
@@ -73,7 +73,7 @@ const Leedongjun3 = ({ bookId, setSelectedCompoId }) => {
     
             {/* 테이블 or 작성 폼 */}
             {showWrite ? (
-                <WriteForm onCancel={() => setShowWrite(false)} />
+                <Board_write onCancel={() => setShowWrite(false)} />
             ) : (
             <div className="bg-white p-4 rounded-lg shadow-md">
                 <table className="min-w-full">
@@ -116,4 +116,4 @@ const Leedongjun3 = ({ bookId, setSelectedCompoId }) => {
     );
 };
 
-export default Leedongjun3;
+export default Board_list;
