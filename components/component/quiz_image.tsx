@@ -4,7 +4,7 @@ import axios from 'axios';
 import AudioPlayer from 'react-audio-player';
 import { Button } from "@/components/ui/button";
 
-const Leedongjun2 = ({ bookId, setSelectedCompoId }) => {
+const Quiz_image = ({ bookId, setSelectedCompoId }) => {
     const [book, setBook] = useState(null);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const audioRef = useRef();
@@ -125,4 +125,4 @@ const Leedongjun2 = ({ bookId, setSelectedCompoId }) => {
     );
 };
 
-export default Leedongjun2;
+export default Quiz_image;
