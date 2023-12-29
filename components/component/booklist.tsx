@@ -57,7 +57,7 @@ export default function Booklist({ setSelecteCompoId, setSelectedBookId }) {
           </h2>
           <p className="text-white text-lg">바로가기</p>
         </div>
-        </div>
+    </div>
   ))
 }
 <div className="flex items-center justify-center">
