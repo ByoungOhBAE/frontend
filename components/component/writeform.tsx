@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import axios from 'axios';
 import Cookies from "js-cookie";
 
+
 const WriteForm = ({ onCancel }) => {
     const [postTitle, setPostTitle] = useState("");
     const [postContent, setPostContent] = useState("");
@@ -16,11 +17,11 @@ const WriteForm = ({ onCancel }) => {
         try {
             // JWT 토큰 가져오기 (예: localStorage에서)
             const token = Cookies.get('token');
-            
+            const user_id = Cookies.get('user_id');
             const response = await axios.post('http://127.0.0.1:8000/api/posts/', {
                 title: postTitle,
                 content: postContent,
-                User: '1',
+                User: user_id,
             }, {
                 headers: {
                     'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
@@ -78,3 +79,7 @@ const WriteForm = ({ onCancel }) => {
 };
 
 export default WriteForm;
+function decodeJWT(token: any): jwt_decode.JwtPayload {
+    throw new Error('Function not implemented.');
+}
+

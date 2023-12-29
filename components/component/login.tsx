@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from 'next/navigation';
 import Cookies from "js-cookie";
+import {jwtDecode} from 'jwt-decode';
 
 export default function Login({ setShowLogin, setShowSignup }) {
     
@@ -24,7 +25,9 @@ export default function Login({ setShowLogin, setShowSignup }) {
                 }
             );
             const token = response.data.access;
+            const decoded_token = jwtDecode(token);
             Cookies.set("token", token);
+            Cookies.set('user_id', decoded_token.user_id);
             router.push('/mainpage');
         } catch (error) {
             console.error("An error occurred:", error);
