@@ -5,7 +5,7 @@ import axios from 'axios';
 import Cookies from "js-cookie";
 
 
-const Board_detail = ({ onCancel }) => {
+const board_write = ({ onCancel, fetchGetData }) => {
     const [postTitle, setPostTitle] = useState("");
     const [postContent, setPostContent] = useState("");
 
@@ -29,6 +29,7 @@ const Board_detail = ({ onCancel }) => {
             });
 
             console.log('Post submitted:', response.data);
+            fetchGetData();
             // 작성이 완료된 후 폼 닫기
             onCancel();
         }catch(error){
@@ -78,8 +79,4 @@ const Board_detail = ({ onCancel }) => {
     );
 };
 
-export default Board_detail;
-function decodeJWT(token: any): jwt_decode.JwtPayload {
-    throw new Error('Function not implemented.');
-}
-
+export default board_write;
