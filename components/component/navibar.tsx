@@ -22,6 +22,7 @@ export function Navibar({ setSelecteCompoId }) {
 
   const handleLogout = () => {
     Cookies.remove("token");
+    Cookies.remove("user_id");
     router.push("/");
   };
 
