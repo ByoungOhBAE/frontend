@@ -2,14 +2,9 @@
 import React from 'react';
 import { useRef } from 'react';
 import 'react-quill/dist/quill.snow.css';
-import dynamic from 'next/dynamic';
 import axios from 'axios';
 import Cookies from "js-cookie";
-
-const ReactQuill = dynamic(() => import('react-quill'), {
-    ssr: false, // 서버 사이드 렌더링 비활성화
-    // loading: () => <p>Loading...</p>, // 로딩 중 표시할 컴포넌트
-});
+import ReactQuill from 'react-quill';
 
 
 const TextEditor = ({ content, setContent }) => {
@@ -30,14 +25,15 @@ const TextEditor = ({ content, setContent }) => {
         input.click();
     
         input.onchange = async () => {
+            
             const file = input.files[0];
+            if (!file){
+                return;
+            }
             // FormData를 사용하여 파일을 서버로 전송
             const formData = new FormData();
-            formData.append('image', file);
-            formData.append('Post', "1");
+            formData.append('media_path', file);
     
-            // 이미지를 서버에 업로드하고 URL을 받아야 합니다.
-            // 예: axios를 사용하여 API 요청
             const token = Cookies.get('token');
             axios.post('http://127.0.0.1:8000/api/posts/media/', formData, {
                 headers: {
@@ -46,37 +42,44 @@ const TextEditor = ({ content, setContent }) => {
                 }
             }).then(response => {
                 // 서버에서 반환된 이미지 URL을 받습니다.
-                const imageUrl = response.data.url;
+                const imageUrl = response.data.media_path;
+                console.log(imageUrl);
                 insertImage(imageUrl);
             }).catch(error => {
                 console.error('Error uploading image:', error);
             });
+            
         };
     };
 
-    const modules = {
-        toolbar: {
-            container: [
-                [{ 'header': [1, 2, false] }],
-                ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-                ['link', 'image'], // 'image' 버튼 추가
-                ['clean']
-            ],
-            // handlers: {
-            //     'image': handleImageUpload, // 함수 참조를 전달
-            // },
-        },
-    };
+    const modules = React.useMemo(() => {
+        return {
+            toolbar: {
+                container: [
+                    [{ 'header': [1, 2, false] }],
+                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                    [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+                    ['link', 'image'], // 'image' 버튼 추가
+                    ['clean']
+                ],
+                handlers: {
+                    'image': handleImageUpload, // 함수 참조를 전달
+                },
+            },
+        };
+      }, []);
 
     return (
-        <ReactQuill 
-            ref={editorRef}
-            value={content}
-            onChange={setContent}
-            theme="snow"
-            modules={modules}
-        />
+        <div style={{ height: '550px', backgroundColor: '#FFFFFF'}}>
+            <ReactQuill 
+                ref={editorRef}
+                value={content}
+                onChange={setContent}
+                theme="snow"
+                modules={modules}
+                style={{ height: '508px', backgroundColor: '#FFFFFF'}}
+            />
+        </div>
     );
 };
 

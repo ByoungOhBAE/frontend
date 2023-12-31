@@ -173,16 +173,16 @@ const Board_detail = ({ postId, goBack, fetchGetData_board_list }) => {
                     <caption className='text-left mb-4 text-gray-700'>댓글</caption>
                     <thead className="bg-gray-100">
                         <tr>
+                            <th className="border-b-2 border-gray-200 p-4 text-center w-2/3">내용</th>
                             <th className="border-b-2 border-gray-200 p-4 text-center">작성자</th>
-                            <th className="border-b-2 border-gray-200 p-4 text-center">내용</th>
                             <th className="border-b-2 border-gray-200 p-4 text-center">작성일자</th>
                         </tr>
                     </thead>
                     <tbody>
                         {post.comment.map((comment) => (
                             <tr key={comment.id} className="cursor-pointer hover:bg-gray-50">
-                                <td className="border-b border-gray-200 p-4 text-center">{comment.user_name}</td>
                                 <td className="border-b border-gray-200 p-4 text-center">{comment.content}</td>
+                                <td className="border-b border-gray-200 p-4 text-center">{comment.user_name}</td>
                                 <td className="border-b border-gray-200 p-4 text-center">{comment.created_at}</td>
                             </tr>
                         ))}

@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import TextEditor from './TextEditor';
+import dynamic from 'next/dynamic';
+const TextEditor = dynamic(() => import('./TextEditor'), { ssr: false });
 
 const Board_update = ({ onCancel, goBack, postId, PostTitle, PostContent, fetchGetData_board_list}) => {
     const [postTitle, setPostTitle] = useState(PostTitle);
@@ -47,7 +48,12 @@ const Board_update = ({ onCancel, goBack, postId, PostTitle, PostContent, fetchG
         setFile(selectedFile);
     }
     return (
+        
         <div>
+            {/* 뒤로가기 버튼 */}
+            <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out mb-4" onClick={onCancel()}>
+                뒤로가기
+            </button>
             <h2 className="text-2xl font-bold mb-4">글 수정하기</h2>
             <form onSubmit={handlePutSubmit}>
                 {/* 제목 입력 */}

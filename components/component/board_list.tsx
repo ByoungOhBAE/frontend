@@ -67,13 +67,7 @@ const Board_list = ({ }) => {
         <div className="container mx-auto px-4">
             {/* 상단 버튼과 검색 창 */}
             <div className="flex justify-between items-center my-6">
-                <button 
-                    className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
-                    onClick={handleBackButtonClick}
-                >
-                    뒤로가기
-                </button>
-                <div className="flex items-center">
+                <div className="flex justify-end w-full">
                     {showSearch && (
                         <>
                             <input
@@ -121,6 +115,7 @@ const Board_list = ({ }) => {
                 </table>
             </div>
             )}
+            {showSearch && (
             <div className="text-center my-6">
                 <button 
                     onClick={() => setCurrentPage(currentPage - 1)}
@@ -137,6 +132,7 @@ const Board_list = ({ }) => {
                     다음
                 </button>
             </div>
+            )}
             {/* 작성하기 버튼 */}
             <div className="text-right my-6">
                 {showSearch && (
