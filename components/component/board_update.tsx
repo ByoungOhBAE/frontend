@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import axios from 'axios';
 import Cookies from 'js-cookie';
- 
+import TextEditor from './TextEditor';
+
 const Board_update = ({ onCancel, goBack, postId, PostTitle, PostContent, fetchGetData_board_list}) => {
     const [postTitle, setPostTitle] = useState(PostTitle);
     const [postContent, setPostContent] = useState(PostContent);
@@ -64,14 +65,8 @@ const Board_update = ({ onCancel, goBack, postId, PostTitle, PostContent, fetchG
                 {/* 내용 입력 */}
                 <div className="mb-4">
                     <label htmlFor="postContent" className="block text-sm font-bold mb-2">내용</label>
-                    <textarea
-                        id="postContent"
-                        value={postContent}
-                        onChange={(e) => setPostContent(e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-                        rows="4"
-                        required
-                    ></textarea>
+                    <TextEditor content={postContent} setContent={setPostContent} />
+                    
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='fileInput' className='block text-sm font-bold text-gray-700 mb-2'>

@@ -128,8 +128,7 @@ const Board_detail = ({ postId, goBack, fetchGetData_board_list }) => {
                     </div>
                     <div><br></br></div>
                     <div className="text-gray-800">
-                        {/* 게시물 본문 내용 */}
-                        {post.content}
+                        <div dangerouslySetInnerHTML={{ __html: post.content }} />
                     </div>
                     <div className="flex justify-end mt-4">
                         <button onClick={toggleUpdateForm} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out mr-2">

@@ -10,16 +10,20 @@ const Board_list = ({ }) => {
     const [showSearch, setShowSearch] = useState(true);
     const [posts, setPosts] = useState([]);
     const [selectedPostId, setSelectedPostId] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [nextPageUrl, setNextPageUrl] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         fetchGetData();
-    }, []);
+    }, [currentPage]);
 
     // 게시물 데이터를 불러오는 함수
     const fetchGetData = async () => {
-        axios.get(`http://127.0.0.1:8000/api/posts/`)
+        axios.get(`http://127.0.0.1:8000/api/posts/?page=${currentPage}&search=${searchQuery}`)
             .then(response => {
-                setPosts(response.data);
+                setPosts(response.data.results);
+                setNextPageUrl(response.data.next);
             })
             .catch(error => {
                 console.error('Error fetching post data:', error);
@@ -54,6 +58,11 @@ const Board_list = ({ }) => {
                 />;
     }
 
+    const handleSearch = () => {
+        setCurrentPage(1); // 검색 시 첫 페이지로 리셋
+        fetchGetData();
+    };
+
     return (
         <div className="container mx-auto px-4">
             {/* 상단 버튼과 검색 창 */}
@@ -68,11 +77,16 @@ const Board_list = ({ }) => {
                     {showSearch && (
                         <>
                             <input
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                value={searchQuery}
                                 type="text"
                                 placeholder="검색어를 입력하세요"
                                 className="p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                             />
-                            <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded ml-2 transition duration-300 ease-in-out">
+                            <button 
+                                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded ml-2 transition duration-300 ease-in-out"
+                                onClick={handleSearch}
+                            >
                                 검색
                             </button>
                         </>
@@ -89,7 +103,7 @@ const Board_list = ({ }) => {
                     <thead className="bg-gray-100">
                         <tr>
                             <th className="border-b-2 border-gray-200 p-4 text-center">번호</th>
-                            <th className="border-b-2 border-gray-200 p-4 text-center">제목</th>
+                            <th className="border-b-2 border-gray-200 p-4 text-center w-1/2">제목</th>
                             <th className="border-b-2 border-gray-200 p-4 text-center">작성자</th>
                             <th className="border-b-2 border-gray-200 p-4 text-center">작성 시간</th>
                         </tr>
@@ -107,7 +121,22 @@ const Board_list = ({ }) => {
                 </table>
             </div>
             )}
-    
+            <div className="text-center my-6">
+                <button 
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                    hidden={currentPage === 1}
+                    className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out mr-2"
+                >
+                    이전
+                </button>
+                <button 
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                    hidden={!nextPageUrl}
+                    className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
+                >
+                    다음
+                </button>
+            </div>
             {/* 작성하기 버튼 */}
             <div className="text-right my-6">
                 {showSearch && (
