@@ -26,20 +26,20 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {/* 책 목록 렌더링 */}
         {currentBooks.map(book => (
-
+          <button>
           <div key={book.id}
 
             className="relative group overflow-hidden rounded-lg"
             onClick={() => showBookDetails(book.id)}>
-
+            
             {/* 책 정보 렌더링 */}
             <Card style={{
-              backgroundImage: 'url(https://edu.chosun.com/site/data/img_dir/2011/01/24/2011012401165_0.jpg)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-              minHeight: '250px'
-            }}>
+                backgroundImage: `url(${book.img_path})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center', // 이미지 중앙 정렬
+                backgroundRepeat: 'no-repeat',
+                minHeight: '250px'
+              }}>
               <CardHeader>
                 <Avatar className="w-12 h-12" src="/placeholder.svg?height=100&width=100" />
               </CardHeader>
@@ -47,7 +47,7 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
                 {/* 여기에 추가 정보 표시 */}
               </CardContent>
             </Card>
-
+            
             {/* 밑은 호버 띄우기 */}
             <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
               onClick={() =>
@@ -56,9 +56,12 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
               <h2 className="text-white ml-4 text-lg font-semibold">
                 {book.book_name}
               </h2>
-              <p className="text-white text-lg">바로가기</p>
+              <h1 className="text-white text-lg">
+                {book.author}
+              </h1>
             </div>
           </div>
+          </button>
         ))}
       </div >
       {/* 페이지네이션 버튼 */}

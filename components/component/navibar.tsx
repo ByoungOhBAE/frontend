@@ -85,6 +85,13 @@ export function Navibar({ setSelecteCompoId }) {
             </NavigationMenuLink> */}
             <NavigationMenuLink asChild>
               <div className="flex space-x-4">
+                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(12)}>
+                  <button className="ml-2 font-semibold text-lg">게시판 목록</button>
+                </div>
+              </div>
+            </NavigationMenuLink>
+            <NavigationMenuLink asChild>
+              <div className="flex space-x-4">
                 <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(3)}>
                   <button className="ml-2 font-semibold text-lg">마이페이지</button>
                 </div>
@@ -127,13 +134,7 @@ export function Navibar({ setSelecteCompoId }) {
                 </div>
               </div>
             </NavigationMenuLink> */}
-            <NavigationMenuLink asChild>
-              <div className="flex space-x-4">
-                <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={() => setSelecteCompoId(12)}>
-                  <button className="ml-2 font-semibold text-lg">게시판 목록</button>
-                </div>
-              </div>
-            </NavigationMenuLink>
+            
             <NavigationMenuLink asChild>
               <div className="flex space-x-4">
                 <div className="group block rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={handleLogout}>

@@ -74,7 +74,7 @@ const Board_update = ({ onCancel, goBack, postId, PostTitle, PostContent, fetchG
                     <TextEditor content={postContent} setContent={setPostContent} />
                     
                 </div>
-                <div className='mb-4'>
+                {/* <div className='mb-4'>
                     <label htmlFor='fileInput' className='block text-sm font-bold text-gray-700 mb-2'>
                         첨부파일
                     </label>
@@ -85,7 +85,7 @@ const Board_update = ({ onCancel, goBack, postId, PostTitle, PostContent, fetchG
                         className="p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 w-full"
                         onChange={handleFileChange}
                     />
-                </div>
+                </div> */}
                 {/* 작성 완료 버튼 */}
                 <div className='flex justify-end'>
                 <Button
