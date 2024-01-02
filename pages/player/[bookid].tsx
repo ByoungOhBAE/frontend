@@ -93,17 +93,13 @@ const BookPage = ({bookid}) => {
     <>
       <main className="flex flex-col md:flex-row gap-2 md:gap-2 min-h-screen">
         <aside className="md:w-1/2 h-screen p-10">
+          {book.map(detail => (
           <Card className="rounded-md bg-white dark:bg-gray-800 border-2 ">
-            <CardHeader>
-              <h2 className="text-2xl font-semibold leading-7 dark:text-white">Book Title</h2>
-            </CardHeader>
             <CardContent className="flex flex-col h-full">
               <ScrollArea className="flex-1 mt-6 w-full rounded-md border max-h-full overflow-auto">
                 <div className="p-4 text-sm">
-                  <p className="mt-4 leading-7">시골 쥐가 서울 구경을 올라왔습니다. 처음 길이라 허둥허둥하면서,짐차를 두 번 세 번이나 갈아타고, 간신히 서울까지 왔습니다. 직행차를 타면 빨리 온다는 말도 들었지만, 그래도 짐차를 타야 먹을 것이 많고
-                    사람의 눈에 들킬 염려도 적으므로, 짐차를 타고 온 것이었습니다. 기차가 한강 철교를 건널 때에는 어떻게 무서운 소리가 크게 나는지, 어지러워서 내려다보지도 못하고 왔지마는, 서울까지 다 왔다는 말을 들을
-                    때에는 기쁜 것 같고 시원한 것 같으면서도, 가슴이 울렁울렁하였습니다. 남대문 정거장에 내려서, 자아 인제 어디로 가야 하나 하고 망설이고 섰노라니까,  “여보, 여보!”
-                    하고, 뒤에서 부르는 소리가 들렸습니다. 보니까, 이름은 몰라도 역시 자기와 같은 쥐이므로 할아버지나 만난 것처럼 기뻐서, “처음 뵙습니다만, 길을 좀 아르켜 주십시오. 서울은 시골서 처음 올라와서 그럽니다.” 하고, 애걸하듯이 물었습니다. “글쎄, 처음부터 당신이 시골서 처음 온 양반인 줄 짐작했습니다. 서울구경하러 올라오셨구려”
+                  <p className="mt-4 leading-7">
+                    {detail.content}
                   </p>
                 </div>
               </ScrollArea>
@@ -132,6 +128,7 @@ const BookPage = ({bookid}) => {
 
             </CardContent>
           </Card>
+          ))}
         </aside>
         <aside className="md:w-1/2 h-screen p-10">
           <img
