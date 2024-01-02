@@ -51,22 +51,23 @@ export default function Mainpage({ }) {
   };
 
   return (
+    
+      <div className="min-h-svh  bg-cover bg-center" style={backgroundStyle}>
+        {/* 프로젝트 제목 */}
+        <div className="flex justify-between items-center p-3 bg-white dark:bg-gray-900">
+          <Navibar setSelecteCompoId={setSelecteCompoId} />
+        </div>
 
-    <div className="min-h-svh  bg-cover bg-center" style={backgroundStyle}>
-      {/* 프로젝트 제목 */}
-      <div className="flex justify-between items-center p-3 bg-white dark:bg-gray-900">
-        <Navibar setSelecteCompoId={setSelecteCompoId} />
+        <div className="px-12 py-8 min-w-full bg-[#FF4F6]">
+
+          <main className="">
+            <div>
+              {renderContent()}
+            </div>
+          </main>
+        </div>
       </div>
-
-      <div className="px-12 py-8 min-w-full bg-[#FF4F6]">
-
-        <main className="">
-          <div>
-            {renderContent()}
-          </div>
-        </main>
-      </div>
-    </div>
+    
   );
 }
 export async function getServerSideProps(context) {

@@ -4,8 +4,8 @@ import { Avatar } from "@/components/ui/avatar";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
 import { useBookList } from '@/components/component/book_compo/usebooklist';
 import { useRouter } from 'next/navigation';
-import { useParams } from 'next/navigation'
-import { useSearchParams } from 'next/navigation';
+import { CSSTransition } from 'react-transition-group';
+
 const PER_PAGE = 8;
 
 export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
