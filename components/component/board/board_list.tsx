@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button } from "@/components/ui/button";
-import Board_write from "@/components/component/board_write";
+import Board_write from "@/components/component/board/board_write";
 import Board_detail from './board_detail';
 
 const Board_list = ({ }) => {

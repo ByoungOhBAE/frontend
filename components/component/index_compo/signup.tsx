@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import axios from 'axios';
 import router from 'next/router';
-import Modal from '@/components/component/modal';
+import Modal from '@/components/component/index_compo/modal';
 import './modal.css';
 import termsContent from './termsContent';
 import privacyContent from './privacyContent';

@@ -3,8 +3,8 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import  Login  from "@/components/component/login";
-import { Signup } from "@/components/component/signup";
+import  Login  from "@/components/component/index_compo/login";
+import { Signup } from "@/components/component/index_compo/signup";
 // import Booklist from '@/pages/booklist';
 import './globals.css'
 // 임포트 중괄호 규칙 다름 북리스트는 중괄호 넣으면 오류남

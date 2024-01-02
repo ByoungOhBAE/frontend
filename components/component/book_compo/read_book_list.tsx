@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
-import { useBookList } from '@/components/component/usebooklist';
+import { useBookList } from '@/components/component/book_compo/usebooklist';
 
 const PER_PAGE = 8;
 

@@ -1,14 +1,14 @@
 "use client"
-import { Navibar } from '@/components/component/navibar';
+import { Navibar } from '@/components/component/index_compo/navibar';
 import React, { useState } from 'react';
-import Board_write from '@/components/component/board_detail';
-import Book_list from '@/components/component/book_list';
-import Mypage from '@/components/component/mypage';
-import Board_update from '@/components/component/board_update';
-import Userwritepage from '@/components/component/userwritepage';
-import Quiz_image from '@/components/component/quiz_image';
-import Board_list from '@/components/component/board_list';
-import Quiz from '@/components/component/quiz';
+import Board_write from '@/components/component/board/board_detail';
+import Book_list from '@/components/component/book_compo/book_list';
+import Mypage from '@/components/component/mypage_compo/mypage';
+import Board_update from '@/components/component/board/board_update';
+import Userwritepage from '@/components/component/board/userwritepage';
+import Quiz_image from '@/components/component/book_compo/quiz_image';
+import Board_list from '@/components/component/board/board_list';
+import Quiz from '@/components/component/book_compo/quiz';
 import Player from '@/pages/player/[bookid]';
 import { useRouter } from 'next/navigation';
 import './globals.css'
@@ -16,10 +16,10 @@ export default function Mainpage({ }) {
   const [SelecteCompoId, setSelecteCompoId] = useState<number | null>(0);
   const [selectedBookId, setSelectedBookId] = useState(null);
   const router = useRouter();
- 
 
 
- 
+
+
 
 
   const renderContent = () => {
@@ -35,7 +35,7 @@ export default function Mainpage({ }) {
       case 5:
         return <Userwritepage bookId={selectedBookId} setSelecteCompoId={setSelecteCompoId} />;
       case 6:
-        return  router.push('/player/?history=${selectedBookId}');
+        return router.push('/player/?history=${selectedBookId}');
 
       case 10:
         return <Quiz bookId={1} setSelecteCompoId={setSelecteCompoId} />;
@@ -57,20 +57,15 @@ export default function Mainpage({ }) {
 
   return (
 
-    <div className="min-h-screen p-6 lg:p-10 bg-cover bg-center" style={backgroundStyle}>
+    <div className="min-h-svh  bg-cover bg-center" style={backgroundStyle}>
       {/* 프로젝트 제목 */}
-
-
-      <div className="text-center mb-8">
-        <h2 className="text-5xl font-bold text-gray-800">
-          BooKids
-        </h2>
+      <div className="flex justify-between items-center p-3 bg-white dark:bg-gray-900">
+        <Navibar setSelecteCompoId={setSelecteCompoId} />
       </div>
 
+      <div className="px-12 py-8 min-w-full bg-[#FF4F6]">
 
-      <div className="min-h-screen min-w-full bg-[#FF4F6]">
-        <Navibar setSelecteCompoId={setSelecteCompoId} />
-        <main className="p-4">
+        <main className="">
           <div>
             {renderContent()}
           </div>

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import Booklist from "@/components/component/book_history";
+import Booklist from "@/components/component/mypage_compo/book_history";
 
 const Mypage = ({
     setSelecteCompoId,

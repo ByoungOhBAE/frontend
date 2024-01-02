@@ -2,7 +2,7 @@
 "use client";
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import  LoadingPage  from '@/components/component/loading-page';
+import  LoadingPage  from '@/components/component/index_compo/loading-page';
 // import Booklist from '@/pages/booklist';
 export default function Home() {
     const router = useRouter();
