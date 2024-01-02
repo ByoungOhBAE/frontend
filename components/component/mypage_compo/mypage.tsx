@@ -201,8 +201,19 @@ const Mypage = ({
                                 {/* <p className="forced-colors:block hidden">
                                     {theme.charAt(0).toUpperCase() + theme.slice(1)}
                                 </p> */}
-                                <span>{theme.charAt(0).toUpperCase() + theme.slice(1)}</span>
-                                <div className={`h-6 w-6 rounded-full bg-${theme}-200`}></div>
+                                {/* <span>{theme.charAt(0).toUpperCase() + theme.slice(1)}</span>
+                                <div className={`h-6 w-6 rounded-full bg-${theme}-200`}></div> */}
+                                <div
+                                    className={`h-6 w-6 rounded-full border border-gray-300 hover:border-gray-400 cursor-pointer flex items-center justify-center relative`}
+                                    style={{
+                                        backgroundColor: selectedTheme === theme ? `var(--${theme}-200)` : "white",
+                                    }}
+                                    title={theme.charAt(0).toUpperCase() + theme.slice(1)}
+                                >
+                                    {selectedTheme === theme && (
+                                        <div className={`h-4 w-4 rounded-full ${selectedTheme === theme ? `bg-${theme}-500` : "bg-gray-300"} absolute`}></div>
+                                    )}
+                                </div>
                             </label>
                         ))}
                     </div>
