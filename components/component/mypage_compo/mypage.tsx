@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import Booklist from "@/components/component/mypage_compo/book_history";
+import BookHistory from "@/components/component/mypage_compo/book_history";
 
 const Mypage = ({
     setSelecteCompoId,
@@ -228,10 +228,7 @@ const Mypage = ({
                     <div className="h-full border-2 border-dashed border-gray-300 rounded">
                         <div className="flex h-full items-center justify-center">
                             {/* Booklist 컴포넌트에 북리스트 전달 */}
-                            <Booklist
-                                bookList={bookList}
-                                setSelecteCompoId={setSelecteCompoId}
-                            />
+                            <BookHistory setSelecteCompoId={setSelecteCompoId} />
                         </div>
                     </div>
                 )}

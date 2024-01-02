@@ -10,17 +10,20 @@ const PER_PAGE = 8;
 
 export default function Book_history({ setSelecteCompoId, setSelectedBookId }) {
 
-
-  const PER_PAGE = 8;
   const [currentPage, setCurrentPage] = useState(1);
-  const { bookList } = useBookList();
+  const { bookList } = useBookList(); // 모든 책 목록을 가져옵니다.
+  // 사용자가 읽은 책만 필터링합니다.
 
   const router = useRouter();
   const showBookDetails = (BookId) => {
     router.push(`/player/${BookId}`);
   };
-  const currentBooks = bookList ? bookList.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE) : [];
-  const totalPages = bookList ? Math.ceil(bookList.length / PER_PAGE) : 0;
+
+  // 사용자가 읽은 책만 필터링합니다.
+  const readBooks = bookList.filter(book => book.read); 
+  const currentBooks = readBooks ? readBooks.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE) : [];
+  const totalPages = readBooks ? Math.ceil(readBooks.length / PER_PAGE) : 0;
+
   return (
     <div>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
