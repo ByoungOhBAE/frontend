@@ -43,7 +43,7 @@ export function Navibar({ setSelecteCompoId }) {
 
           {/* 이부분은 화면이 작아졌을때 */}
           <SheetContent side="left" className="fixed top-0 left-0 z-50 bg-white shadow-lg">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
+            <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
 
               북키즈
             </h2>
@@ -68,7 +68,7 @@ export function Navibar({ setSelecteCompoId }) {
         {/* 밑부분은 화면이 클때 */}
 
         
-        <div className="text-4xl font-bold text-gray-800 dark:text-gray-200">
+        <div className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
           <h2>
             Bookids
           </h2>
