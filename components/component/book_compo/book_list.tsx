@@ -23,7 +23,7 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
   const totalPages = bookList ? Math.ceil(bookList.length / PER_PAGE) : 0;
   return (
     <div className="mx-3 my-3 p-3 bg-slate-200/90 rounded-lg">
-      <div className=" mx-3 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className=" mx-3 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 ">
         {/* 책 목록 렌더링 */}
         {currentBooks.map(book => (
           <button>
