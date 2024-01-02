@@ -6,7 +6,6 @@ import Book_list from '@/components/component/book_compo/book_list';
 import Mypage from '@/components/component/mypage_compo/mypage';
 import Board_update from '@/components/component/board/board_update';
 import Userwritepage from '@/components/component/board/userwritepage';
-import Quiz_image from '@/components/component/book_compo/quiz_image';
 import Board_list from '@/components/component/board/board_list';
 import { useRouter } from 'next/navigation';
 import './globals.css'
@@ -34,8 +33,6 @@ export default function Mainpage({ }) {
         return <Userwritepage bookId={selectedBookId} setSelecteCompoId={setSelecteCompoId} />;
       case 6:
         return router.push('/player/?history=${selectedBookId}');
-      case 11:
-        return <Quiz_image bookId={1} setSelecteCompoId={setSelecteCompoId} />;
       case 12:
         return <Board_list bookId={1} setSelecteCompoId={setSelecteCompoId} />;
       default:

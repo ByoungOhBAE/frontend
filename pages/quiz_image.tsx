@@ -3,8 +3,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import AudioPlayer from 'react-audio-player';
 import { Button } from "@/components/ui/button";
+import { useRouter } from 'next/navigation';
 
 const Quiz_image = ({ bookId, setSelectedCompoId }) => {
+    const router = useRouter();
     const [book, setBook] = useState(null);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const audioRef = useRef();
@@ -21,16 +23,12 @@ const Quiz_image = ({ bookId, setSelectedCompoId }) => {
         }
     }, [bookId]);
 
-    const goToNextPage = () => {
-        if (currentPageIndex < book.BookDetail.length - 1) {
-            setCurrentPageIndex(currentPageIndex + 1);
-        }
+    const goToPrevPage = () => {
+        router.back();
     };
 
-    const goToPreviousPage = () => {
-        if (currentPageIndex > 0) {
-            setCurrentPageIndex(currentPageIndex - 1);
-        }
+    const goToMainPage = () => {
+        router.replace('/');
     };
 
     const togglePlayPause = () => {
@@ -93,7 +91,7 @@ const Quiz_image = ({ bookId, setSelectedCompoId }) => {
                     {/* 버튼 컨테이너 */}
                     <div className="flex justify-between mt-6">
                         <div className="buttons-container flex justify-center mt-3">
-                            <button className="flex items-center justify-center px-7 py-3 text-lg font-semibold cursor-pointer border-0 rounded-lg bg-blue-500 text-white shadow-md transition duration-300 hover:bg-blue-600 mr-3">
+                            <button onClick={goToPrevPage} className="flex items-center justify-center px-7 py-3 text-lg font-semibold cursor-pointer border-0 rounded-lg bg-blue-500 text-white shadow-md transition duration-300 hover:bg-blue-600 mr-3">
                                 <svg className="w-7 h-7 mr-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
@@ -111,7 +109,7 @@ const Quiz_image = ({ bookId, setSelectedCompoId }) => {
                                 </svg>
                                 말하기
                             </button>
-                            <button className="flex items-center justify-center px-7 py-3 text-lg font-semibold cursor-pointer border-0 rounded-lg bg-gray-500 text-white shadow-md transition duration-300 hover:bg-gray-600">
+                            <button onClick={goToMainPage} className="flex items-center justify-center px-7 py-3 text-lg font-semibold cursor-pointer border-0 rounded-lg bg-gray-500 text-white shadow-md transition duration-300 hover:bg-gray-600">
                                 <span className="mr-2">종료</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />

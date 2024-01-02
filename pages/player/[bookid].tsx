@@ -53,7 +53,7 @@ const BookPage = ({bookid}) => {
                 // setNextPageUrl(response.data.next);
             })
             .catch(error => {
-                console.error('Error fetching post data:', error);
+                router.push('/quiz');
             });
     };
 
@@ -61,10 +61,15 @@ const BookPage = ({bookid}) => {
         isPlayerVisible ? 'opacity-100 visible' : 'opacity-0 visible'
     }`;
 
-    const AudioEnd = () => {
+    const NextPage = () => {
         setCurrentPage(currentPage + 1);
-        // router.push('/quiz');
     }
+    const PrevPage = () => {
+      if (currentPage <= 1) return;
+      setCurrentPage(currentPage - 1);
+      // router.push('/quiz');
+  }
+
     const imageContainerStyle = {
         backgroundImage: 'url("/image/mouse2.png")',
         backgroundSize: 'cover',
@@ -111,13 +116,18 @@ const BookPage = ({bookid}) => {
                   onMouseEnter={() => setIsPlayerVisible(true)}
                   onMouseLeave={() => setIsPlayerVisible(false)}
                 >
+
                   <AudioPlayer
                     ref={audioPlayerRef}
                     src="/audio/mouse.mp3"
                     autoPlay={isReadyToPlay}
-                    showJumpControls={true}
+                    showJumpControls={false}
                     preload="none"
-                    onEnded={AudioEnd}
+                    onEnded={NextPage}
+                    onClickNext={NextPage}
+                    onClickPrevious={PrevPage}
+                    showSkipControls={true}
+                    autoPlayAfterSrcChange={false}
                   // autoPlay={false}
                   // customAdditionalControls={[]} // 추가 컨트롤을 빈 배열로 설정하여 숨김
                   // 필요한 경우 다른 props 추가
