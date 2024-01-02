@@ -120,6 +120,22 @@
   visibility: hidden; /* 볼륨 바를 숨길 때 */
 }
 
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+
 .progress-bar::-webkit-slider-thumb, .volume-bar::-webkit-slider-thumb {
   -webkit-appearance: none; /* 슬라이더 핸들의 기본 스타일을 제거합니다. */
   appearance: none;

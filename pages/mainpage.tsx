@@ -8,8 +8,6 @@ import Board_update from '@/components/component/board/board_update';
 import Userwritepage from '@/components/component/board/userwritepage';
 import Quiz_image from '@/components/component/book_compo/quiz_image';
 import Board_list from '@/components/component/board/board_list';
-import Quiz from '@/components/component/book_compo/quiz';
-import Player from '@/pages/player/[bookid]';
 import { useRouter } from 'next/navigation';
 import './globals.css'
 export default function Mainpage({ }) {
@@ -36,9 +34,6 @@ export default function Mainpage({ }) {
         return <Userwritepage bookId={selectedBookId} setSelecteCompoId={setSelecteCompoId} />;
       case 6:
         return router.push('/player/?history=${selectedBookId}');
-
-      case 10:
-        return <Quiz bookId={1} setSelecteCompoId={setSelecteCompoId} />;
       case 11:
         return <Quiz_image bookId={1} setSelecteCompoId={setSelecteCompoId} />;
       case 12:
@@ -56,22 +51,23 @@ export default function Mainpage({ }) {
   };
 
   return (
+    
+      <div className="min-h-svh  bg-cover bg-center" style={backgroundStyle}>
+        {/* 프로젝트 제목 */}
+        <div className="flex justify-between items-center p-3 bg-white dark:bg-gray-900">
+          <Navibar setSelecteCompoId={setSelecteCompoId} />
+        </div>
 
-    <div className="min-h-svh  bg-cover bg-center" style={backgroundStyle}>
-      {/* 프로젝트 제목 */}
-      <div className="flex justify-between items-center p-3 bg-white dark:bg-gray-900">
-        <Navibar setSelecteCompoId={setSelecteCompoId} />
+        <div className="px-12 py-8 min-w-full bg-[#FF4F6]">
+
+          <main className="">
+            <div>
+              {renderContent()}
+            </div>
+          </main>
+        </div>
       </div>
-
-      <div className="px-12 py-8 min-w-full bg-[#FF4F6]">
-
-        <main className="">
-          <div>
-            {renderContent()}
-          </div>
-        </main>
-      </div>
-    </div>
+    
   );
 }
 export async function getServerSideProps(context) {

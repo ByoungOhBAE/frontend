@@ -43,18 +43,18 @@ export function Navibar({ setSelecteCompoId }) {
 
           {/* 이부분은 화면이 작아졌을때 */}
           <SheetContent side="left" className="fixed top-0 left-0 z-50 bg-white shadow-lg">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
+            <h2 className="text-2xl font-bold bg-clip-text justify-center text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
 
               북키즈
             </h2>
             <div className="grid gap-2 py-6">
-              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(1)}>
+              <div className="flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 rounded-lg" onClick={() => setSelecteCompoId(1)}>
                 북리스트
               </div>
-              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(3)}>
+              <div className="flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 rounded-lg" onClick={() => setSelecteCompoId(3)}>
                 마이페이지
               </div>
-              <div className="flex w-full items-center py-2 text-lg font-semibold" onClick={() => setSelecteCompoId(12)}>
+              <div className="flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 rounded-lg" onClick={() => setSelecteCompoId(12)}>
                 게시판 목록
               </div>
 
@@ -68,7 +68,7 @@ export function Navibar({ setSelecteCompoId }) {
         {/* 밑부분은 화면이 클때 */}
 
         
-        <div className="text-4xl font-bold text-gray-800 dark:text-gray-200">
+        <div className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
           <h2>
             Bookids
           </h2>

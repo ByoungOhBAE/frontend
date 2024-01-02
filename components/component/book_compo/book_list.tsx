@@ -4,8 +4,8 @@ import { Avatar } from "@/components/ui/avatar";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
 import { useBookList } from '@/components/component/book_compo/usebooklist';
 import { useRouter } from 'next/navigation';
-import { useParams } from 'next/navigation'
-import { useSearchParams } from 'next/navigation';
+import { CSSTransition } from 'react-transition-group';
+
 const PER_PAGE = 8;
 
 export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
@@ -35,10 +35,12 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
             {/* 책 정보 렌더링 */}
             <Card style={{
                 backgroundImage: `url(${book.img_path})`,
+                backgroundOrigin: 'padding-box',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center', // 이미지 중앙 정렬
                 backgroundRepeat: 'no-repeat',
-                minHeight: '250px'
+                minHeight: '220px',
+                
               }}>
               <CardHeader>
                 <Avatar className="w-12 h-12" src="/placeholder.svg?height=100&width=100" />
