@@ -7,56 +7,99 @@
 import { CardHeader, CardContent, Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { useRouter, useSearchParams, useParams } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams, useParams } from 'next/navigation';
 import React, { useState, useRef, useEffect } from 'react';
 import '../globals.css'
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
+import axios from 'axios';
+import { GetServerSideProps } from 'next';
 
-const BookPage = () => {
-  const router = useRouter();
-  const [isPlayerVisible, setIsPlayerVisible] = useState(false);
-  const [isReadyToPlay, setIsReadyToPlay] = useState(false);
-  const audioPlayerRef = useRef(null);
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const { bookid } = context.query;
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsReadyToPlay(true);
-      if (audioPlayerRef.current) {
-        audioPlayerRef.current.audio.current.play();
-      }
-    }, 1000); // 1초 뒤에 재생 시작
+  return {
+    props: { bookid }, // 이 부분에서 bookid를 props로 전달합니다.
+  };
+};
 
-    return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 해제
-  }, []);
+const BookPage = ({bookid}) => {
+    const router = useRouter();
+    const [isPlayerVisible, setIsPlayerVisible] = useState(false);
+    const [isReadyToPlay, setIsReadyToPlay] = useState(false);
+    const audioPlayerRef = useRef(null);
+    const [book, setBook] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
+    useEffect(() => {
+        fetchGetData(bookid);
+        const timer = setTimeout(() => {
+            setIsReadyToPlay(true);
+            if (audioPlayerRef.current) {
+                // audioPlayerRef.current.audio.current.play();
+            }
+        }, 1000); // 1초 뒤에 재생 시작
 
+        return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 해제
+    }, [currentPage]);
+    
+    // 줄거리 데이터 가지고 오기
+    const fetchGetData = async (bookid) => {
+        axios.get(`http://127.0.0.1:8000/api/BookDetail/${bookid}?page=${currentPage}`)
+            .then(response => {
+                setBook(response.data.results);
+                console.log(response.data.results);
+                // setPosts(response.data.results);
+                // setNextPageUrl(response.data.next);
+            })
+            .catch(error => {
+                console.error('Error fetching post data:', error);
+            });
+    };
 
-  const AudioEnd = () => {
-    router.push('/quiz');
-  }
+    const playerContainerStyle = `fixed bottom-0 w-full px-4 py-2 bg-white shadow-md transition-all duration-500 ease-in-out ${
+        isPlayerVisible ? 'opacity-100 visible' : 'opacity-0 visible'
+    }`;
 
+    const AudioEnd = () => {
+        setCurrentPage(currentPage + 1);
+        // router.push('/quiz');
+    }
+    const imageContainerStyle = {
+        backgroundImage: 'url("/image/mouse2.png")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        width: '50%',
+        height: '100%',
+        borderRadius: '50% / 5%',
+        border: '2px solid black',
 
-
-
-
-
+    };
+    const textContainerStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '50% / 5%',
+        backgroundColor: 'ivory',
+        color: 'black',
+        width: '50%',
+        height: '100%',
+        padding: '20px',
+        lineHeight: '2',
+        border: '2px solid black',
+    };
 
   return (
     <>
       <main className="flex flex-col md:flex-row gap-2 md:gap-2 min-h-screen">
         <aside className="md:w-1/2 h-screen p-10">
+          {book.map(detail => (
           <Card className="rounded-md bg-white dark:bg-gray-800 border-2 ">
-            <CardHeader>
-              <h2 className="text-2xl font-semibold leading-7 dark:text-white">Book Title</h2>
-            </CardHeader>
             <CardContent className="flex flex-col h-full">
               <ScrollArea className="flex-1 mt-6 w-full rounded-md border max-h-full overflow-auto">
                 <div className="p-4 text-sm">
-                  <p className="mt-4 leading-7">시골 쥐가 서울 구경을 올라왔습니다. 처음 길이라 허둥허둥하면서,짐차를 두 번 세 번이나 갈아타고, 간신히 서울까지 왔습니다. 직행차를 타면 빨리 온다는 말도 들었지만, 그래도 짐차를 타야 먹을 것이 많고
-                    사람의 눈에 들킬 염려도 적으므로, 짐차를 타고 온 것이었습니다. 기차가 한강 철교를 건널 때에는 어떻게 무서운 소리가 크게 나는지, 어지러워서 내려다보지도 못하고 왔지마는, 서울까지 다 왔다는 말을 들을
-                    때에는 기쁜 것 같고 시원한 것 같으면서도, 가슴이 울렁울렁하였습니다. 남대문 정거장에 내려서, 자아 인제 어디로 가야 하나 하고 망설이고 섰노라니까,  “여보, 여보!”
-                    하고, 뒤에서 부르는 소리가 들렸습니다. 보니까, 이름은 몰라도 역시 자기와 같은 쥐이므로 할아버지나 만난 것처럼 기뻐서, “처음 뵙습니다만, 길을 좀 아르켜 주십시오. 서울은 시골서 처음 올라와서 그럽니다.” 하고, 애걸하듯이 물었습니다. “글쎄, 처음부터 당신이 시골서 처음 온 양반인 줄 짐작했습니다. 서울구경하러 올라오셨구려”
+                  <p className="mt-4 leading-7">
+                    {detail.content}
                   </p>
                 </div>
               </ScrollArea>
@@ -85,6 +128,7 @@ const BookPage = () => {
 
             </CardContent>
           </Card>
+          ))}
         </aside>
         <aside className="md:w-1/2 h-screen p-10">
           <img
