@@ -66,29 +66,6 @@ const Board_list = ({ }) => {
 
     return (
         <div className="container mx-auto px-4" style={{ minHeight: "580px" }}>
-            {/* 상단 버튼과 검색 창
-            <div className="flex justify-between items-center my-6">
-                <div className="flex justify-end w-full">
-                    {showSearch && (
-                        <>
-                            <input
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                value={searchQuery}
-                                type="text"
-                                placeholder="검색어를 입력하세요"
-                                className="p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-                            />
-                            <button 
-                                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded ml-2 transition duration-300 ease-in-out"
-                                onClick={handleSearch}
-                            >
-                                검색
-                            </button>
-                        </>
-                    )}
-                </div>
-            </div> */}
-    
             {/* 테이블 or 작성 폼 */}
             {showWrite ? (
                 <Board_write onCancel={() => {setShowWrite(false); setShowSearch(true);}} fetchGetData={fetchGetData} />
