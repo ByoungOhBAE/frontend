@@ -82,6 +82,7 @@ const BookPage = () => {
                     autoPlay={isReadyToPlay}
                     showJumpControls={false} 
                     preload="none"
+                    onEnded={AudioEnd}
                     // autoPlay={false}
                     // customAdditionalControls={[]} // 추가 컨트롤을 빈 배열로 설정하여 숨김
                     // 필요한 경우 다른 props 추가
