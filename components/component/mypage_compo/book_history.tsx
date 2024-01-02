@@ -25,7 +25,6 @@ export default function Book_history({ setSelecteCompoId, setSelectedBookId }) {
   const totalPages = bookHistory ? Math.ceil(bookHistory.length / PER_PAGE) : 0;
 
   console.log('bookHistory:', currentBooks);
-
   return (
     <div className="mx-3 my-3 p-3 bg-slate-200/90 rounded-lg">
       <div className=" mx-3 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -36,10 +35,9 @@ export default function Book_history({ setSelecteCompoId, setSelectedBookId }) {
 
             className="relative group overflow-hidden rounded-lg"
             onClick={() => showBookDetails(book.id)}>
-            
             {/* 책 정보 렌더링 */}
             <Card style={{
-                backgroundImage: `url(${book.BookList.img_path})`,
+                backgroundImage: `url(${'http://127.0.0.1:8000'+book.BookList.img_path})`,
                 backgroundOrigin: 'padding-box',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center', // 이미지 중앙 정렬
