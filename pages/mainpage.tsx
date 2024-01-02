@@ -58,7 +58,7 @@ export default function Mainpage({ }) {
           <Navibar setSelecteCompoId={setSelecteCompoId} />
         </div>
 
-        <div className="px-12 py-8 min-w-full bg-[#FF4F6]">
+        <div className="px-12 pt-8 min-w-full bg-[#FF4F6]">
 
           <main className="">
             <div>

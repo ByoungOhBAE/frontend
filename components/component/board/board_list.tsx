@@ -6,6 +6,7 @@ import Board_write from "@/components/component/board/board_write";
 import Board_detail from './board_detail';
 
 const Board_list = ({ }) => {
+    const PER_PAGE = 7;
     const [showWrite, setShowWrite] = useState(false);
     const [showSearch, setShowSearch] = useState(true);
     const [posts, setPosts] = useState([]);
@@ -22,7 +23,7 @@ const Board_list = ({ }) => {
     const fetchGetData = async () => {
         axios.get(`http://127.0.0.1:8000/api/posts/?page=${currentPage}&search=${searchQuery}`)
             .then(response => {
-                setPosts(response.data.results);
+                setPosts(response.data.results.slice(0, PER_PAGE));
                 setNextPageUrl(response.data.next);
             })
             .catch(error => {
@@ -64,12 +65,61 @@ const Board_list = ({ }) => {
     };
 
     return (
-        <div className="container mx-auto px-4">
-            {/* 상단 버튼과 검색 창 */}
-            <div className="flex justify-between items-center my-6">
-                <div className="flex justify-end w-full">
-                    {showSearch && (
-                        <>
+        <div className="container mx-auto px-4" style={{ minHeight: "580px" }}>
+            {/* 테이블 or 작성 폼 */}
+            {showWrite ? (
+                <Board_write onCancel={() => {setShowWrite(false); setShowSearch(true);}} fetchGetData={fetchGetData} />
+            ) : (
+                <div>
+                    <div className="bg-white p-4 rounded-lg shadow-md" style={{ maxHeight: "500px", overflowY: "auto" }}>
+                        <table className="min-w-full">
+                            <thead className="bg-gray-100">
+                                <tr>
+                                    <th className="border-b-2 border-gray-200 p-4 text-center">번호</th>
+                                    <th className="border-b-2 border-gray-200 p-4 text-center w-1/2">제목</th>
+                                    <th className="border-b-2 border-gray-200 p-4 text-center">작성자</th>
+                                    <th className="border-b-2 border-gray-200 p-4 text-center">작성 시간</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {posts.map(post => (
+                                    <tr key={post.id} className="cursor-pointer hover:bg-gray-50" onClick={() => selectPost(post.id)}>
+                                        <td className="border-b border-gray-200 p-4 text-center">{post.id}</td>
+                                        <td className="border-b border-gray-200 p-4 text-center">{post.title}</td>
+                                        <td className="border-b border-gray-200 p-4 text-center">{post.user_name}</td>
+                                        <td className="border-b border-gray-200 p-4 text-center">{post.created_at}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    {/* 하단 버튼 그룹 */}
+                        <div className="flex justify-between items-center my-6">
+                    {/* 중앙 버튼 그룹: 이전, 다음 버튼 */}
+                        <div className="flex justify-center flex-grow">
+                    {/* 이전 버튼 */}
+                        <button 
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                            hidden={currentPage === 1}
+                            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out mr-2"
+                        >
+                            이전
+                        </button>
+
+                    {/* 다음 버튼 */}
+                        <button 
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                            hidden={!nextPageUrl}
+                            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
+                        >
+                            다음
+                        </button>
+                        </div>
+
+                    {/* 오른쪽 버튼 그룹: 검색창, 검색 버튼, 작성하기 버튼 */}
+                    <div className="flex items-center">
+                        {/* 검색창 */}
+                        {showSearch && (
                             <input
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 value={searchQuery}
@@ -77,75 +127,31 @@ const Board_list = ({ }) => {
                                 placeholder="검색어를 입력하세요"
                                 className="p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                             />
+                        )}
+
+                        {/* 검색 버튼 */}
+                        {showSearch && (
                             <button 
                                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded ml-2 transition duration-300 ease-in-out"
                                 onClick={handleSearch}
                             >
                                 검색
                             </button>
-                        </>
-                    )}
-                </div>
-            </div>
-    
-            {/* 테이블 or 작성 폼 */}
-            {showWrite ? (
-                <Board_write onCancel={() => {setShowWrite(false); setShowSearch(true);}} fetchGetData={fetchGetData} />
-            ) : (
-            <div className="bg-white p-4 rounded-lg shadow-md">
-                <table className="min-w-full">
-                    <thead className="bg-gray-100">
-                        <tr>
-                            <th className="border-b-2 border-gray-200 p-4 text-center">번호</th>
-                            <th className="border-b-2 border-gray-200 p-4 text-center w-1/2">제목</th>
-                            <th className="border-b-2 border-gray-200 p-4 text-center">작성자</th>
-                            <th className="border-b-2 border-gray-200 p-4 text-center">작성 시간</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {posts.map(post => (
-                            <tr key={post.id} className="cursor-pointer hover:bg-gray-50" onClick={() => selectPost(post.id)}>
-                                <td className="border-b border-gray-200 p-4 text-center">{post.id}</td>
-                                <td className="border-b border-gray-200 p-4 text-center">{post.title}</td>
-                                <td className="border-b border-gray-200 p-4 text-center">{post.user_name}</td>
-                                <td className="border-b border-gray-200 p-4 text-center">{post.created_at}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-            )}
-            {showSearch && (
-            <div className="text-center my-6">
-                <button 
-                    onClick={() => setCurrentPage(currentPage - 1)}
-                    hidden={currentPage === 1}
-                    className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out mr-2"
-                >
-                    이전
-                </button>
-                <button 
-                    onClick={() => setCurrentPage(currentPage + 1)}
-                    hidden={!nextPageUrl}
-                    className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
-                >
-                    다음
-                </button>
-            </div>
-            )}
-            {/* 작성하기 버튼 */}
-            <div className="text-right my-6">
-                {showSearch && (
-                        <>
+                        )}
+
+                        {/* 작성하기 버튼 */}
+                        {showSearch && (
                             <Button 
-                                className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
+                                className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out ml-2"
                                 onClick={handleWriteButtonClick}
                             >
                                 작성하기
                             </Button>
-                        </>
-                    )}
-            </div>
+                        )}
+                    </div>
+                </div>
+            </div>    
+        )}
         </div>
     );
 };
