@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
+import { useBookHistory } from '@/components/component/mypage_compo/usebookhistory';
 import { useBookList } from '@/components/component/book_compo/usebooklist';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation'
@@ -11,19 +12,24 @@ const PER_PAGE = 8;
 export default function Book_history({ setSelecteCompoId, setSelectedBookId }) {
 
   const [currentPage, setCurrentPage] = useState(1);
-  const { bookList } = useBookList(); // 모든 책 목록을 가져옵니다.
-  // 사용자가 읽은 책만 필터링합니다.
+  const { bookList } = useBookList();
+  const { bookHistory } = useBookHistory();
 
   const router = useRouter();
   const showBookDetails = (BookId) => {
+    const bookDetails = bookList.find(book => book.id === BookId);
+    setSelectedBookId(bookDetails.id);
+    setSelecteCompoId('bookDetails');
     router.push(`/player/${BookId}`);
   };
-
-  // 사용자가 읽은 책만 필터링합니다.
-  const readBooks = bookList.filter(book => book.read); 
-  const currentBooks = readBooks ? readBooks.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE) : [];
-  const totalPages = readBooks ? Math.ceil(readBooks.length / PER_PAGE) : 0;
-
+  // const currentBooks = bookHistory ? bookHistory.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE) : [];
+  const currentBooks = bookHistory 
+    ? bookHistory.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE).map(bookId => {
+      // bookId를 사용하여 bookList에서 해당 책의 정보를 가져오기
+      return bookList.find(book => book.id === bookId);
+    })
+  : [];
+  const totalPages = bookHistory ? Math.ceil(bookHistory.length / PER_PAGE) : 0;
   return (
     <div className="mx-3 my-3 p-3 bg-slate-200/90 rounded-lg">
       <div className=" mx-3 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -46,7 +52,7 @@ export default function Book_history({ setSelecteCompoId, setSelectedBookId }) {
                 
               }}>
               <CardHeader>
-                <Avatar className="w-screen h-12" src="/placeholder.svg?height=100&width=100" />
+                <Avatar className="w-screen h-12" src="/placeholder.svg?height=100&width=100" />                
               </CardHeader>
               <CardContent>
                 {/* 여기에 추가 정보 표시 */}
