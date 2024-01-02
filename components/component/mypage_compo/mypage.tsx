@@ -84,7 +84,7 @@ const Mypage = ({
         <div
             style={{
                 display: "flex",
-                minHeight: "100vh",
+                height: "580px",
                 backgroundColor: 
                     selectedTheme === "white" 
                         ? "#ffffff"
@@ -104,6 +104,16 @@ const Mypage = ({
             {/* 프로필 & 메뉴 섹션 */}
             <div
                 style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    height: "100%",
+                    justifyContent: "space-between",
+                    padding: "20px",
+                    paddingBottom: "40px", // 바닥여백
+                    minHeight: "600px", // 필요에 따라 조정
+                    borderRadius: "20px",
+                    overflow: "hidden",
                     backgroundColor: 
                         selectedTheme === "white" 
                             ? "#ffffff"
@@ -116,17 +126,12 @@ const Mypage = ({
                             : selectedTheme === "pink" 
                             ? "#fff5f7" 
                             : "#ffffff",
-                    padding: "20px",
-                    width: "25%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
                 }}
             >
                 {/* 프로필 영역 */}
                 <div
                     className="text-center mb-10"
-                    style={{ marginTop: "50px" }}
+                    style={{ width: "100%" }}
                 >
                     {" "}
                     {/* 여기서 마진 탑 조정 */}
@@ -160,6 +165,7 @@ const Mypage = ({
                         justifyContent: "flex-start", // 세로축에서 위쪽 정렬
                         height: "100%", // 전체 높이 설정
                         marginTop: "20px", // 여백을 줄이기 위해 추가 또는 수정
+                        width: "100%",
                     }}
                 >
                     {["bookList", "menu1"].map((menu) => (
@@ -222,7 +228,7 @@ const Mypage = ({
             
 
             {/* 콘텐츠 섹션 */}
-            <div className="flex-1 p-8 bg-gray-200">
+            <div className="flex-1 p-8 bg-gray-200"  style={{ height: '580px', overflow: 'hidden' }}>
                 {/* '내 책 목록' 선택 시 표시될 내용 - 추가된 로직 */}
                 {selectedMenu === "bookList" && (
                     <div className="h-full border-2 border-dashed border-gray-300 rounded">
