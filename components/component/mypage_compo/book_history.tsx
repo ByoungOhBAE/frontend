@@ -22,7 +22,7 @@ export default function Book_history({ setSelecteCompoId, setSelectedBookId }) {
   };
 
   const currentBooks = bookHistory ? bookHistory.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE) : [];
-  const totalPages = bookHistory ? Math.ceil(bookHistory.length / PER_PAGE) : 0;
+  const totalPages = Math.max(Math.ceil((bookHistory?.length || 1) / PER_PAGE), 1);
 
   console.log('bookHistory:', currentBooks);
   return (
