@@ -16,8 +16,8 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
   const { bookList } = useBookList();
 
   const router = useRouter();
-  const showBookDetails = (BookId) => {
-    router.push(`/player/${BookId}`);
+  const showBookDetails = (bookid) => {
+    router.push(`/player/${bookid}`);
   };
   const currentBooks = bookList ? bookList.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE) : [];
   const totalPages = bookList ? Math.ceil(bookList.length / PER_PAGE) : 0;
