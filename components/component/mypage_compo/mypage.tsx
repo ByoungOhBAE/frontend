@@ -138,8 +138,8 @@ const Mypage = ({
                     <div
                         className="rounded-full overflow-hidden mx-auto mb-20"
                         style={{
-                            width: "200px",
-                            height: "200px",
+                            width: "180px",
+                            height: "180px",
                             marginBottom: "30px",
                         }}
                     >
@@ -151,7 +151,7 @@ const Mypage = ({
                         />
                     </div>
                     <h2 className="text-xl font-semibold">{userInfo.name}</h2>
-                    <p className="text-gray-500 mb-10">{userInfo.email}</p>
+                    <p className="text-gray-500 mb-1">{userInfo.email}</p>
                 </div>
 
                 {/* 메뉴 영역 */}
