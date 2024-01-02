@@ -33,9 +33,9 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
             onClick={() => showBookDetails(book.id)}>
             
             {/* 책 정보 렌더링 */}
-            <Card style={{
+            <Card className="border-4 p-4 border-violet-300 border-double" style={{
                 backgroundImage: `url(${book.img_path})`,
-                backgroundOrigin: 'padding-box',
+                backgroundOrigin: 'content-box',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center', // 이미지 중앙 정렬
                 backgroundRepeat: 'no-repeat',
