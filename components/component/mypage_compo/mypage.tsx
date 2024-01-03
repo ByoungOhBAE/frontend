@@ -252,7 +252,7 @@ const Mypage = ({
                                 읽은 책 수: {readBookCount}
                                 <br />푼 퀴즈 수: {quizCount}
                                 <br />
-                                오답율: {wrongpercentage}%
+                                정답율: {100 - wrongpercentage}%
 
                                 {/* 파이 차트 추가 */}
                                 <div className="shadow-lg rounded-lg overflow-hidden">
@@ -265,9 +265,8 @@ const Mypage = ({
                                                 {
                                                     data: [100-wrongpercentage, wrongpercentage],
                                                     backgroundColor: [
-                                                        "rgb(133, 105, 241)",
-                                                        "rgb(164, 101, 241)",
-                                                        "rgb(101, 143, 241)",
+                                                        "rgb(000, 204, 255)",
+                                                        "rgb(255, 153, 204)",
                                                     ],
                                                     hoverOffset: 4,
                                                 },
