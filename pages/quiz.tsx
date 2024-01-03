@@ -2,8 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button } from "@/components/ui/button";
+import { Router } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const Quiz = ({ bookId, setSelectedCompoId }) => {
+    const router = useRouter();
     const [book, setBook] = useState(null);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
@@ -20,15 +23,11 @@ const Quiz = ({ bookId, setSelectedCompoId }) => {
     }, [bookId]);
 
     const goToNextPage = () => {
-        if (currentPageIndex < book.BookDetail.length - 1) {
-            setCurrentPageIndex(currentPageIndex + 1);
-        }
+        router.push('/quiz_image')
     };
 
     const goToPreviousPage = () => {
-        if (currentPageIndex > 0) {
-            setCurrentPageIndex(currentPageIndex - 1);
-        }
+        router.back();
     };
 
     return (
@@ -73,7 +72,7 @@ const Quiz = ({ bookId, setSelectedCompoId }) => {
                 {/* 버튼 컨테이너 */}
                 <div className="flex justify-between mt-6">
                     <div className="buttons-container flex justify-center mt-3">
-                        <button className="flex items-center justify-center px-7 py-3 text-lg font-semibold cursor-pointer border-0 rounded-lg bg-blue-500 text-white shadow-md transition duration-300 hover:bg-blue-600 mr-1">
+                        <button onClick={goToPreviousPage} className="flex items-center justify-center px-7 py-3 text-lg font-semibold cursor-pointer border-0 rounded-lg bg-blue-500 text-white shadow-md transition duration-300 hover:bg-blue-600 mr-1">
                             <svg className="w-7 h-7 mr-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
@@ -91,7 +90,7 @@ const Quiz = ({ bookId, setSelectedCompoId }) => {
                             </svg>
                             말하기
                         </button>
-                        <button className="flex items-center justify-center px-7 py-3 text-lg font-semibold cursor-pointer border-0 rounded-lg bg-blue-500 text-white shadow-md transition duration-300 hover:bg-blue-600">
+                        <button onClick={goToNextPage} className="flex items-center justify-center px-7 py-3 text-lg font-semibold cursor-pointer border-0 rounded-lg bg-blue-500 text-white shadow-md transition duration-300 hover:bg-blue-600">
                             <span className="mr-2">다음</span>
                             <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
