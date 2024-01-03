@@ -7,6 +7,21 @@
   font-weight: normal;
   font-style: normal;
 }
+/* 동화또박 */
+@font-face {
+  font-family: 'WarhavenB';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2312-1@1.1/WarhavenB.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+ } 
+ /* 워헤이븐체 */
+ @font-face {
+  font-family: 'Cafe24Supermagic-Bold-v1.0';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/Cafe24Supermagic-Bold-v1.0.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+/* 카페24슈퍼매직 */
 /* 눈누에서 불러온 폰트 적용 + 아래에 적용범위설정,tailwind.config.js에 커스텀 가능 */
 @layer base {
   :root {
@@ -97,7 +112,7 @@
   }
   /* 폰트패밀리 안에 변경해주면 전체 변경 */
   html {
-    font-family:"Fairytale_ddobak"
+    font-family:"WarhavenB"
   }
 
   body {

@@ -103,7 +103,7 @@ const BookPage = ({bookid}) => {
             <CardContent className="flex flex-col h-full">
               <ScrollArea className="flex-1 mt-6 w-full rounded-md border max-h-full overflow-auto">
                 <div className="p-4 text-sm">
-                  <p className="mt-4 leading-7">
+                  <p className="mt-4 leading-10 text-2xl tracking-wide">
                     {detail.content}
                   </p>
                 </div>
