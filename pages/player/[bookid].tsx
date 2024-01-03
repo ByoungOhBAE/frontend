@@ -112,7 +112,7 @@ const BookPage = ({bookid}) => {
 
               <div className="flex items-center justify-center">
                 <div
-                  className="flex w-full bottom-0 px-2py-2 bg-white shadow-md transition-all duration-500 ease-in-out ${isPlayerVisible ? 'opacity-100 visible' : 'opacity-0 visible"
+                  className=" w-full md:w-1/2 lg:w-1/2 fixed bottom-0 p-10 bg-white  transition-all duration-500 ease-in-out ${isPlayerVisible ? 'opacity-100 visible' : 'opacity-0 visible"
                   onMouseEnter={() => setIsPlayerVisible(true)}
                   onMouseLeave={() => setIsPlayerVisible(false)}
                 >
