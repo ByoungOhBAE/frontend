@@ -31,7 +31,7 @@ import {
       },
       title: {
         display: true,
-        text: 'Chart.js Bar Chart',
+        text: '월별 푼 퀴즈 수',
       },
     },
   };
@@ -300,12 +300,12 @@ const Mypage = ({
                                     여기에 "학습현황" 컨텐츠가 표시됩니다.<br />
                                 </div>
                                 <div className="flex">
-                                    <div className="w-1/2 mt-2 mb-4 ml-4 mr-4">
+                                    <div className="w-2/3 mt-2 mb-4 ml-4 mr-4 h-96">
                                         <Bar options={options} data={data}/>
                                     </div>
-                                    <div className="w-1/2 mt-2 mb-4 ml-4 mr-4">
+                                    <div className="w-1/3 mt-2 mb-4 ml-4 mr-4">
                                     {/* 파이 차트 추가 */}
-                                        <div className="shadow-lg rounded-lg overflow-hidden w-96">
+                                        <div className="shadow-lg rounded-lg overflow-hidden w-80">
                                             <div className="py-3 px-5 bg-gray-50">
                                             읽은 책 수: {readBookCount}<br />
                                             푼 퀴즈 수: {quizCount}<br />
