@@ -4,7 +4,37 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import BookHistory from "@/components/component/mypage_compo/book_history";
 import ChartPie from "@/components/ui/piechart";
-
+import { uselearningHistory } from "./uselearninghistory";
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+  } from 'chart.js';
+  import { Bar } from 'react-chartjs-2';
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+  );
+  export const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Chart.js Bar Chart',
+      },
+    },
+  };
 const Mypage = ({
     setSelecteCompoId,
 }: {
@@ -20,7 +50,8 @@ const Mypage = ({
     const [wrongpercentage, setWrongPercentage] = useState(0);  // 오답율
     // const [lastLearningDate, setLastLearningDate] = useState('');   // 마지막 학습 날짜
     const [selectedTheme, setSelectedTheme] = useState("white");
-
+    const [countdata, setcountdata ] = useState();
+    const [monthdata, setmonthdata ] = useState();
 
     useEffect(() => {
         // 쿠키에서 user_id 읽기
@@ -70,7 +101,8 @@ const Mypage = ({
                     setQuizCount(userBookList.numdata);
                     setWrongPercentage(userBookList.wrongpercentage);
                     setBookList(userBookList);
-
+                    setcountdata(userBookList.grouped_data);
+                    setmonthdata(userBookList.month_data);
                     // const correct = userBookList.filter(item => item.is_right === 1);
                 } catch (error) {
                     console.error("Error fetching user stats:", error);
@@ -80,9 +112,19 @@ const Mypage = ({
             fetchUserStats();
         }
     }, [userInfo]);
-
-    const PER_PAGE = 8;
-
+      const PER_PAGE = 8;
+      console.log(countdata)
+    const labels = countdata;
+    const data = {
+        labels,
+        datasets: [
+          {
+            label: '푼 퀴즈 수',
+            data: monthdata,
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          },
+        ],
+      };
     return (
         <div
             style={{
@@ -245,6 +287,7 @@ const Mypage = ({
                 {/* '학습현황' 선택 시 표시될 내용 - 추가된 로직 */}
                 {selectedMenu === "menu1" && (
                     <div className="h-full border-2 border-dashed border-gray-300 rounded">
+                        <Bar options={options} data={data}/>
                         <div className="flex h-full items-center justify-center">
                             <div className="text-gray-500">
                                 여기에 "학습현황" 컨텐츠가 표시됩니다.
