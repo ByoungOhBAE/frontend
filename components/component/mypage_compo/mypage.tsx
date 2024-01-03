@@ -207,11 +207,6 @@ const Mypage = ({
                                     checked={selectedTheme === theme}
                                     onChange={() => handleThemeChange(theme)}
                                 />
-                                {/* <p className="forced-colors:block hidden">
-                                    {theme.charAt(0).toUpperCase() + theme.slice(1)}
-                                </p> */}
-                                {/* <span>{theme.charAt(0).toUpperCase() + theme.slice(1)}</span>
-                                <div className={`h-6 w-6 rounded-full bg-${theme}-200`}></div> */}
                                 <div
                                     className={`h-6 w-6 rounded-full border border-gray-300 hover:border-gray-400 cursor-pointer flex items-center justify-center relative`}
                                     style={{
@@ -245,35 +240,42 @@ const Mypage = ({
                 {/* '학습현황' 선택 시 표시될 내용 - 추가된 로직 */}
                 {selectedMenu === "menu1" && (
                     <div className="h-full border-2 border-dashed border-gray-300 rounded">
-                        <div className="flex h-full items-center justify-center">
-                            <div className="text-gray-500">
-                                여기에 "학습현황" 컨텐츠가 표시됩니다.
-                                <br />
-                                읽은 책 수: {readBookCount}
-                                <br />푼 퀴즈 수: {quizCount}
-                                <br />
-                                정답율: {100 - wrongpercentage}%
-
-                                {/* 파이 차트 추가 */}
-                                <div className="shadow-lg rounded-lg overflow-hidden">
-                                    <div className="py-3 px-5 bg-gray-50">파이 차트</div>
-                                    {/* ChartPie 컴포넌트 불러오기 */}
-                                    <ChartPie
-                                        data={{
-                                            labels: ["정답율", "오답율"],
-                                            datasets: [
-                                                {
-                                                    data: [100-wrongpercentage, wrongpercentage],
-                                                    backgroundColor: [
-                                                        "rgb(000, 204, 255)",
-                                                        "rgb(255, 153, 204)",
+                        <div className="h-full justify-center">
+                            <div className="h-full">
+                                <div className="text-gray-500 mt-4 mb-2 ml-4 mr-4">
+                                    여기에 "학습현황" 컨텐츠가 표시됩니다.<br />
+                                </div>
+                                <div className="flex">
+                                    <div className="w-1/2 mt-2 mb-4 ml-4 mr-4">
+                                        hi
+                                    </div>
+                                    <div className="w-1/2 mt-2 mb-4 ml-4 mr-4">
+                                    {/* 파이 차트 추가 */}
+                                        <div className="shadow-lg rounded-lg overflow-hidden">
+                                            <div className="py-3 px-5 bg-gray-50">
+                                            읽은 책 수: {readBookCount}<br />
+                                            푼 퀴즈 수: {quizCount}<br />
+                                            정답율: {100 - wrongpercentage}%<br />
+                                            </div>
+                                            {/* ChartPie 컴포넌트 불러오기 */}
+                                            <ChartPie
+                                                data={{
+                                                    labels: ["정답율", "오답율"],
+                                                    datasets: [
+                                                        {
+                                                            data: [100-wrongpercentage, wrongpercentage],
+                                                            backgroundColor: [
+                                                                "rgb(000, 204, 255)",
+                                                                "rgb(255, 153, 204)",
+                                                            ],
+                                                            hoverOffset: 4,
+                                                        },
                                                     ],
-                                                    hoverOffset: 4,
-                                                },
-                                            ],
-                                        }}
-                                        
-                                    />
+                                                }}
+                                                
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
