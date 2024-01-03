@@ -84,7 +84,7 @@ const Quiz = ({ bookid }) => {
     }
 
     const goToNextPage = () => {
-        router.push('/quiz_image')
+        router.push(`/quiz_image/${bookid}`)
     };
 
     const goToPreviousPage = () => {
