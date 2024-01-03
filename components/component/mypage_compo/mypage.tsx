@@ -1,4 +1,4 @@
-// components/component/mypage_compo/mypage.tsx
+ // components/component/mypage_compo/mypage.tsx
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -13,28 +13,28 @@ import {
     Title,
     Tooltip,
     Legend,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
-ChartJS.register(
+  } from 'chart.js';
+  import { Bar } from 'react-chartjs-2';
+  ChartJS.register(
     CategoryScale,
     LinearScale,
     BarElement,
     Title,
     Tooltip,
     Legend
-);
-export const options = {
+  );
+  export const options = {
     responsive: true,
     plugins: {
-        legend: {
-            position: 'top' as const,
-        },
-        title: {
-            display: true,
-            text: 'Chart.js Bar Chart',
-        },
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Chart.js Bar Chart',
+      },
     },
-};
+  };
 const Mypage = ({
     setSelecteCompoId,
 }: {
@@ -50,8 +50,8 @@ const Mypage = ({
     const [wrongpercentage, setWrongPercentage] = useState(0);  // 오답율
     // const [lastLearningDate, setLastLearningDate] = useState('');   // 마지막 학습 날짜
     const [selectedTheme, setSelectedTheme] = useState("white");
-    const [countdata, setcountdata] = useState();
-    const [monthdata, setmonthdata] = useState();
+    const [countdata, setcountdata ] = useState();
+    const [monthdata, setmonthdata ] = useState();
     const [hoveredItem, setHoveredItem] = useState(null);
 
     useEffect(() => {
@@ -120,19 +120,19 @@ const Mypage = ({
             fetchUserStats();
         }
     }, [userInfo]);
-    const PER_PAGE = 8;
-    console.log(countdata)
+      const PER_PAGE = 8;
+      console.log(countdata)
     const labels = countdata;
     const data = {
         labels,
         datasets: [
-            {
-                label: '푼 퀴즈 수',
-                data: monthdata,
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-            },
+          {
+            label: '푼 퀴즈 수',
+            data: monthdata,
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          },
         ],
-    };
+      };
     return (
         <div
             style={{
@@ -301,15 +301,15 @@ const Mypage = ({
                                 </div>
                                 <div className="flex">
                                     <div className="w-1/2 mt-2 mb-4 ml-4 mr-4">
-                                        <Bar options={options} data={data} />
+                                        <Bar options={options} data={data}/>
                                     </div>
                                     <div className="w-1/2 mt-2 mb-4 ml-4 mr-4">
-                                        {/* 파이 차트 추가 */}
+                                    {/* 파이 차트 추가 */}
                                         <div className="shadow-lg rounded-lg overflow-hidden w-96">
                                             <div className="py-3 px-5 bg-gray-50">
-                                                읽은 책 수: {readBookCount}<br />
-                                                푼 퀴즈 수: {quizCount}<br />
-                                                정답율: {100 - wrongpercentage}%<br />
+                                            읽은 책 수: {readBookCount}<br />
+                                            푼 퀴즈 수: {quizCount}<br />
+                                            정답율: {100 - wrongpercentage}%<br />
                                             </div>
                                             {/* ChartPie 컴포넌트 불러오기 */}
                                             <ChartPie
@@ -317,7 +317,7 @@ const Mypage = ({
                                                     labels: ["정답율", "오답율"],
                                                     datasets: [
                                                         {
-                                                            data: [100 - wrongpercentage, wrongpercentage],
+                                                            data: [100-wrongpercentage, wrongpercentage],
                                                             backgroundColor: [
                                                                 "rgb(000, 204, 255)",
                                                                 "rgb(255, 153, 204)",
@@ -326,7 +326,7 @@ const Mypage = ({
                                                         },
                                                     ],
                                                 }}
-
+                                                
                                             />
                                         </div>
                                     </div>
