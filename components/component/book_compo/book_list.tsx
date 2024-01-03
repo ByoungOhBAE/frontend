@@ -69,7 +69,7 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
       {/* 페이지네이션 버튼 */}
       <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '30px' }}>
         <Button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>이전 페이지</Button>
-        <span> {currentPage} / {totalPages}</span>
+        <span className="items-center p-2"> {currentPage} / {totalPages}</span>
         <Button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>다음 페이지</Button>
       </div>
     </div>
