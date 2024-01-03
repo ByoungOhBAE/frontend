@@ -4,23 +4,84 @@ import axios from 'axios';
 import { Button } from "@/components/ui/button";
 import { Router } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import 'tailwindcss/tailwind.css'
+import { GetServerSideProps } from 'next';
+import Cookies from 'js-cookie';
 
-const Quiz = ({ bookId, setSelectedCompoId }) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const { bookid } = context.query;
+
+  return {
+    props: { bookid }, // 이 부분에서 bookid를 props로 전달합니다.
+  };
+};
+
+const Quiz = ({ bookid }) => {
     const router = useRouter();
-    const [book, setBook] = useState(null);
-    const [currentPageIndex, setCurrentPageIndex] = useState(0);
+    const [userAnswer, setUserAnswer] = useState('');
+    const [quiz, setQuiz] = useState('');
+    const [quizAnswer, setQuizAnswer] = useState('');
+    const [feedback, setFeedback] = useState('');
+    const [content, setContent] = useState('');
 
     useEffect(() => {
-        if (bookId) {
-            axios.get(`http://127.0.0.1:8000/api/BookList/${bookId}`)
-                .then(response => {
-                    setBook(response.data);
-                })
-                .catch(error => {
-                    console.error('Error fetching book data:', error);
-                });
-        }
-    }, [bookId]);
+        fetchPostQuiz();
+    }, []);
+
+    const fetchPostQuiz = async () => {
+        const token = Cookies.get('token');
+        axios.post(`http://127.0.0.1:8000/api/ChatGPT/Question/`, {
+            bookid: bookid,
+        },{
+            headers: {
+                'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
+            }
+        })
+            .then(response => {
+                console.log(response);
+                setQuiz(response.data.question);
+                setContent(response.data.content);
+                setQuizAnswer(response.data.quiz_answer);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+
+    const fetchPostFeedback = async () => {
+        const token = Cookies.get('token');
+        axios.post(`http://127.0.0.1:8000/api/ChatGPT/Feedback/`, {
+            // bookid: bookid,
+            content: content,
+            quiz: quiz,
+            user_answer: userAnswer,
+            quiz_answer: quizAnswer,
+        },{
+            headers: {
+                'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
+            }
+        })
+            .then(response => {
+                console.log(response);
+                setFeedback(response.data.feedback);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+
+    function handleMikeClick() {
+        axios.post('http://127.0.0.1:8000/recognize_speech/')
+            .then(response => {
+                console.log(response);
+                setUserAnswer(response.data.text);
+
+                fetchPostFeedback(); // 피드백 추가
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
 
     const goToNextPage = () => {
         router.push('/quiz_image')
@@ -46,7 +107,7 @@ const Quiz = ({ bookId, setSelectedCompoId }) => {
                         <span className="mr-2 text-xl">&#x1F4DA;</span> 퀴즈
                     </h2>
                     <div className="p-6 text-center rounded-lg bg-white shadow-md">
-                        <p>추운 겨울날, 소녀는 어떤 신발을 신고 있었나요?</p>
+                        <p>{quiz}</p>
                     </div>
                 </div>
                 {/* 피드백 섹션 */}
@@ -55,7 +116,7 @@ const Quiz = ({ bookId, setSelectedCompoId }) => {
                         <span className="mr-2 text-xl">&#x1F4A1;</span> 선생님의 조언
                     </h2>
                     <div className="p-6 text-center rounded-lg bg-white shadow-md">
-                        <p>아주 잘 했어요! 하지만 이야기에 따르면 신발은 소녀의 엄마 것이었어요, 할머니 것이 아니에요. 이야기를 다시 한 번 잘 읽어보면 도움이 될 거예요. 계속 노력하는 모습이 멋져요!</p>
+                        <p>{feedback}</p>
                     </div>
                 </div>
 
@@ -65,7 +126,7 @@ const Quiz = ({ bookId, setSelectedCompoId }) => {
                         <span className="mr-2 text-xl">&#x1F4AC;</span> 대답
                     </h2>
                     <div className="p-6 text-center rounded-lg bg-white shadow-md">
-                        <p>할머니 신발</p>
+                        <p>{userAnswer}</p>
                     </div>
                 </div>
     
@@ -84,7 +145,7 @@ const Quiz = ({ bookId, setSelectedCompoId }) => {
                             </svg>
                             재생
                         </button>
-                        <button className="flex items-center justify-center px-7 py-3 text-lg font-semibold cursor-pointer border-0 rounded-lg bg-red-500 text-white shadow-md transition duration-300 hover:bg-red-600 mr-1">
+                        <button onClick={handleMikeClick} className="flex items-center justify-center px-7 py-3 text-lg font-semibold cursor-pointer border-0 rounded-lg bg-red-500 text-white shadow-md transition duration-300 hover:bg-red-600 mr-1">
                             <svg className="w-7 h-7 mr-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
                             </svg>

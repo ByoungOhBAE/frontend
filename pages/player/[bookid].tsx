@@ -53,7 +53,7 @@ const BookPage = ({bookid}) => {
                 // setNextPageUrl(response.data.next);
             })
             .catch(error => {
-                router.push('/quiz');
+                router.push(`/quiz/${bookid}`);
             });
     };
 

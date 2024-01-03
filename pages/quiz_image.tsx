@@ -4,6 +4,7 @@ import axios from 'axios';
 import AudioPlayer from 'react-audio-player';
 import { Button } from "@/components/ui/button";
 import { useRouter } from 'next/navigation';
+import 'tailwindcss/tailwind.css'
 
 const Quiz_image = ({ bookId, setSelectedCompoId }) => {
     const router = useRouter();
