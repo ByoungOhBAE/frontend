@@ -85,18 +85,21 @@ export function Navibar({ setSelecteCompoId }) {
 
               북키즈
             </h2>
-            <div className="grid gap-2 py-6">
-              <div className="flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 rounded-lg" onClick={() => setSelecteCompoId(1)}>
+            <div className="grid gap-4 py-12">
+              <Button className="flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg" onClick={() => setSelecteCompoId(1)}>
                 북리스트
-              </div>
-              <div className="flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 rounded-lg" onClick={() => setSelecteCompoId(3)}>
+              </Button>
+              <Button className="flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg" onClick={() => setSelecteCompoId(3)}>
                 마이페이지
-              </div>
-              <div className="flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 rounded-lg" onClick={() => setSelecteCompoId(12)}>
+              </Button>
+              <Button className="flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg" onClick={() => setSelecteCompoId(12)}>
                 게시판 목록
-              </div>
+              </Button>
 
-              <Button variant="outline" onClick={handleLogout}>로그아웃</Button>
+
+            </div>
+            <div className="justify-end">
+              <Button className="w-full" variant="outline" onClick={handleLogout}>로그아웃</Button>
             </div>
           </SheetContent>
         </Sheet>
@@ -113,15 +116,20 @@ export function Navibar({ setSelecteCompoId }) {
         </div>
 
 
-        <div className="flex text-blue-600 border-red-600 dark:text-red-300 dark:border-red-300">
-          <div>
-   
-            <Profile_hover userinfo={userInfo.name} />{userInfo.name}님
+        <div className="flex  gap-1 text-blue-600 min-w-fit group ">
+
+          {userInfo.name && <Profile_hover setSelecteCompoId={setSelecteCompoId} className="basis-1/6 justify-items-center" userinfo={userInfo.name} />}
+
+
+          <div className="flex items-center basis-2/6 justify-center group-hover:opacity-100">
+            <div>
+              {userInfo.name}님
+            </div>
           </div>
 
 
-          <div className="text-red-600 group block rounded-lg p-1 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={handleLogout}>
-            <button className="ml-2 font-semibold text-lg">로그아웃</button>
+          <div className="ml-3 items-center min-w-fit text-red-600 group block rounded-lg bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={handleLogout}>
+            <button className="m-1 min-w-fit font-semibold text-lg">로그아웃</button>
           </div>
         </div>
 

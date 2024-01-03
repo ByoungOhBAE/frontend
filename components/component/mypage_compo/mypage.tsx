@@ -1,10 +1,40 @@
-// components/component/mypage_compo/mypage.tsx
+ // components/component/mypage_compo/mypage.tsx
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import BookHistory from "@/components/component/mypage_compo/book_history";
 import ChartPie from "@/components/ui/piechart";
-
+import { uselearningHistory } from "./uselearninghistory";
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+  } from 'chart.js';
+  import { Bar } from 'react-chartjs-2';
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+  );
+  export const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: '월별 푼 퀴즈 수',
+      },
+    },
+  };
 const Mypage = ({
     setSelecteCompoId,
 }: {
@@ -20,7 +50,9 @@ const Mypage = ({
     const [wrongpercentage, setWrongPercentage] = useState(0);  // 오답율
     // const [lastLearningDate, setLastLearningDate] = useState('');   // 마지막 학습 날짜
     const [selectedTheme, setSelectedTheme] = useState("white");
-
+    const [countdata, setcountdata ] = useState();
+    const [monthdata, setmonthdata ] = useState();
+    const [hoveredItem, setHoveredItem] = useState(null);
 
     useEffect(() => {
         // 쿠키에서 user_id 읽기
@@ -43,6 +75,13 @@ const Mypage = ({
 
     const handleThemeChange = (theme) => {
         setSelectedTheme(theme);
+    };
+    const onMouseEnter = (item) => {
+        setHoveredItem(item);
+    };
+
+    const onMouseLeave = () => {
+        setHoveredItem(null);
     };
 
     useEffect(() => {
@@ -70,7 +109,8 @@ const Mypage = ({
                     setQuizCount(userBookList.numdata);
                     setWrongPercentage(userBookList.wrongpercentage);
                     setBookList(userBookList);
-
+                    setcountdata(userBookList.grouped_data);
+                    setmonthdata(userBookList.month_data);
                     // const correct = userBookList.filter(item => item.is_right === 1);
                 } catch (error) {
                     console.error("Error fetching user stats:", error);
@@ -80,9 +120,19 @@ const Mypage = ({
             fetchUserStats();
         }
     }, [userInfo]);
-
-    const PER_PAGE = 8;
-
+      const PER_PAGE = 8;
+      console.log(countdata)
+    const labels = countdata;
+    const data = {
+        labels,
+        datasets: [
+          {
+            label: '푼 퀴즈 수',
+            data: monthdata,
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          },
+        ],
+      };
     return (
         <div
             style={{
@@ -175,6 +225,8 @@ const Mypage = ({
                         <li
                             key={menu}
                             onClick={() => handleMenuClick(menu)}
+                            onMouseEnter={() => onMouseEnter(menu)}
+                            onMouseLeave={onMouseLeave}
                             style={{
                                 cursor: "pointer",
                                 padding: "10px",
@@ -182,7 +234,9 @@ const Mypage = ({
                                 backgroundColor:
                                     selectedMenu === menu
                                         ? "#3b82f6"
-                                        : "#ffffff",
+                                        : hoveredItem === menu
+                                            ? "#d6eaf8" // 마우스 호버 상태일 때의 색상 (밝은 파란색)
+                                            : "#ffffff", // 기본 배경 색상
                                 color:
                                     selectedMenu === menu
                                         ? "#ffffff"
@@ -246,12 +300,12 @@ const Mypage = ({
                                     여기에 "학습현황" 컨텐츠가 표시됩니다.<br />
                                 </div>
                                 <div className="flex">
-                                    <div className="w-1/2 mt-2 mb-4 ml-4 mr-4">
-                                        hi
+                                    <div className="w-2/3 mt-2 mb-4 ml-4 mr-4 h-96">
+                                        <Bar options={options} data={data}/>
                                     </div>
-                                    <div className="w-1/2 mt-2 mb-4 ml-4 mr-4">
+                                    <div className="w-1/3 mt-2 mb-4 ml-4 mr-4">
                                     {/* 파이 차트 추가 */}
-                                        <div className="shadow-lg rounded-lg overflow-hidden">
+                                        <div className="shadow-lg rounded-lg overflow-hidden w-80">
                                             <div className="py-3 px-5 bg-gray-50">
                                             읽은 책 수: {readBookCount}<br />
                                             푼 퀴즈 수: {quizCount}<br />
