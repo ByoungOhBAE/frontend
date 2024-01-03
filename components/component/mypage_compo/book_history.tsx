@@ -70,7 +70,7 @@ export default function Book_history({ setSelecteCompoId, setSelectedBookId }) {
         ))}
       </div >
       {/* 페이지네이션 버튼 */}
-      <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '30px' }}>
+      <div className="fixed bottom-0" style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '30px' }}>
         <Button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>이전 페이지</Button>
         <span> {currentPage} / {totalPages}</span>
         <Button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>다음 페이지</Button>

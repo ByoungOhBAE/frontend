@@ -140,7 +140,7 @@ const BookPage = ({bookid}) => {
           </Card>
           ))}
         </aside>
-        <aside className="md:w-1/2 h-screen p-10">
+        <aside className=" md:w-1/2 h-screen p-10">
           <img
             alt="Book cover"
             className="mx-auto w-full h-full object-cover rounded-md"

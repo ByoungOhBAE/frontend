@@ -6,8 +6,10 @@ import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar"
 import { HoverCardTrigger, HoverCardContent, HoverCard } from "@/components/ui/hover-card"
 import { Button } from "@/components/ui/button"
 
-export default function Component({userInfo}) {
+export default function Component({ setSelecteCompoId, user }) {
+  console.log(user)
   return (
+
     <HoverCard>
       <HoverCardTrigger asChild>
         <Avatar>
@@ -22,13 +24,14 @@ export default function Component({userInfo}) {
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
           <div className="space-y-1">
-            <h4 className="text-lg font-semibold">{userInfo}</h4>
+           
+            <h4 className="text-lg font-semibold">{user}</h4>
             <p className="text-sm text-gray-500">Bio</p>
           </div>
         </div>
-        
-        <Button className="w-full" variant="outline">
-          Follow
+
+        <Button className="w-full" variant="outline" onClick={() => setSelecteCompoId(3)}>
+          마이페이지
         </Button>
       </HoverCardContent>
     </HoverCard>
