@@ -71,7 +71,7 @@ const Mypage = ({
                     setWrongPercentage(userBookList.wrongpercentage);
                     setBookList(userBookList);
 
-                    const correct = userBookList.filter(item => item.is_right === 1);
+                    // const correct = userBookList.filter(item => item.is_right === 1);
                 } catch (error) {
                     console.error("Error fetching user stats:", error);
                 }

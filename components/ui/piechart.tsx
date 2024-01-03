@@ -26,18 +26,29 @@ const ChartPie = ({ data }) => {
             },
         };
 
-        // 차트를 그릴 때 차트가 이미 그려진 경우 이전 차트를 파괴하고 새로운 차트를 그림
-        const canvas = chartRef.current;
-
-        if (canvas) {
-            const ctx = canvas.getContext("2d");
-            if (ctx) {
-                new Chart(ctx, configPie);
+        // 이전 차트 리셋 또는 새로운 차트 생성
+        if (chartRef.current) {
+            chartRef.current.data = data;
+            chartRef.current.update();
+        } else {
+            const canvas = document.getElementById("myPieChart");
+            if (canvas) {
+                const ctx = canvas.getContext("2d");
+                if (ctx) {
+                    chartRef.current = new Chart(ctx, configPie);
+                }
             }
         }
+
+        // useEffect 종료 시점에서 차트 리셋
+        return () => {
+            if (chartRef.current) {
+                chartRef.current.reset();
+            }
+        };
     }, [data]);
 
-    return <canvas ref={chartRef} className="p-1" />;
+    return <canvas id="myPieChart" className="p-1" />;
 };
 
 export default ChartPie;
