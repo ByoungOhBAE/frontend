@@ -1,12 +1,14 @@
 
 import { Button } from "@/components/ui/button"
 import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet"
-import Link from "next/link"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
+import Profile_hover from "@/components/component/index_compo/profile_hover"
 
 import { NavigationMenuLink, NavigationMenuList, NavigationMenu } from "@/components/ui/navigation-menu"
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
+
 interface User {
   id: number;
   username: string;
@@ -15,7 +17,7 @@ interface User {
 
 export function Navibar({ setSelecteCompoId }) {
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
+  const [userInfo, setUserInfo] = useState({ name: "", email: "" });
 
 
 
@@ -26,6 +28,42 @@ export function Navibar({ setSelecteCompoId }) {
     router.push("/");
   };
 
+  useEffect(() => {
+    // 쿠키에서 user_id 읽기
+    const userId = Cookies.get("user_id");
+    if (userId) {
+      axios
+        .get(`http://127.0.0.1:8000/api/user/${userId}`)
+        .then((response) => {
+          setUserInfo(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 'bookList'로 초기화
+    // setSelectedMenu("bookList");
+    if (userInfo.id) {
+      const fetchUserStats = async () => {
+        try {
+          const response = await axios.get(
+            `http://127.0.0.1:8000/api/user/${userInfo.id}/`
+          ); // 사용자 ID에 따라 수정
+          const userData = response.data;
+
+
+        } catch (error) {
+          console.error("Error fetching user stats:", error);
+        }
+      };
+
+      fetchUserStats();
+    }
+  }, [userInfo]);
+
 
 
 
@@ -35,7 +73,7 @@ export function Navibar({ setSelecteCompoId }) {
         <Sheet>
           <div className="text-lg font-bold text-blue-600 dark:text-blue-300">
             <SheetTrigger asChild>
-              <Button  size="icon" variant="outline">
+              <Button size="icon" variant="outline">
                 <MenuIcon className="h-6 w-6" />
               </Button>
             </SheetTrigger>
@@ -67,7 +105,7 @@ export function Navibar({ setSelecteCompoId }) {
 
         {/* 밑부분은 화면이 클때 */}
 
-        
+
         <div className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%">
           <h2>
             Bookids
@@ -75,20 +113,26 @@ export function Navibar({ setSelecteCompoId }) {
         </div>
 
 
-        <div className="text-red-600 border-red-600 dark:text-red-300 dark:border-red-300">
-          <div className="group block rounded-lg p-1 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={handleLogout}>
+        <div className="flex text-blue-600 border-red-600 dark:text-red-300 dark:border-red-300">
+          <div>
+   
+            <Profile_hover userinfo={userInfo.name} />{userInfo.name}님
+          </div>
+
+
+          <div className="text-red-600 group block rounded-lg p-1 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={handleLogout}>
             <button className="ml-2 font-semibold text-lg">로그아웃</button>
           </div>
         </div>
 
 
 
-      </header>
+      </header >
 
 
 
 
-    </div>
+    </div >
   );
 }
 

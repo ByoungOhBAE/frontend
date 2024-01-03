@@ -103,7 +103,7 @@ const BookPage = ({bookid}) => {
             <CardContent className="flex flex-col h-full">
               <ScrollArea className="flex-1 mt-6 w-full rounded-md border max-h-full overflow-auto">
                 <div className="p-4 text-sm">
-                  <p className="mt-4 leading-7">
+                  <p className="mt-4 leading-10 text-2xl tracking-wide">
                     {detail.content}
                   </p>
                 </div>
@@ -112,7 +112,7 @@ const BookPage = ({bookid}) => {
 
               <div className="flex items-center justify-center">
                 <div
-                  className="flex w-full bottom-0 px-2py-2 bg-white shadow-md transition-all duration-500 ease-in-out ${isPlayerVisible ? 'opacity-100 visible' : 'opacity-0 visible"
+                  className=" w-full md:w-1/2 lg:w-1/2 fixed bottom-0 p-10 bg-white  transition-all duration-500 ease-in-out ${isPlayerVisible ? 'opacity-100 visible' : 'opacity-0 visible"
                   onMouseEnter={() => setIsPlayerVisible(true)}
                   onMouseLeave={() => setIsPlayerVisible(false)}
                 >

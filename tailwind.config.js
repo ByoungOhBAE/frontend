@@ -17,6 +17,10 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        Fairytale_ddobak: ['ddobak'],
+        // 폰트패밀리이름 : ['내가 사용할 이름']
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
