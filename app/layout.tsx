@@ -1,8 +1,11 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const myFont = localFont({
+  src:'NanumBrush.ttf',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'team 29',
@@ -15,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ko">
-      <body className={inter.className}>{children}</body>
+    <html lang="ko" className={myFont.className}>
+      <body>{children}</body>
     </html>
   )
 }

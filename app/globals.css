@@ -1,7 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -9,150 +10,89 @@
 
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
- 
+
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
- 
+
     --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
- 
+
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
- 
+
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
- 
+
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
- 
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
- 
+
     --radius: 0.5rem;
   }
- 
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
- 
+
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
- 
+
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
- 
+
     --primary: 210 40% 98%;
     --primary-foreground: 222.2 47.4% 11.2%;
- 
+
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
- 
+
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
- 
+
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
- 
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
- 
+
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
   }
 }
- 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
 
-/* 프로그래스바, 볼륨바 */
-
-.progress-bar{
-  -webkit-appearance: none; /* 슬라이더의 기본 스타일을 제거합니다. */
-  appearance: none;
-  width: 100%; /* 슬라이더의 너비를 부모 요소에 맞춥니다. */
-  height: 8px; /* 슬라이더의 높이를 설정합니다. */
-  border-radius: 4px; /* 둥근 모서리를 추가합니다. */
-  background: #d3d3d3; /* 슬라이더의 기본 배경색을 설정합니다. */
-  outline: none; /* 슬라이더 선택 시 외곽선을 제거합니다. */
-  opacity: 0.7; /* 슬라이더의 투명도를 조정합니다. */
-  -webkit-transition: .2s; /* 전환 효과를 부드럽게 합니다. */
-  transition: opacity .2s;
-}
-.relative { 
-  display: flex; /* Flexbox 레이아웃을 사용하여 자식 요소들을 한 줄에 배치합니다. */
-  align-items: center; /* 세로축 중앙 정렬 */
-}
-
-.volume-bar{
-  -webkit-appearance: none; /* 슬라이더의 기본 스타일을 제거합니다. */
-  appearance: none;
-  margin-left: 2rem;
-  height: 8px; /* 슬라이더의 높이를 설정합니다. */
-  border-radius: 4px; /* 둥근 모서리를 추가합니다. */
-  background: #d3d3d3; /* 슬라이더의 기본 배경색을 설정합니다. */
-  outline: none; /* 슬라이더 선택 시 외곽선을 제거합니다. */
-  opacity: 0.7; /* 슬라이더의 투명도를 조정합니다. */
-  -webkit-transition: .2s; /* 전환 효과를 부드럽게 합니다. */
-  transition: opacity .2s;
-  width: 400%; /* 또는 볼륨 바의 너비를 원하는 값으로 설정하세요. */
-  visibility: hidden; /* 기본 상태는 숨김으로 설정 */
-}
-.volume-button {
-  /* 볼륨 버튼 스타일 */
-  margin-right: 10px; /* 볼륨 바와 버튼 사이의 간격 조정 */
-}
-.volume-bar.visible {
-  visibility: visible; /* 볼륨 바를 표시할 때 */
-}
-
-.volume-bar.invisible {
-  visibility: hidden; /* 볼륨 바를 숨길 때 */
-}
 
 .fade-enter {
   opacity: 0;
 }
+
 .fade-enter-active {
   opacity: 1;
   transition: opacity 300ms;
 }
+
 .fade-exit {
   opacity: 1;
 }
+
 .fade-exit-active {
   opacity: 0;
   transition: opacity 300ms;
 }
 
 
-.progress-bar::-webkit-slider-thumb, .volume-bar::-webkit-slider-thumb {
-  -webkit-appearance: none; /* 슬라이더 핸들의 기본 스타일을 제거합니다. */
-  appearance: none;
-  width: 10px; /* 슬라이더 핸들의 너비를 설정합니다. */
-  height: 10px; /* 슬라이더 핸들의 높이를 설정합니다. */
-  border-radius: 50%; /* 원형 핸들을 만듭니다. */
-  background: blue; /* 핸들의 배경색을 설정합니다. */
-  /* cursor: pointer; 커서를 포인터로 변경합니다. */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
 }
-
-
-/* 바 색깔 */
-.progress-bar::-webkit-slider-runnable-track, .volume-bar::-webkit-slider-runnable-track {
-  height: 8px;
-  border-radius: 4px;
-  background: skyblue;
-}
-
-
-
