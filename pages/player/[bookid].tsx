@@ -14,6 +14,7 @@ import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
+import Cookies from "js-cookie";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { bookid } = context.query;
@@ -48,7 +49,9 @@ const BookPage = ({bookid}) => {
         axios.get(`http://127.0.0.1:8000/api/BookDetail/${bookid}?page=${currentPage}`)
             .then(response => {
                 setBook(response.data.results);
-                console.log(response.data.results);
+                console.log(response.data.results[0].content);
+                const content = response.data.results[0].content;
+                fetchPostSpeech(content);
                 // setPosts(response.data.results);
                 // setNextPageUrl(response.data.next);
             })
@@ -56,6 +59,26 @@ const BookPage = ({bookid}) => {
                 router.push(`/quiz/${bookid}`);
             });
     };
+
+    const fetchPostSpeech = async (content) => {
+      const token = Cookies.get('token');
+      axios.post(`http://127.0.0.1:8000/api/TextToSpeech/`, {
+          content: content,
+      },{
+          headers: {
+              'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
+          }
+      })
+          .then(response => {
+              // console.log(response);
+              // setQuiz(response.data.question);
+              // setContent(response.data.content);
+              // setQuizAnswer(response.data.quiz_answer);
+          })
+          .catch(error => {
+              console.log(error);
+          });
+  };
 
     const playerContainerStyle = `fixed bottom-0 w-full px-4 py-2 bg-white shadow-md transition-all duration-500 ease-in-out ${
         isPlayerVisible ? 'opacity-100 visible' : 'opacity-0 visible'
