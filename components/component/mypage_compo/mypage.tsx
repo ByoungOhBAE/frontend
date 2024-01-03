@@ -20,7 +20,7 @@ const Mypage = ({
     // const [lastLearningDate, setLastLearningDate] = useState('');   // 마지막 학습 날짜
     const [selectedTheme, setSelectedTheme] = useState("white");
 
-    
+
     useEffect(() => {
         // 쿠키에서 user_id 읽기
         const userId = Cookies.get("user_id");
@@ -59,7 +59,7 @@ const Mypage = ({
                         `http://127.0.0.1:8000/api/user/${userData.id}/learningstatus`
                     );
                     const userBookList = bookListResponse.data;
-                    
+
                     const readingResponse = await axios.get(
                         `http://127.0.0.1:8000/api/user/${userData.id}/readingstatus`
                     );
@@ -85,18 +85,18 @@ const Mypage = ({
             style={{
                 display: "flex",
                 height: "580px",
-                backgroundColor: 
-                    selectedTheme === "white" 
+                backgroundColor:
+                    selectedTheme === "white"
                         ? "#ffffff"
-                        : selectedTheme === "cyan" 
-                        ? "#e5ffff" 
-                        : selectedTheme === "sky" 
-                        ? "#ebf8ff" 
-                        : selectedTheme === "indigo" 
-                        ? "#eef2ff" 
-                        : selectedTheme === "pink" 
-                        ? "#fff5f7" 
-                        : "#ffffff",
+                        : selectedTheme === "cyan"
+                            ? "#e5ffff"
+                            : selectedTheme === "sky"
+                                ? "#ebf8ff"
+                                : selectedTheme === "indigo"
+                                    ? "#eef2ff"
+                                    : selectedTheme === "pink"
+                                        ? "#fff5f7"
+                                        : "#ffffff",
                 borderRadius: "20px",
                 overflow: "hidden",
             }}
@@ -114,18 +114,18 @@ const Mypage = ({
                     minHeight: "600px", // 필요에 따라 조정
                     borderRadius: "20px",
                     overflow: "hidden",
-                    backgroundColor: 
-                        selectedTheme === "white" 
+                    backgroundColor:
+                        selectedTheme === "white"
                             ? "#ffffff"
-                            : selectedTheme === "cyan" 
-                            ? "#e5ffff" 
-                            : selectedTheme === "sky" 
-                            ? "#ebf8ff" 
-                            : selectedTheme === "indigo" 
-                            ? "#eef2ff" 
-                            : selectedTheme === "pink" 
-                            ? "#fff5f7" 
-                            : "#ffffff",
+                            : selectedTheme === "cyan"
+                                ? "#e5ffff"
+                                : selectedTheme === "sky"
+                                    ? "#ebf8ff"
+                                    : selectedTheme === "indigo"
+                                        ? "#eef2ff"
+                                        : selectedTheme === "pink"
+                                            ? "#fff5f7"
+                                            : "#ffffff",
                 }}
             >
                 {/* 프로필 영역 */}
@@ -199,8 +199,8 @@ const Mypage = ({
                         {["white", "cyan", "sky", "indigo", "pink"].map((theme) => (
                             <label key={theme} className="flex items-center">
                                 <input
-                                    type="radio" 
-                                    className="appearance-none" 
+                                    type="radio"
+                                    className="appearance-none"
                                     checked={selectedTheme === theme}
                                     onChange={() => handleThemeChange(theme)}
                                 />
@@ -225,10 +225,10 @@ const Mypage = ({
                     </div>
                 </form>
             </div>
-            
+
 
             {/* 콘텐츠 섹션 */}
-            <div className="flex-1 p-8 bg-gray-200"  style={{ height: '580px', overflow: 'hidden' }}>
+            <div className="flex-1 p-8 bg-gray-200" style={{ height: '580px', overflow: 'hidden' }}>
                 {/* '내 책 목록' 선택 시 표시될 내용 - 추가된 로직 */}
                 {selectedMenu === "bookList" && (
                     <div className="h-full border-2 border-dashed border-gray-300 rounded">
