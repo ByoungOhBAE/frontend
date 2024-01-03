@@ -22,6 +22,20 @@
   font-style: normal;
 }
 /* 카페24슈퍼매직 */
+@font-face {
+  font-family: 'TAEBAEKmilkyway';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/TAEBAEKmilkyway.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+/* 태백은하수 */
+@font-face {
+  font-family: 'KCCMurukmuruk';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/KCCMurukmuruk.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+/* kcc간판체 */
 /* 눈누에서 불러온 폰트 적용 + 아래에 적용범위설정,tailwind.config.js에 커스텀 가능 */
 @layer base {
   :root {
@@ -112,7 +126,7 @@
   }
   /* 폰트패밀리 안에 변경해주면 전체 변경 */
   html {
-    font-family:"WarhavenB"
+    font-family:"KCCMurukmuruk"
   }
 
   body {
