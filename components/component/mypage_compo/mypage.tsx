@@ -1,8 +1,9 @@
-// components/BookDetailComponent.js 또는 .tsx
-import React, { useEffect, useState } from "react";
+// components/component/mypage_compo/mypage.tsx
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import BookHistory from "@/components/component/mypage_compo/book_history";
+import ChartPie from "@/components/ui/piechart";
 
 const Mypage = ({
     setSelecteCompoId,
@@ -14,7 +15,7 @@ const Mypage = ({
         useState("bookList"); /*클릭하면 나오도록*/
     const [readBookCount, setReadBookCount] = useState(0); // 읽은 책 수
     const [quizCount, setQuizCount] = useState(0); // 푼 퀴즈 수
-    // const [correctRate, setCorrectRate] = useState(0); // 맞은 퀴즈 수 => 이거 알면 정답률 계산 가능
+    // const [correct, setCorrect] = useState(0); // 맞은 퀴즈 수 => 이거 알면 정답률 계산 가능
     const [bookList, setBookList] = useState([]);
     const [wrongpercentage, setWrongPercentage] = useState(0);  // 오답율
     // const [lastLearningDate, setLastLearningDate] = useState('');   // 마지막 학습 날짜
@@ -69,6 +70,8 @@ const Mypage = ({
                     setQuizCount(userBookList.numdata);
                     setWrongPercentage(userBookList.wrongpercentage);
                     setBookList(userBookList);
+
+                    const correct = userBookList.filter(item => item.is_right === 1);
                 } catch (error) {
                     console.error("Error fetching user stats:", error);
                 }
@@ -243,14 +246,37 @@ const Mypage = ({
                 {selectedMenu === "menu1" && (
                     <div className="h-full border-2 border-dashed border-gray-300 rounded">
                         <div className="flex h-full items-center justify-center">
-                            <p className="text-gray-500">
+                            <div className="text-gray-500">
                                 여기에 "학습현황" 컨텐츠가 표시됩니다.
                                 <br />
                                 읽은 책 수: {readBookCount}
                                 <br />푼 퀴즈 수: {quizCount}
                                 <br />
                                 오답율: {wrongpercentage}%
-                            </p>
+
+                                {/* 파이 차트 추가 */}
+                                <div className="shadow-lg rounded-lg overflow-hidden">
+                                    <div className="py-3 px-5 bg-gray-50">파이 차트</div>
+                                    {/* ChartPie 컴포넌트 불러오기 */}
+                                    <ChartPie
+                                        data={{
+                                            labels: ["정답율", "오답율"],
+                                            datasets: [
+                                                {
+                                                    data: [100-wrongpercentage, wrongpercentage],
+                                                    backgroundColor: [
+                                                        "rgb(133, 105, 241)",
+                                                        "rgb(164, 101, 241)",
+                                                        "rgb(101, 143, 241)",
+                                                    ],
+                                                    hoverOffset: 4,
+                                                },
+                                            ],
+                                        }}
+                                        
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 )}
