@@ -68,30 +68,38 @@ const Mypage = ({
         }
     }, []);
 
-    const handleMenuClick = (menu) => {
-        setSelectedMenu(menu);
-    };
+        const handleMenuClick = (menu) => {
+            setSelectedMenu(menu);
+        };
 
-    const handleThemeChange = (theme) => {
-        setSelectedTheme(theme);
-    };
+        const handleThemeChange = (theme) => {
+            setSelectedTheme(theme);
+        };
 
-    useEffect(() => {
-        // 컴포넌트가 마운트될 때 'bookList'로 초기화
-        // setSelectedMenu("bookList");
-        if (userInfo.id) {
-            const fetchUserStats = async () => {
-                try {
-                    const response = await axios.get(
-                        `http://127.0.0.1:8000/api/user/${userInfo.id}/`
-                    ); // 사용자 ID에 따라 수정
-                    const userData = response.data;
+        const onMouseEnter = (item) => {
+            setHoveredItem(item);
+        };
+
+        const onMouseLeave = () => {
+            setHoveredItem(null);
+        };
+
+        useEffect(() => {
+            // 컴포넌트가 마운트될 때 'bookList'로 초기화
+            // setSelectedMenu("bookList");
+            if (userInfo.id) {
+                const fetchUserStats = async () => {
+                    try {
+                        const response = await axios.get(
+                            `http://127.0.0.1:8000/api/user/${userInfo.id}/`
+                        ); // 사용자 ID에 따라 수정
+                        const userData = response.data;
 
                     const bookListResponse = await axios.get(
                         `http://127.0.0.1:8000/api/user/${userData.id}/learningstatus`
                     );
                     const userBookList = bookListResponse.data;
-
+                    
                     const readingResponse = await axios.get(
                         `http://127.0.0.1:8000/api/user/${userData.id}/readingstatus`
                     );
@@ -101,9 +109,6 @@ const Mypage = ({
                     setQuizCount(userBookList.numdata);
                     setWrongPercentage(userBookList.wrongpercentage);
                     setBookList(userBookList);
-                    setcountdata(userBookList.grouped_data);
-                    setmonthdata(userBookList.month_data);
-                    // const correct = userBookList.filter(item => item.is_right === 1);
                 } catch (error) {
                     console.error("Error fetching user stats:", error);
                 }
@@ -112,36 +117,26 @@ const Mypage = ({
             fetchUserStats();
         }
     }, [userInfo]);
-      const PER_PAGE = 8;
-      console.log(countdata)
-    const labels = countdata;
-    const data = {
-        labels,
-        datasets: [
-          {
-            label: '푼 퀴즈 수',
-            data: monthdata,
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
-          },
-        ],
-      };
+
+    const PER_PAGE = 8;
+
     return (
         <div
             style={{
                 display: "flex",
                 height: "580px",
-                backgroundColor:
-                    selectedTheme === "white"
+                backgroundColor: 
+                    selectedTheme === "white" 
                         ? "#ffffff"
-                        : selectedTheme === "cyan"
-                            ? "#e5ffff"
-                            : selectedTheme === "sky"
-                                ? "#ebf8ff"
-                                : selectedTheme === "indigo"
-                                    ? "#eef2ff"
-                                    : selectedTheme === "pink"
-                                        ? "#fff5f7"
-                                        : "#ffffff",
+                        : selectedTheme === "cyan" 
+                        ? "#e5ffff" 
+                        : selectedTheme === "sky" 
+                        ? "#ebf8ff" 
+                        : selectedTheme === "indigo" 
+                        ? "#eef2ff" 
+                        : selectedTheme === "pink" 
+                        ? "#fff5f7" 
+                        : "#ffffff",
                 borderRadius: "20px",
                 overflow: "hidden",
             }}
@@ -159,18 +154,18 @@ const Mypage = ({
                     minHeight: "600px", // 필요에 따라 조정
                     borderRadius: "20px",
                     overflow: "hidden",
-                    backgroundColor:
-                        selectedTheme === "white"
+                    backgroundColor: 
+                        selectedTheme === "white" 
                             ? "#ffffff"
-                            : selectedTheme === "cyan"
-                                ? "#e5ffff"
-                                : selectedTheme === "sky"
-                                    ? "#ebf8ff"
-                                    : selectedTheme === "indigo"
-                                        ? "#eef2ff"
-                                        : selectedTheme === "pink"
-                                            ? "#fff5f7"
-                                            : "#ffffff",
+                            : selectedTheme === "cyan" 
+                            ? "#e5ffff" 
+                            : selectedTheme === "sky" 
+                            ? "#ebf8ff" 
+                            : selectedTheme === "indigo" 
+                            ? "#eef2ff" 
+                            : selectedTheme === "pink" 
+                            ? "#fff5f7" 
+                            : "#ffffff",
                 }}
             >
                 {/* 프로필 영역 */}
@@ -189,15 +184,15 @@ const Mypage = ({
                         }}
                     >
 
-                        {/* 동그라미 크기 고정. marginBottom: '30px'은 이름과 사진 사이의 거리 */}
-                        <img
-                            src="/field.jpg"
-                            className="object-cover w-full h-full rounded-full snap-center"
-                        />
+                            {/* 동그라미 크기 고정. marginBottom: '30px'은 이름과 사진 사이의 거리 */}
+                            <img
+                                src="/field.jpg"
+                                className="object-cover w-full h-full rounded-full snap-center"
+                            />
+                        </div>
+                        <h2 className="text-xl font-semibold">{userInfo.name}</h2>
+                        <p className="text-gray-500 mb-1">{userInfo.email}</p>
                     </div>
-                    <h2 className="text-xl font-semibold">{userInfo.name}</h2>
-                    <p className="text-gray-500 mb-1">{userInfo.email}</p>
-                </div>
 
                 {/* 메뉴 영역 */}
                 <ul
@@ -244,11 +239,16 @@ const Mypage = ({
                         {["white", "cyan", "sky", "indigo", "pink"].map((theme) => (
                             <label key={theme} className="flex items-center">
                                 <input
-                                    type="radio"
-                                    className="appearance-none"
+                                    type="radio" 
+                                    className="appearance-none" 
                                     checked={selectedTheme === theme}
                                     onChange={() => handleThemeChange(theme)}
                                 />
+                                {/* <p className="forced-colors:block hidden">
+                                    {theme.charAt(0).toUpperCase() + theme.slice(1)}
+                                </p> */}
+                                {/* <span>{theme.charAt(0).toUpperCase() + theme.slice(1)}</span>
+                                <div className={`h-6 w-6 rounded-full bg-${theme}-200`}></div> */}
                                 <div
                                     className={`h-6 w-6 rounded-full border border-gray-300 hover:border-gray-400 cursor-pointer flex items-center justify-center relative`}
                                     style={{
@@ -265,10 +265,10 @@ const Mypage = ({
                     </div>
                 </form>
             </div>
-
+            
 
             {/* 콘텐츠 섹션 */}
-            <div className="flex-1 p-8 bg-gray-200" style={{ height: '580px', overflow: 'hidden' }}>
+            <div className="flex-1 p-8 bg-gray-200"  style={{ height: '580px', overflow: 'hidden' }}>
                 {/* '내 책 목록' 선택 시 표시될 내용 - 추가된 로직 */}
                 {selectedMenu === "bookList" && (
                     <div className="h-full border-2 border-dashed border-gray-300 rounded">
@@ -282,44 +282,15 @@ const Mypage = ({
                 {/* '학습현황' 선택 시 표시될 내용 - 추가된 로직 */}
                 {selectedMenu === "menu1" && (
                     <div className="h-full border-2 border-dashed border-gray-300 rounded">
-                        <div className="h-full justify-center">
-                            <div className="h-full">
-                                <div className="text-gray-500 mt-4 mb-2 ml-4 mr-4">
-                                    여기에 "학습현황" 컨텐츠가 표시됩니다.<br />
-                                </div>
-                                <div className="flex">
-                                    <div className="w-1/2 mt-2 mb-4 ml-4 mr-4">
-                                        <Bar options={options} data={data}/>
-                                    </div>
-                                    <div className="w-1/2 mt-2 mb-4 ml-4 mr-4">
-                                    {/* 파이 차트 추가 */}
-                                        <div className="shadow-lg rounded-lg overflow-hidden w-96">
-                                            <div className="py-3 px-5 bg-gray-50">
-                                            읽은 책 수: {readBookCount}<br />
-                                            푼 퀴즈 수: {quizCount}<br />
-                                            정답율: {100 - wrongpercentage}%<br />
-                                            </div>
-                                            {/* ChartPie 컴포넌트 불러오기 */}
-                                            <ChartPie
-                                                data={{
-                                                    labels: ["정답율", "오답율"],
-                                                    datasets: [
-                                                        {
-                                                            data: [100-wrongpercentage, wrongpercentage],
-                                                            backgroundColor: [
-                                                                "rgb(000, 204, 255)",
-                                                                "rgb(255, 153, 204)",
-                                                            ],
-                                                            hoverOffset: 4,
-                                                        },
-                                                    ],
-                                                }}
-                                                
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div className="flex h-full items-center justify-center">
+                            <p className="text-gray-500">
+                                여기에 "학습현황" 컨텐츠가 표시됩니다.
+                                <br />
+                                읽은 책 수: {readBookCount}
+                                <br />푼 퀴즈 수: {quizCount}
+                                <br />
+                                오답율: {wrongpercentage}%
+                            </p>
                         </div>
                     </div>
                 )}
@@ -328,4 +299,4 @@ const Mypage = ({
     );
 };
 
-export default Mypage;
+    export default Mypage;
