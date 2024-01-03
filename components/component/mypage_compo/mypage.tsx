@@ -289,11 +289,11 @@ const Mypage = ({
                                 </div>
                                 <div className="flex">
                                     <div className="w-1/2 mt-2 mb-4 ml-4 mr-4">
-                                        hi
+                                        <Bar options={options} data={data}/>
                                     </div>
                                     <div className="w-1/2 mt-2 mb-4 ml-4 mr-4">
                                     {/* 파이 차트 추가 */}
-                                        <div className="shadow-lg rounded-lg overflow-hidden">
+                                        <div className="shadow-lg rounded-lg overflow-hidden w-96">
                                             <div className="py-3 px-5 bg-gray-50">
                                             읽은 책 수: {readBookCount}<br />
                                             푼 퀴즈 수: {quizCount}<br />
