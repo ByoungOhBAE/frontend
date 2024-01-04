@@ -31,7 +31,7 @@ import {
       },
       title: {
         display: true,
-        text: '월별 푼 퀴즈 수',
+        text: '일주일 간 푼 퀴즈 수',
       },
     },
   };
