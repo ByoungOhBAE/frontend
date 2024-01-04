@@ -31,6 +31,7 @@ const BookPage = ({ bookid }) => {
   const audioPlayerRef = useRef(null);
   const [book, setBook] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [audioPath, setAudioPath] = useState('');
 
   useEffect(() => {
     fetchGetData(bookid);
@@ -51,7 +52,7 @@ const BookPage = ({ bookid }) => {
                 setBook(response.data.results);
                 console.log(response.data.results[0].content);
                 const content = response.data.results[0].content;
-                // fetchPostSpeech(content);
+                fetchPostSpeech(content);
                 // setPosts(response.data.results);
                 // setNextPageUrl(response.data.next);
             })
@@ -70,6 +71,8 @@ const BookPage = ({ bookid }) => {
           }
       })
           .then(response => {
+              setAudioPath(response.data.file_path);
+              console.log(response.data.file_path);
               // console.log(response);
               // setQuiz(response.data.question);
               // setContent(response.data.content);
@@ -141,7 +144,7 @@ const BookPage = ({ bookid }) => {
 
                     <AudioPlayer
                       ref={audioPlayerRef}
-                      src="/audio/mouse.mp3"
+                      src={audioPath}
                       autoPlay={isReadyToPlay}
                       showJumpControls={false}
                       preload="none"
