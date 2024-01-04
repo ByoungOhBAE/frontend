@@ -69,12 +69,22 @@ const Mypage = ({
         }
     }, []);
 
+    useEffect(() => {
+        // 컴포넌트가 마운트될 때 저장된 테마 값 확인
+        const savedTheme = localStorage.getItem("selectedTheme");
+        if (savedTheme) {
+          setSelectedTheme(savedTheme);
+        }
+      }, []);
+
     const handleMenuClick = (menu) => {
         setSelectedMenu(menu);
     };
 
     const handleThemeChange = (theme) => {
         setSelectedTheme(theme);
+        // 선택한 테마를 로컬 스토리지에 저장
+        localStorage.setItem("selectedTheme", theme);
     };
     const onMouseEnter = (item) => {
         setHoveredItem(item);
