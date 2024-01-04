@@ -25,7 +25,7 @@ const Quiz = ({ bookid }) => {
     const [content, setContent] = useState('');
 
     useEffect(() => {
-        // fetchPostQuiz();
+        fetchPostQuiz();
     }, []);
 
     const fetchPostQuiz = async () => {
