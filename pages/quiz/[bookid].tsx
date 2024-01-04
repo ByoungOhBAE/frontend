@@ -30,7 +30,7 @@ const Quiz = ({ bookid }) => {
 
     const fetchPostQuiz = async () => {
         const token = Cookies.get('token');
-        axios.post(`http://127.0.0.1:8000/api/ChatGPT/Question/`, {
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/ChatGPT/Question/`, {
             bookid: bookid,
         },{
             headers: {
@@ -50,7 +50,7 @@ const Quiz = ({ bookid }) => {
 
     const fetchPostFeedback = async () => {
         const token = Cookies.get('token');
-        axios.post(`http://127.0.0.1:8000/api/ChatGPT/Feedback/`, {
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/ChatGPT/Feedback/`, {
             // bookid: bookid,
             content: content,
             quiz: quiz,
@@ -71,7 +71,7 @@ const Quiz = ({ bookid }) => {
     };
 
     function handleMikeClick() {
-        axios.post('http://127.0.0.1:8000/recognize_speech/')
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/recognize_speech/`)
             .then(response => {
                 console.log(response);
                 setUserAnswer(response.data.text);
