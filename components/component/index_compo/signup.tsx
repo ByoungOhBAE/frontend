@@ -127,7 +127,7 @@ export function Signup({ setShowSignup }) {
         setErrorMessage("");    // 에러 메시지 초기화
     
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/signup/', formData);
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/signup/`, formData);
             console.log("회원가입 성공:", response.data);
             setShowSignup(false);
         } catch (error) {

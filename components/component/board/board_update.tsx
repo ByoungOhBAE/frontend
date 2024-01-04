@@ -22,7 +22,7 @@ const Board_update = ({ onCancel, goBack, postId, PostTitle, PostContent, fetchG
             const token = Cookies.get('token');
             
             const user_id = Cookies.get('user_id');
-            const response = await axios.put(`http://127.0.0.1:8000/api/posts/${postId}/`, {
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/${postId}/`, {
                 id: postId,
                 User: user_id,
                 title: postTitle,

@@ -59,7 +59,7 @@ const Mypage = ({
         const userId = Cookies.get("user_id");
         if (userId) {
             axios
-                .get(`http://127.0.0.1:8000/api/user/${userId}`)
+                .get(`${process.env.NEXT_PUBLIC_API_URL}/api/user/${userId}`)
                 .then((response) => {
                     setUserInfo(response.data);
                 })
@@ -101,17 +101,17 @@ const Mypage = ({
             const fetchUserStats = async () => {
                 try {
                     const response = await axios.get(
-                        `http://127.0.0.1:8000/api/user/${userInfo.id}/`
+                        `${process.env.NEXT_PUBLIC_API_URL}/api/user/${userInfo.id}/`
                     ); // 사용자 ID에 따라 수정
                     const userData = response.data;
 
                     const bookListResponse = await axios.get(
-                        `http://127.0.0.1:8000/api/user/${userData.id}/learningstatus`
+                        `${process.env.NEXT_PUBLIC_API_URL}/api/user/${userData.id}/learningstatus`
                     );
                     const userBookList = bookListResponse.data;
 
                     const readingResponse = await axios.get(
-                        `http://127.0.0.1:8000/api/user/${userData.id}/readingstatus`
+                        `${process.env.NEXT_PUBLIC_API_URL}/api/user/${userData.id}/readingstatus`
                     );
                     const readingList = readingResponse.data;
                     // 상태 업데이트

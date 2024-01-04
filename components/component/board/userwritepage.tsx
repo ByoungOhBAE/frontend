@@ -10,7 +10,7 @@ const Userwritepage = ({ bookId, setSelecteCompoId }) => {
     const [content, setContent] = useState('');
     useEffect(() => {
         if (bookId) {
-            axios.get(`http://127.0.0.1:8000/api/BookList/${bookId}`)
+            axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/BookList/${bookId}`)
                 .then(response => {
                     setBook(response.data);
                 })

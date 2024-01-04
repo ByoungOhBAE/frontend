@@ -21,7 +21,8 @@ const Board_list = ({ }) => {
 
     // 게시물 데이터를 불러오는 함수
     const fetchGetData = async () => {
-        axios.get(`http://127.0.0.1:8000/api/posts/?page=${currentPage}&search=${searchQuery}`)
+        console.log(process.env.NEXT_PUBLIC_API_URL);
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/?page=${currentPage}&search=${searchQuery}`)
             .then(response => {
                 setPosts(response.data.results.slice(0, PER_PAGE));
                 setNextPageUrl(response.data.next);
