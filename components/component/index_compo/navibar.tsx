@@ -98,7 +98,7 @@ export function Navibar({ setSelecteCompoId }) {
 
 
             </div>
-            
+
           </SheetContent>
         </Sheet>
 
@@ -107,9 +107,9 @@ export function Navibar({ setSelecteCompoId }) {
         {/* 밑부분은 화면이 클때 */}
 
 
-        <div className="absolute left-1/2 transform -translate-x-1/2 text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%">
-          <h2>
-            Bookids
+        <div className=" absolute left-1/2 transform -translate-x-1/2 text-4xl font-bold ">
+          <h2 className="animated-gradient">
+            BooKids
           </h2>
         </div>
 
@@ -126,7 +126,7 @@ export function Navibar({ setSelecteCompoId }) {
           </div>
 
 
-          
+
         </div>
 
 
