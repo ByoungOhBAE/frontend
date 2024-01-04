@@ -35,8 +35,32 @@
   font-weight: normal;
   font-style: normal;
 }
-/* kcc간판체 */
+/* kcc무럭무럭체 */
+@font-face {
+  font-family: 'iceJaram-Rg';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/iceJaram-Rg.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+/* 인천교육자람체 */
 /* 눈누에서 불러온 폰트 적용 + 아래에 적용범위설정,tailwind.config.js에 커스텀 가능 */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  /* 폰트패밀리 안에 변경해주면 전체 변경 */
+  html {
+    font-family:"KCCMurukmuruk"
+  }
+  Button {
+    font-family:"TAEBAEKmilkyway"
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -120,16 +144,3 @@
 }
 
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  /* 폰트패밀리 안에 변경해주면 전체 변경 */
-  html {
-    font-family:"KCCMurukmuruk"
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
-}
