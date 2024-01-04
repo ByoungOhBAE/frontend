@@ -5,9 +5,17 @@
 import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar"
 import { HoverCardTrigger, HoverCardContent, HoverCard } from "@/components/ui/hover-card"
 import { Button } from "@/components/ui/button"
-
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 export default function Component({ setSelecteCompoId, user }) {
-  console.log(user)
+  const router = useRouter();
+
+  const handleLogout = () => {
+    Cookies.remove("token");
+    Cookies.remove("user_id");
+    router.push("/");
+  };
+  
   return (
 
     <HoverCard>
@@ -24,10 +32,13 @@ export default function Component({ setSelecteCompoId, user }) {
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
           <div className="space-y-1">
-           
+
             <h4 className="text-lg font-semibold">{user}</h4>
             <p className="text-sm text-gray-500">Bio</p>
           </div>
+        </div>
+        <div className="justify-end">
+          <Button className="w-full" variant="outline" onClick={handleLogout}>logout</Button>
         </div>
 
         <Button className="w-full" variant="outline" onClick={() => setSelecteCompoId(3)}>
