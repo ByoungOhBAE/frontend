@@ -34,20 +34,24 @@ const board_write = ({ onCancel, fetchGetData }) => {
             fetchGetData();
             // 작성이 완료된 후 폼 닫기
             onCancel();
-        }catch(error){
+        } catch (error) {
             console.error('Error submitting post:', error);
         }
     };
     <style>
-        
+
     </style>
     return (
         <div>
-            {/* 뒤로가기 버튼 */}
-            <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out mb-4" onClick={onCancel}>
-                뒤로가기
-            </button>
-            <h2 className="text-2xl font-bold mb-4">글 작성하기</h2>
+            <div className="flex justify-between">
+                {/* 뒤로가기 버튼 */}
+                <div></div>
+
+                <h2 className="text-2xl font-bold mb-4">글 작성하기</h2>
+                <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out mb-4" onClick={onCancel}>
+                    뒤로가기
+                </button>
+            </div>
             <form onSubmit={handlePostSubmit}>
                 {/* 제목 입력 */}
                 <div className="mb-4">
@@ -62,7 +66,7 @@ const board_write = ({ onCancel, fetchGetData }) => {
                     />
                 </div>
                 {/* 내용 입력 */}
-                <div className="mb-4 my-10">
+                <div className="mb-4 my-9">
                     <label htmlFor="postContent" className="block text-sm font-bold mb-2">내용</label>
                     <TextEditor content={postContent} setContent={setPostContent} />
                 </div>

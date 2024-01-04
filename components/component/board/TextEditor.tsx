@@ -70,14 +70,14 @@ const TextEditor = ({ content, setContent }) => {
       }, []);
 
     return (
-        <div style={{ height: '550px', backgroundColor: '#FFFFFF'}}>
+        <div style={{ height: '350px', backgroundColor: '#FFFFFF'}}>
             <ReactQuill 
                 ref={editorRef}
                 value={content}
                 onChange={setContent}
                 theme="snow"
                 modules={modules}
-                style={{ height: '508px', backgroundColor: '#FFFFFF'}}
+                style={{ height: '308px', backgroundColor: '#FFFFFF'}}
             />
         </div>
     );

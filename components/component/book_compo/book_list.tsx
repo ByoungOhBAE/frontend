@@ -27,42 +27,42 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
         {/* 책 목록 렌더링 */}
         {currentBooks.map(book => (
           <button>
-          <div key={book.id}
+            <div key={book.id}
 
-            className="relative group overflow-hidden rounded-lg"
-            onClick={() => showBookDetails(book.id)}>
-            
-            {/* 책 정보 렌더링 */}
-            <Card className="border-4 p-4 border-violet-300 border-double" style={{
+              className="relative group overflow-hidden rounded-lg"
+              onClick={() => showBookDetails(book.id)}>
+
+              {/* 책 정보 렌더링 */}
+              <Card className="border-4 p-4 border-violet-300 border-double" style={{
                 backgroundImage: `url(${book.img_path})`,
                 backgroundOrigin: 'content-box',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center', // 이미지 중앙 정렬
                 backgroundRepeat: 'no-repeat',
                 minHeight: '220px',
-                
+
               }}>
-              <CardHeader>
-                <Avatar className="w-12 h-12" src="/placeholder.svg?height=100&width=100" />
-              </CardHeader>
-              <CardContent>
-                {/* 여기에 추가 정보 표시 */}
-              </CardContent>
-            </Card>
-            
-            {/* 밑은 호버 띄우기 */}
-            <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-              onClick={() =>
-                showBookDetails(book.id)
-              }>
-              <h2 className="text-white ml-4 text-lg font-semibold">
-                {book.book_name}
-              </h2>
-              <h1 className="text-white text-lg">
-                {book.author}
-              </h1>
+                <CardHeader>
+                  <Avatar className="w-12 h-12" src="/placeholder.svg?height=100&width=100" />
+                </CardHeader>
+                <CardContent>
+                  {/* 여기에 추가 정보 표시 */}
+                </CardContent>
+              </Card>
+
+              {/* 밑은 호버 띄우기 */}
+              <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                onClick={() =>
+                  showBookDetails(book.id)
+                }>
+                <h2 className="text-white ml-4 text-lg font-semibold">
+                  {book.book_name}
+                </h2>
+                <h1 className="text-white text-lg">
+                  {book.author}
+                </h1>
+              </div>
             </div>
-          </div>
           </button>
         ))}
       </div >

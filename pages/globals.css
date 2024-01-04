@@ -43,6 +43,13 @@
   font-style: normal;
 }
 /* 인천교육자람체 */
+@font-face {
+  font-family: 'RIDIBatang';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+/* 리디바탕 */
 /* 눈누에서 불러온 폰트 적용 + 아래에 적용범위설정,tailwind.config.js에 커스텀 가능 */
 @layer base {
   * {
@@ -54,6 +61,9 @@
   }
   Button {
     font-family:"TAEBAEKmilkyway"
+  }
+  p {
+      font-family:"RIDIBatang"
   }
 
   body {
