@@ -51,7 +51,7 @@ const BookPage = ({ bookid }) => {
                 setBook(response.data.results);
                 console.log(response.data.results[0].content);
                 const content = response.data.results[0].content;
-                fetchPostSpeech(content);
+                // fetchPostSpeech(content);
                 // setPosts(response.data.results);
                 // setNextPageUrl(response.data.next);
             })
