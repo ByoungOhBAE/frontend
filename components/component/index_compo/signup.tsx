@@ -114,13 +114,8 @@ export function Signup({ setShowSignup }) {
             return;
         }
     
-        // if (formData.password.length < 6) {
-        //     setErrorMessage('비밀번호는 최소 6글자 이상이어야 합니다.');
-        //     return;
-        // }
-
-        if (!validatePassword(formData.password)) {
-            setErrorMessage('비밀번호는 8글자 이상이어야 하며, 영문, 숫자, 특수문자를 모두 포함해야 합니다.');
+        if (formData.password.length < 6) {
+            setErrorMessage('비밀번호는 최소 6글자 이상이어야 합니다.');
             return;
         }
     
@@ -132,7 +127,7 @@ export function Signup({ setShowSignup }) {
         setErrorMessage("");    // 에러 메시지 초기화
     
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/signup/`, formData);
+            const response = await axios.post('http://127.0.0.1:8000/api/signup/', formData);
             console.log("회원가입 성공:", response.data);
             setShowSignup(false);
         } catch (error) {
@@ -157,14 +152,6 @@ export function Signup({ setShowSignup }) {
         const koreanNameRegex = /^[가-힣]+$/;
         return koreanNameRegex.test(name);
     };
-
-    const validatePassword = (password) => {
-        return password.length >= 8 &&
-               /[a-zA-Z]/.test(password) &&  // 영문자 포함
-               /\d/.test(password) &&        // 숫자 포함
-               /[!@#$%^&*]/.test(password);   // 특수문자 포함
-    };
-
 
     return (
         <main key="1" className="p-6">
