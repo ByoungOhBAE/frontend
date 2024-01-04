@@ -17,7 +17,7 @@ export default function Login({ setShowLogin, setShowSignup }) {
         event.preventDefault();
         try {
             const response = await axios.post(
-                "http://127.0.0.1:8000/api/token/",
+                `${process.env.NEXT_PUBLIC_API_URL}/api/token/`,
                 {
                     // API 경로는 제작후 넣을것
                     email,

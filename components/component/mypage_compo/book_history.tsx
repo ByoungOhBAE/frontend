@@ -37,7 +37,7 @@ export default function Book_history({ setSelecteCompoId, setSelectedBookId }) {
             onClick={() => showBookDetails(book.id)}>
             {/* 책 정보 렌더링 */}
             <Card style={{
-                backgroundImage: `url(${'http://127.0.0.1:8000'+book.BookList.img_path})`,
+                backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL + book.BookList.img_path})`,
                 backgroundOrigin: 'padding-box',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center', // 이미지 중앙 정렬

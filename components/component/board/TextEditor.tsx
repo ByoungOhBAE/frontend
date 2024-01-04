@@ -35,7 +35,7 @@ const TextEditor = ({ content, setContent }) => {
             formData.append('media_path', file);
     
             const token = Cookies.get('token');
-            axios.post('http://127.0.0.1:8000/api/posts/media/', formData, {
+            axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/media/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`
@@ -70,14 +70,14 @@ const TextEditor = ({ content, setContent }) => {
       }, []);
 
     return (
-        <div style={{ height: '550px', backgroundColor: '#FFFFFF'}}>
+        <div style={{ height: '350px', backgroundColor: '#FFFFFF'}}>
             <ReactQuill 
                 ref={editorRef}
                 value={content}
                 onChange={setContent}
                 theme="snow"
                 modules={modules}
-                style={{ height: '508px', backgroundColor: '#FFFFFF'}}
+                style={{ height: '308px', backgroundColor: '#FFFFFF'}}
             />
         </div>
     );

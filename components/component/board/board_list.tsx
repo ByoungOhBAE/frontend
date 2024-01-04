@@ -14,6 +14,9 @@ const Board_list = ({ }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [nextPageUrl, setNextPageUrl] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [totalPage,settotalPage] = useState('1');
+    const totalPages = Math.ceil(totalPage / PER_PAGE);
+    console.log(posts)
 
     useEffect(() => {
         fetchGetData();
@@ -21,10 +24,12 @@ const Board_list = ({ }) => {
 
     // 게시물 데이터를 불러오는 함수
     const fetchGetData = async () => {
-        axios.get(`http://127.0.0.1:8000/api/posts/?page=${currentPage}&search=${searchQuery}`)
+        console.log(process.env.NEXT_PUBLIC_API_URL);
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/?page=${currentPage}&search=${searchQuery}`)
             .then(response => {
                 setPosts(response.data.results.slice(0, PER_PAGE));
                 setNextPageUrl(response.data.next);
+                settotalPage(response.data.count);
             })
             .catch(error => {
                 console.error('Error fetching post data:', error);
@@ -52,11 +57,11 @@ const Board_list = ({ }) => {
     };
 
     if (selectedPostId) {
-        return <Board_detail 
-                    postId={selectedPostId} 
-                    goBack={goBack}
-                    fetchGetData_board_list={fetchGetData} 
-                />;
+        return <Board_detail
+            postId={selectedPostId}
+            goBack={goBack}
+            fetchGetData_board_list={fetchGetData}
+        />;
     }
 
     const handleSearch = () => {
@@ -68,7 +73,7 @@ const Board_list = ({ }) => {
         <div className="container mx-auto px-4" style={{ minHeight: "580px" }}>
             {/* 테이블 or 작성 폼 */}
             {showWrite ? (
-                <Board_write onCancel={() => {setShowWrite(false); setShowSearch(true);}} fetchGetData={fetchGetData} />
+                <Board_write onCancel={() => { setShowWrite(false); setShowSearch(true); }} fetchGetData={fetchGetData} />
             ) : (
                 <div>
                     <div className="bg-white p-4 rounded-lg shadow-md" style={{ maxHeight: "500px", overflowY: "auto" }}>
@@ -94,64 +99,52 @@ const Board_list = ({ }) => {
                         </table>
                     </div>
                     {/* 하단 버튼 그룹 */}
-                        <div className="flex justify-between items-center my-6">
-                    {/* 중앙 버튼 그룹: 이전, 다음 버튼 */}
-                        <div className="flex justify-center flex-grow">
-                    {/* 이전 버튼 */}
-                        <button 
-                            onClick={() => setCurrentPage(currentPage - 1)}
-                            hidden={currentPage === 1}
-                            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out mr-2"
-                        >
-                            이전
-                        </button>
+                    <div className="flex justify-end items-center my-6">
+                        {/* 중앙 버튼 그룹: 이전, 다음 버튼 */}
+                        <div className="absolute left-1/2 transform -translate-x-1/2">
+                            {/* 이전 버튼 */}
+                            <Button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>이전 페이지</Button>
+                            <span className="items-center p-2"> {currentPage} / {totalPages}</span>
+                            <Button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>다음 페이지</Button>
 
-                    {/* 다음 버튼 */}
-                        <button 
-                            onClick={() => setCurrentPage(currentPage + 1)}
-                            hidden={!nextPageUrl}
-                            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
-                        >
-                            다음
-                        </button>
                         </div>
 
-                    {/* 오른쪽 버튼 그룹: 검색창, 검색 버튼, 작성하기 버튼 */}
-                    <div className="flex items-center">
-                        {/* 검색창 */}
-                        {showSearch && (
-                            <input
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                value={searchQuery}
-                                type="text"
-                                placeholder="검색어를 입력하세요"
-                                className="p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-                            />
-                        )}
+                        {/* 오른쪽 버튼 그룹: 검색창, 검색 버튼, 작성하기 버튼 */}
+                        <div className="flex items-center">
+                            {/* 검색창 */}
+                            {showSearch && (
+                                <input
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    value={searchQuery}
+                                    type="text"
+                                    placeholder="검색어를 입력하세요"
+                                    className="p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                />
+                            )}
 
-                        {/* 검색 버튼 */}
-                        {showSearch && (
-                            <button 
-                                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded ml-2 transition duration-300 ease-in-out"
-                                onClick={handleSearch}
-                            >
-                                검색
-                            </button>
-                        )}
+                            {/* 검색 버튼 */}
+                            {showSearch && (
+                                <button
+                                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded ml-2 transition duration-300 ease-in-out"
+                                    onClick={handleSearch}
+                                >
+                                    검색
+                                </button>
+                            )}
 
-                        {/* 작성하기 버튼 */}
-                        {showSearch && (
-                            <Button 
-                                className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out ml-2"
-                                onClick={handleWriteButtonClick}
-                            >
-                                작성하기
-                            </Button>
-                        )}
+                            {/* 작성하기 버튼 */}
+                            {showSearch && (
+                                <Button
+                                    className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out ml-2"
+                                    onClick={handleWriteButtonClick}
+                                >
+                                    작성하기
+                                </Button>
+                            )}
+                        </div>
                     </div>
                 </div>
-            </div>    
-        )}
+            )}
         </div>
     );
 };

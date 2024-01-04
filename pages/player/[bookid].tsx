@@ -47,18 +47,18 @@ const BookPage = ({ bookid }) => {
     
     // 줄거리 데이터 가지고 오기
     const fetchGetData = async (bookid) => {
-        axios.get(`http://127.0.0.1:8000/api/BookDetail/${bookid}?page=${currentPage}`)
-            .then(response => {
-                setBook(response.data.results);
-                console.log(response.data.results[0].content);
-                const content = response.data.results[0].content;
-                fetchPostSpeech(content);
-                // setPosts(response.data.results);
-                // setNextPageUrl(response.data.next);
-            })
-            .catch(error => {
-                router.push(`/quiz/${bookid}`);
-            });
+      axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/BookDetail/${bookid}?page=${currentPage}`)
+          .then(response => {
+              setBook(response.data.results);
+              console.log(response.data.results[0].content);
+              const content = response.data.results[0].content;
+              fetchPostSpeech(content);
+              // setPosts(response.data.results);
+              // setNextPageUrl(response.data.next);
+          })
+          .catch(error => {
+              router.push(`/quiz/${bookid}`);
+          });
     };
 
     const fetchPostSpeech = async (content) => {

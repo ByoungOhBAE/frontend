@@ -33,7 +33,7 @@ const Board_detail = ({ postId, goBack, fetchGetData_board_list }) => {
         try {
             const token = Cookies.get('token');
 
-            const response = await axios.delete(`http://127.0.0.1:8000/api/posts/${postId}/`, {
+            const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/${postId}/`, {
                 headers: {
                     'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
                 }
@@ -51,7 +51,7 @@ const Board_detail = ({ postId, goBack, fetchGetData_board_list }) => {
     // 게시물 상세 데이터를 불러오는 함수
     const fetchGetData = async () => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/posts/${postId}/`);
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/${postId}/`);
             setPost(response.data);
             console.log(response.data);
         } catch (error) {
@@ -89,7 +89,7 @@ const Board_detail = ({ postId, goBack, fetchGetData_board_list }) => {
             const token = Cookies.get('token');
             const user_id = Cookies.get('user_id');
 
-            const response = await axios.post(`http://127.0.0.1:8000/api/comment/`, {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/comment/`, {
                 Post: postId,
                 User: user_id,
                 content: CommentContent,

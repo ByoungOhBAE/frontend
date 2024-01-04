@@ -33,7 +33,7 @@ export function Navibar({ setSelecteCompoId }) {
     const userId = Cookies.get("user_id");
     if (userId) {
       axios
-        .get(`http://127.0.0.1:8000/api/user/${userId}`)
+        .get(`${process.env.NEXT_PUBLIC_API_URL}/api/user/${userId}`)
         .then((response) => {
           setUserInfo(response.data);
         })
@@ -50,7 +50,7 @@ export function Navibar({ setSelecteCompoId }) {
       const fetchUserStats = async () => {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/user/${userInfo.id}/`
+            `${process.env.NEXT_PUBLIC_API_URL}/api/user/${userInfo.id}/`
           ); // 사용자 ID에 따라 수정
           const userData = response.data;
 
@@ -98,9 +98,7 @@ export function Navibar({ setSelecteCompoId }) {
 
 
             </div>
-            <div className="justify-end">
-              <Button className="w-full" variant="outline" onClick={handleLogout}>로그아웃</Button>
-            </div>
+            
           </SheetContent>
         </Sheet>
 
@@ -116,21 +114,19 @@ export function Navibar({ setSelecteCompoId }) {
         </div>
 
 
-        <div className="flex  gap-1 text-blue-600 min-w-fit group ">
+        <div className="flex  gap-1 text-blue-600 min-w-fit group pr-5">
 
-          {userInfo.name && <Profile_hover setSelecteCompoId={setSelecteCompoId} className="basis-1/6 justify-items-center" userinfo={userInfo.name} />}
+          {userInfo.name && <Profile_hover setSelecteCompoId={setSelecteCompoId} userinfo={userInfo.name} className="basis-1/6 justify-items-center" />}
 
 
-          <div className="flex items-center basis-2/6 justify-center group-hover:opacity-100">
+          <div className="flex items-center group-hover:opacity-100 min-w-15">
             <div>
               {userInfo.name}님
             </div>
           </div>
 
 
-          <div className="ml-3 items-center min-w-fit text-red-600 group block rounded-lg bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-100 hover:ring-sky-100" onClick={handleLogout}>
-            <button className="m-1 min-w-fit font-semibold text-lg">로그아웃</button>
-          </div>
+          
         </div>
 
 
