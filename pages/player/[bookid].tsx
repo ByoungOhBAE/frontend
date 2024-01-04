@@ -124,8 +124,8 @@ const BookPage = ({ bookid }) => {
             <Card className="rounded-md bg-white dark:bg-gray-800 border-2 ">
               <CardContent className="flex flex-col h-full">
                 <ScrollArea className="flex-1 mt-6 w-full rounded-md border max-h-full overflow-auto">
-                  <div className="p-4 text-sm">
-                    <p className="mt-4 leading-loose text-3xl tracking-wide">
+                  <div className="p-2 text-sm">
+                    <p className="mt-4 text-3xl tracking-wide" style={{ lineHeight: '3em' }}>
                       {detail.content}
                     </p>
                   </div>
