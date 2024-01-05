@@ -25,6 +25,12 @@ import {
   );
   export const options = {
     responsive: true,
+    animation: {
+      duration: 800,
+      easing: 'linear',
+      loop: false,
+      autoplay: true,
+    },
     plugins: {
       legend: {
         position: 'top' as const,
@@ -139,7 +145,7 @@ const Mypage = ({
           {
             label: '푼 퀴즈 수',
             data: monthdata,
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            backgroundColor: '#40E0D0',
           },
         ],
       };
@@ -310,7 +316,7 @@ const Mypage = ({
                                     여기에 "학습현황" 컨텐츠가 표시됩니다.<br />
                                 </div>
                                 <div className="flex">
-                                    <div className="w-2/3 mt-2 mb-4 ml-4 mr-4 h-96">
+                                    <div className="w-2/3 mt-16 mb-4 ml-4 mr-4 h-96">
                                         <Bar options={options} data={data}/>
                                     </div>
                                     <div className="w-1/3 mt-2 mb-4 ml-4 mr-4">
