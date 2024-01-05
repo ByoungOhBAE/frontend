@@ -221,7 +221,7 @@ const Mypage = ({
 
                         {/* 동그라미 크기 고정. marginBottom: '30px'은 이름과 사진 사이의 거리 */}
                         <img
-                            src="/field.jpg"
+                            src="/bookpanda.jpg"
                             className="object-cover w-full h-full rounded-full snap-center"
                         />
                     </div>
@@ -287,7 +287,7 @@ const Mypage = ({
                                     className={`h-6 w-6 rounded-full border border-gray-300 hover:border-gray-400 cursor-pointer flex items-center justify-center relative`}
                                     style={{
                                         backgroundColor: theme === "white" ? "#ffffff"
-                                        : theme === "cyan" ? "#cffafe"
+                                        : theme === "cyan" ? "#f3ffe3"
                                         : theme === "sky" ? "#e0f2fe"
                                         : theme === "indigo" ? "#e0e7ff"
                                         : theme === "pink" ? "#fce7f3"
