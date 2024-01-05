@@ -26,7 +26,7 @@ export default function Book_history({ setSelecteCompoId, setSelectedBookId }) {
 
   console.log('bookHistory:', currentBooks);
   return (
-    <div className="mx-3 my-3 p-3 bg-slate-200/90 rounded-lg" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <div className="mx-3 my-3 p-3 bg-white-200/150 rounded-lg" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div className="mx-3 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4" style={{ marginBottom: 'auto' }}>
         {/* 책 목록 렌더링 */}
         {currentBooks.map(book => (
@@ -70,7 +70,7 @@ export default function Book_history({ setSelecteCompoId, setSelectedBookId }) {
         ))}
       </div >
       {/* 페이지네이션 버튼 */}
-      <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '10px' }}>
         <Button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>이전 페이지</Button>
         <span className="items-center p-2"> {currentPage} / {totalPages}</span>
         <Button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>다음 페이지</Button>

@@ -21,6 +21,12 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+.nanumgothic * {
+ font-family: 'Nanum Gothic', sans-serif;
+}
+/* 네이버나눔고딕 */
 @font-face {
   font-family: 'Fairytale_ddobak';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_03@1.0/Fairytale_ddobak.woff') format('woff');
@@ -77,6 +83,13 @@
   font-style: normal;
 }
 /* 리디바탕 */
+@font-face {
+  font-family: 'BookkGothic-Bd';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkGothic-Bd.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+/* 부크크 고딕 */
 /* 눈누에서 불러온 폰트 적용 + 아래에 적용범위설정,tailwind.config.js에 커스텀 가능 */
 @layer base {
   * {
@@ -92,8 +105,11 @@
   p {
       font-family:"RIDIBatang"
   }
-  h3{
+  h1{
     font-family:"Cafe24Supermagic-Bold-v1.0"
+  }
+  h3{
+    font-family: 'BookkGothic-Bd'
   }
 
 

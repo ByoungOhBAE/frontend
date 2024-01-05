@@ -35,6 +35,15 @@ import {
       },
     },
   };
+
+  const themeBackgroundClasses = {
+    white: "bg-gray-200/90",
+    cyan: "bg-lime-100/90",
+    sky: "bg-sky-100/90",
+    indigo: "bg-indigo-100/90",
+    pink: "bg-pink-100/90",
+};
+
 const Mypage = ({
     setSelecteCompoId,
 }: {
@@ -143,6 +152,9 @@ const Mypage = ({
           },
         ],
       };
+
+      const backgroundClass = themeBackgroundClasses[selectedTheme] || "bg-gray-200/80";
+
     return (
         <div
             style={{
@@ -152,7 +164,7 @@ const Mypage = ({
                     selectedTheme === "white"
                         ? "#ffffff"
                         : selectedTheme === "cyan"
-                            ? "#e5ffff"
+                            ? "#f3ffe3"
                             : selectedTheme === "sky"
                                 ? "#ebf8ff"
                                 : selectedTheme === "indigo"
@@ -181,7 +193,7 @@ const Mypage = ({
                         selectedTheme === "white"
                             ? "#ffffff"
                             : selectedTheme === "cyan"
-                                ? "#e5ffff"
+                                ? "#f3ffe3"
                                 : selectedTheme === "sky"
                                     ? "#ebf8ff"
                                     : selectedTheme === "indigo"
@@ -209,7 +221,7 @@ const Mypage = ({
 
                         {/* 동그라미 크기 고정. marginBottom: '30px'은 이름과 사진 사이의 거리 */}
                         <img
-                            src="/field.jpg"
+                            src="/bookpanda.jpg"
                             className="object-cover w-full h-full rounded-full snap-center"
                         />
                     </div>
@@ -274,7 +286,13 @@ const Mypage = ({
                                 <div
                                     className={`h-6 w-6 rounded-full border border-gray-300 hover:border-gray-400 cursor-pointer flex items-center justify-center relative`}
                                     style={{
-                                        backgroundColor: selectedTheme === theme ? `var(--${theme}-200)` : "white",
+                                        backgroundColor: theme === "white" ? "#ffffff"
+                                        : theme === "cyan" ? "#f3ffe3"
+                                        : theme === "sky" ? "#e0f2fe"
+                                        : theme === "indigo" ? "#e0e7ff"
+                                        : theme === "pink" ? "#fce7f3"
+                                        : "white", // 기본값
+                                        border: theme === "white" ? "1px solid #ccc" : "" // 하얀색 테마에 대한 경계선 추가
                                     }}
                                     title={theme.charAt(0).toUpperCase() + theme.slice(1)}
                                 >
@@ -290,7 +308,7 @@ const Mypage = ({
 
 
             {/* 콘텐츠 섹션 */}
-            <div className="flex-1 p-8 bg-gray-200" style={{ height: '580px', overflow: 'hidden' }}>
+            <div className={`flex-1 p-8 ${backgroundClass}`} style={{ height: '600px', overflow: 'hidden' }}>
                 {/* '내 책 목록' 선택 시 표시될 내용 - 추가된 로직 */}
                 {selectedMenu === "bookList" && (
                     <div className="h-full border-2 border-dashed border-gray-300 rounded">
@@ -307,7 +325,7 @@ const Mypage = ({
                         <div className="h-full justify-center">
                             <div className="h-full">
                                 <div className="text-gray-500 mt-4 mb-2 ml-4 mr-4">
-                                    여기에 "학습현황" 컨텐츠가 표시됩니다.<br />
+                                    {/* 여기에 "학습현황" 컨텐츠가 표시됩니다.<br /> */}
                                 </div>
                                 <div className="flex">
                                     <div className="w-2/3 mt-2 mb-4 ml-4 mr-4 h-96">
