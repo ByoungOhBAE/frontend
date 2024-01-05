@@ -35,7 +35,7 @@ const TextEditor = ({ content, setContent }) => {
             formData.append('media_path', file);
     
             const token = Cookies.get('token');
-            axios.post('http://127.0.0.1:8000/api/posts/media/', formData, {
+            axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/media/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`

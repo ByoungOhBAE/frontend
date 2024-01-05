@@ -20,7 +20,7 @@ const board_write = ({ onCancel, fetchGetData }) => {
             const token = Cookies.get('token');
             const user_id = Cookies.get('user_id');
             console.log('content:' + postContent);
-            const response = await axios.post('http://127.0.0.1:8000/api/posts/', {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/`, {
                 title: postTitle,
                 content: postContent,
                 User: user_id,

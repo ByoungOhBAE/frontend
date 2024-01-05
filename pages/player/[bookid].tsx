@@ -31,38 +31,53 @@ const BookPage = ({ bookid }) => {
   const audioPlayerRef = useRef(null);
   const [book, setBook] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [audioPath, setAudioPath] = useState('');
+  const [nextPageAnimation, setNextPageAnimation] = useState('');
+  const [prevPageAnimation, setPrevPageAnimation] = useState('');
+  const [showTextLayer, setShowTextLayer] = useState(false);
+  const [nextContent, setNextContent] = useState('');
 
   useEffect(() => {
     fetchGetData(bookid);
     const timer = setTimeout(() => {
       setIsReadyToPlay(true);
       if (audioPlayerRef.current) {
-        // audioPlayerRef.current.audio.current.play();
+        audioPlayerRef.current.audio.current.play();
       }
-    }, 1000); // 1초 뒤에 재생 시작
-
+    }, 2000); // 1초 뒤에 재생 시작
+    fetchGetNextContent(bookid);
         return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 해제
     }, [currentPage]);
     
     // 줄거리 데이터 가지고 오기
     const fetchGetData = async (bookid) => {
-        axios.get(`http://127.0.0.1:8000/api/BookDetail/${bookid}?page=${currentPage}`)
-            .then(response => {
-                setBook(response.data.results);
-                console.log(response.data.results[0].content);
-                const content = response.data.results[0].content;
-                // fetchPostSpeech(content);
-                // setPosts(response.data.results);
-                // setNextPageUrl(response.data.next);
-            })
-            .catch(error => {
-                router.push(`/quiz/${bookid}`);
-            });
+      axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/BookDetail/${bookid}?page=${currentPage}`)
+          .then(response => {
+              setBook(response.data.results);
+              console.log(response.data.results[0].content);
+              const content = response.data.results[0].content;
+              fetchPostSpeech(content);
+              // setPosts(response.data.results);
+              // setNextPageUrl(response.data.next);
+          })
+          .catch(error => {
+              router.push(`/quiz/${bookid}`);
+          });
+    };
+
+    const fetchGetNextContent = async (bookid) => {
+      axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/BookDetail/${bookid}?page=${currentPage+1}`)
+          .then(response => {
+              setNextContent(response.data.results[0].content);
+          })
+          .catch(error => {
+              router.push(`/quiz/${bookid}`);
+          });
     };
 
     const fetchPostSpeech = async (content) => {
       const token = Cookies.get('token');
-      axios.post(`http://127.0.0.1:8000/api/TextToSpeech/`, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/TextToSpeech/`, {
           content: content,
       },{
           headers: {
@@ -70,6 +85,8 @@ const BookPage = ({ bookid }) => {
           }
       })
           .then(response => {
+              setAudioPath(response.data.file_path);
+              console.log(response.data.file_path);
               // console.log(response);
               // setQuiz(response.data.question);
               // setContent(response.data.content);
@@ -80,105 +97,99 @@ const BookPage = ({ bookid }) => {
           });
   };
 
-  const playerContainerStyle = `fixed bottom-0 w-full px-4 py-2 bg-white shadow-md transition-all duration-500 ease-in-out ${isPlayerVisible ? 'opacity-100 visible' : 'opacity-0 visible'
-    }`;
-
   const NextPage = () => {
-    setCurrentPage(currentPage + 1);
-  }
+    setShowTextLayer(true); // 애니메이션 넘어갈 때 숨겨진 컨텐츠 보이기
+    setNextPageAnimation('turnPage 1s forwards');
+    setTimeout(() => {
+      setCurrentPage(currentPage + 1);
+      setNextPageAnimation('');
+      setShowTextLayer(false); // 애니메이션 끝나고 다시 숨기기
+    }, 1000); // 애니메이션 시간과 일치
+  };
+
   const PrevPage = () => {
     if (currentPage <= 1) return;
-    setCurrentPage(currentPage - 1);
-    // router.push('/quiz');
-  }
-
-  const imageContainerStyle = {
-    backgroundImage: 'url("/image/mouse2.png")',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    width: '50%',
-    height: '100%',
-    borderRadius: '50% / 5%',
-    border: '2px solid black',
-
-  };
-  const textContainerStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: '50% / 5%',
-    backgroundColor: 'ivory',
-    color: 'black',
-    width: '50%',
-    height: '100%',
-    padding: '20px',
-    lineHeight: '2',
-    border: '2px solid black',
+    setPrevPageAnimation('turnPageReverse 1s backwards');
+    setTimeout(() => {
+      setCurrentPage(currentPage - 1);
+      setPrevPageAnimation('');
+    }, 1000);
   };
 
   return (
     <>
-      <main className="flex flex-col md:flex-row gap-2 md:gap-2 min-h-screen">
-        <aside className="md:w-1/2 h-screen p-10">
-          {book.map(detail => (
-            <Card className="rounded-md bg-white dark:bg-gray-800 border-2 ">
-              <CardContent className="flex flex-col h-full">
-                <ScrollArea className="flex-1 mt-6 w-full rounded-md border max-h-full overflow-auto">
-                  <div className="p-2 text-sm">
-                    <p className="mt-4 text-3xl tracking-wide" style={{ lineHeight: '3em' }}>
-                      {detail.content}
-                    </p>
-                  </div>
-                </ScrollArea>
-
-
-                <div className="flex items-center justify-center">
-                  <div
-                    className=" w-full md:w-1/2 lg:w-1/2 fixed bottom-0 p-10 bg-white  transition-all duration-500 ease-in-out ${isPlayerVisible ? 'opacity-100 visible' : 'opacity-0 visible"
-                    onMouseEnter={() => setIsPlayerVisible(true)}
-                    onMouseLeave={() => setIsPlayerVisible(false)}
-                  >
-
-                    <AudioPlayer
-                      ref={audioPlayerRef}
-                      src="/audio/mouse.mp3"
-                      autoPlay={isReadyToPlay}
-                      showJumpControls={false}
-                      preload="none"
-                      onEnded={NextPage}
-                      onClickNext={NextPage}
-                      onClickPrevious={PrevPage}
-                      showSkipControls={true}
-                      autoPlayAfterSrcChange={false}
-                    // autoPlay={false}
-                    // customAdditionalControls={[]} // 추가 컨트롤을 빈 배열로 설정하여 숨김
-                    // 필요한 경우 다른 props 추가
-                    />
-                  </div>
-                </div>
-
-
-              </CardContent>
-            </Card>
-          ))}
+      <main className="flex flex-row gap-2 md:gap-2 min-h-screen bg-gray-100">
+        <aside className="w-1/2 h-screen p-5 overflow-hidden" 
+                style={{ transformStyle: 'preserve-3d', animation: prevPageAnimation, transformOrigin: 'right', zIndex: prevPageAnimation ? 1 : 0 }}>
+            {book.map(detail => (
+              <Card className="h-full rounded-md bg-white border-2 shadow-lg">
+                <CardContent className="flex flex-col h-full p-4">
+                  <ScrollArea className="flex-1 mt-6 w-full rounded-md border max-h-full overflow-auto">
+                    <div className="p-2 text-sm">
+                      <p className="mt-4 text-3xl tracking-wide px-5" style={{ lineHeight: '3em' }}>
+                        &nbsp;&nbsp;&nbsp;{detail.content}
+                      </p>
+                    </div>
+                  </ScrollArea>
+                </CardContent>
+              </Card>
+            ))}
         </aside>
-        <aside className=" md:w-1/2 h-screen p-10" >
+        <aside className="w-1/2 h-screen p-5 overflow-hidden" 
+                style={{ transformStyle: 'preserve-3d', animation: nextPageAnimation, transformOrigin: 'left', zIndex: nextPageAnimation ? 1 : 0 }}>
           <div
-            className="min-h-full"
+            className="h-full w-full rounded-md shadow-lg bg-cover bg-center"
             style={{
               backgroundImage: `url('/image/mouse2.png')`,
               backgroundSize: 'cover',
-
               backgroundPosition: 'center',
-              borderRadius: '4px', // rounded-md에 해당하는 반올림 값을 설정
-              aspectRatio: '1 / 1' // aspectRatio를 유지하기 위해 설정
+              borderRadius: '4px',
+              aspectRatio: '1 / 1',
             }}
-          />
+          >
+          </div>
         </aside>
+        <div className={`absolute top-0 left-1/2 w-1/2 h-screen p-5 flex items-center justify-center ${showTextLayer ? 'opacity-1' : 'opacity-0'}`}>
+          {book.map(detail => (
+            <Card className="h-full rounded-md bg-white border-2 shadow-lg">
+              <CardContent className="flex flex-col h-full p-4">
+                <ScrollArea className="flex-1 mt-6 w-full rounded-md border max-h-full overflow-auto">
+                  <div className="p-2 text-sm">
+                    <p className="mt-4 text-3xl tracking-wide px-5" style={{ lineHeight: '3em' }}>
+                      &nbsp;&nbsp;&nbsp;{nextContent}
+                    </p>
+                  </div>
+                </ScrollArea>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </main>
+      <div className="flex items-center justify-center">
+        <div
+          className={`w-full md:w-full fixed bottom-0 px-5 bg-white transition-opacity ease-in-out ${isPlayerVisible ? 'opacity-100' : 'opacity-0'}`}
+          onMouseEnter={() => setIsPlayerVisible(true)}
+          onMouseLeave={() => setIsPlayerVisible(false)}
+          >
+
+          <AudioPlayer
+            ref={audioPlayerRef}
+            src={audioPath}
+            autoPlay={isReadyToPlay}
+            showJumpControls={false}
+            preload="none"
+            onEnded={NextPage}
+            onClickNext={NextPage}
+            onClickPrevious={PrevPage}
+            showSkipControls={true}
+            autoPlayAfterSrcChange={false}
+          // autoPlay={false}
+          // customAdditionalControls={[]} // 추가 컨트롤을 빈 배열로 설정하여 숨김
+          // 필요한 경우 다른 props 추가
+          />
+        </div>
+      </div>
     </>
   )
 }
-
-
 export default BookPage;

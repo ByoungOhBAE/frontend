@@ -30,14 +30,14 @@ export default function Book_history({ setSelecteCompoId, setSelectedBookId }) {
       <div className="mx-3 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4" style={{ marginBottom: 'auto' }}>
         {/* 책 목록 렌더링 */}
         {currentBooks.map(book => (
-          <button key={book.id}>
+          <button key={book.BookList.id}>
           <div
-
+          
             className="relative group overflow-hidden rounded-lg"
-            onClick={() => showBookDetails(book.id)}>
+            onClick={() => showBookDetails(book.BookList.id)}>
             {/* 책 정보 렌더링 */}
             <Card style={{
-                backgroundImage: `url(${'http://127.0.0.1:8000'+book.BookList.img_path})`,
+                backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL + book.BookList.img_path})`,
                 backgroundOrigin: 'padding-box',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center', // 이미지 중앙 정렬
@@ -56,7 +56,7 @@ export default function Book_history({ setSelecteCompoId, setSelectedBookId }) {
             {/* 밑은 호버 띄우기 */}
             <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
               onClick={() =>
-                showBookDetails(book.id)
+                showBookDetails(book.BookList.id)
               }>
               <h2 className="text-white ml-4 text-lg font-semibold">
                 {book.BookList.book_name}

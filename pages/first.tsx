@@ -7,11 +7,50 @@ import { Signup } from "@/components/component/index_compo/signup";
 // import Booklist from '@/pages/booklist';
 import './globals.css'
 // 임포트 중괄호 규칙 다름 북리스트는 중괄호 넣으면 오류남
+
+const screens = [
+    {
+      id: 1,
+      content: (
+        <div>
+          <h1 className="text-4xl font-bold mt-20 mb-12 mx-4">
+            서비스 소개
+          </h1>
+          <p className="text-xl leading-loose mb-20 mx-2">
+            유아시기는 만3세~만5세인데, 유아기의 아이가
+            언어를 배우는 시기의 뇌는 스펀지와 같다고 한다.<br />
+            스펀지가 물을 흡수하는 것처럼 언어를 흡수하게
+            된다는 것이다. 이순영 고려대 국어교육과 교수는
+            미취학 아동의 시기가 독서 관심도의 차이를
+            결정하는 골든타임이라고 말했다.<br /> 
+            그래서 아이의 흥미를 이끌고 독서 습관을 자연스럽게 체득할 수
+            있게 도움을 주는 서비스를 제공하고자 한다.
+          </p>
+        </div>
+      ),
+    },
+    // 다른 화면들을 추가할 수 있음
+    {
+        id: 2,
+        content: (
+          <div>
+            <h1 className="text-4xl font-bold my-12 mx-4">
+              서비스 소개
+            </h1>
+            <p className="text-xl leading-loose my-20 mx-2">
+              유아시기는 만3세~만5세인데, 유아기의 아이가
+              언어를 배우는 시기의 뇌는 
+            </p>
+          </div>
+        ),
+      },
+];
+
 export default function Index() {
   const [showLogin, setShowLogin] = useState(true);
   const [showSignup, setShowSignup] = useState(false);
   const [showBooklist, setShowBooklist] = useState(false);
-  const [currentScreen, setCurrentScreen] = useState(1);
+  const [currentScreenIndex, setCurrentScreenIndex] = useState(0);
 
   const backgroundStyle: React.CSSProperties = {
     backgroundImage: 'url("/field.jpg")',
@@ -21,45 +60,16 @@ export default function Index() {
     backgroundAttachment: 'scroll',
   };
 
-  const Screen1 = ({ onNext }) => (
-    <div>
-        <h1 className="text-4xl font-bold mb-4 mt-4 ml-4">
-            서비스 소개
-        </h1>
-        <div className="flex">
-            <p className="text-xl text-gray-600 dark:text-gray-400 leading-loose mt-8 mb-6 ml-4 mr-4">
-                유아시기는 만3세~만5세인데, 유아기의 아이가
-                언어를 배우는 시기의 뇌는 스펀지와 같다고 한다.<br />
-                스펀지가 물을 흡수하는 것처럼 언어를 흡수하게
-                된다는 것이다. 이순영 고려대 국어교육과 교수는
-                미취학 아동의 시기가 독서 관심도의 차이를
-                결정하는 골든타임이라고 말했다. 그래서 아이의
-                흥미를 이끌고 독서 습관을 자연스럽게 체득할 수
-                있게 도움을 주는 서비스를 제공하고자 한다.
-            </p>
-            <button className="ml-2 mr-2"
-                onClick={onNext}>
-                <div className="arrow-button">→</div>
-            </button>
-        </div>
-    </div>
-  );
-
-  const Screen2 = ({ onPrev }) => (
-    <div>
-      <h1>두 번째 화면</h1>
-      <button onClick={onPrev}>이전 화면으로 이동</button>
-    </div>
-  );
-
   // 다음 화면으로 이동하는 함수
   const moveToNextScreen = () => {
-    setCurrentScreen(2);
+    setCurrentScreenIndex((prevIndex) => (prevIndex + 1) % screens.length);
   };
 
   // 이전 화면으로 이동하는 함수
   const moveToPrevScreen = () => {
-    setCurrentScreen(1);
+    setCurrentScreenIndex((prevIndex) =>
+      prevIndex === 0 ? screens.length - 1 : prevIndex - 1
+    );
   };
 
   return (
@@ -77,14 +87,16 @@ export default function Index() {
         ) : (
             // 로그인 상태가 false일 때 기본 화면을 렌더링
           <>
-            <div className="lg:w-2/3 justify-start">
-              <div>
-                {currentScreen === 1 ? (
-                  <Screen1 onNext={moveToNextScreen} />
-                ) : (
-                  <Screen2 onPrev={moveToPrevScreen} />
-                )}
-              </div>
+            <div className="lg:w-3/4 h-400 justify-start bg-blue-100/50 rounded-lg relative">
+                <div className="flex items-center">
+                    <button className="text-6xl mx-4" onClick={moveToPrevScreen}>
+                        {'<'}
+                    </button>
+                    {screens[currentScreenIndex].content}
+                    <button className="text-6xl mx-4" onClick={moveToNextScreen}>
+                        {'>'}
+                    </button>
+                </div>
             </div>
             <div className="lg:w-1/5 lg:flex justify-center">
               {showSignup ? (

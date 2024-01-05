@@ -34,7 +34,7 @@ export function Navibar({ setSelecteCompoId }) {
     const userId = Cookies.get("user_id");
     if (userId) {
       axios
-        .get(`http://127.0.0.1:8000/api/user/${userId}`)
+        .get(`${process.env.NEXT_PUBLIC_API_URL}/api/user/${userId}`)
         .then((response) => {
           setUserInfo(response.data);
         })
@@ -51,7 +51,7 @@ export function Navibar({ setSelecteCompoId }) {
       const fetchUserStats = async () => {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/user/${userInfo.id}/`
+            `${process.env.NEXT_PUBLIC_API_URL}/api/user/${userInfo.id}/`
           ); // 사용자 ID에 따라 수정
           const userData = response.data;
 
