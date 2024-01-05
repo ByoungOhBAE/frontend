@@ -32,6 +32,8 @@ const Quiz_image = ({ bookid }) => {
     };
 
     const goToMainPage = () => {
+        fetchPostimageQuizSave();//종료전 이미지퀴즈추가
+        fetchPostLearnimageQuizSave();//종료전 이미지퀴즈이력 남기기
         fetchPostSaveHistory(); // 종료전 이력 남기기
         router.replace('/');
     };
@@ -46,7 +48,60 @@ const Quiz_image = ({ bookid }) => {
         }
         }
     };
-
+    const fetchPostimageQuizSave = async () => {
+        try {
+        const token = Cookies.get('token');
+        const response = await axios.post(`http://127.0.0.1:8000/api/QuizList/`, {//현재는 api 미연결로 인해 quiz와 quizAnswer이 없어서 400 ERROR 발생
+            BookList: bookid,
+            category: 1,
+            question: 'quiz_image', // Quiz_image 로 사용?
+            answer: 'TrueAnswer',//사용자가 말한 Answer을 제외하고 다른 Answer을 찾을 수 없음(임시로 임의의 값을 넣어둠)
+            
+        },{
+            headers: {
+                'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
+            }
+        });
+        const newQuizId = response.data.id;
+        console.log('New Quiz ID:', newQuizId);
+        await fetchPostLearnimageQuizSave(newQuizId);
+    } catch (error) {
+        console.error(error);
+    }
+};
+    //         .then(response => {
+    //             console.log(response);
+    //             setFeedback(response.data.feedback);
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //         });
+    // };
+    const fetchPostLearnimageQuizSave = async (newQuizId) => {
+        try {
+            const token = Cookies.get('token');
+            const userId = Cookies.get('user_id');
+    console.log(newQuizId)
+            // newQuizId를 이용하여 LearningStatus에 데이터 추가
+            const learnResponse = await axios.post(
+                'http://127.0.0.1:8000/api/LearningStatus/',
+                {
+                    User: userId,
+                    QuizList: newQuizId,
+                    is_right: 1,
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                }
+            );
+    
+            console.log(learnResponse);
+        } catch (error) {
+            console.error(error);
+        }
+    };
     const fetchPostSaveHistory = async () => {
         const token = Cookies.get('token');
         const user_id = Cookies.get('user_id')

@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Profile_hover from "@/components/component/index_compo/profile_hover"
-
+import { motion } from "framer-motion";
 import { NavigationMenuLink, NavigationMenuList, NavigationMenu } from "@/components/ui/navigation-menu"
 import { useRouter } from "next/navigation";
 
@@ -18,6 +18,7 @@ interface User {
 export function Navibar({ setSelecteCompoId }) {
   const router = useRouter();
   const [userInfo, setUserInfo] = useState({ name: "", email: "" });
+  const username = userInfo.name;
 
 
 
@@ -86,15 +87,24 @@ export function Navibar({ setSelecteCompoId }) {
               북키즈
             </h2>
             <div className="grid gap-4 py-12">
-              <Button className="flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg" onClick={() => setSelecteCompoId(1)}>
-                북리스트
-              </Button>
-              <Button className="flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg" onClick={() => setSelecteCompoId(3)}>
-                마이페이지
-              </Button>
-              <Button className="flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg" onClick={() => setSelecteCompoId(12)}>
-                게시판 목록
-              </Button>
+              <motion.div whileHover={{ scale: 1.1 }} onHoverStart={e => { }} whileTap={{ scale: 0.9 }}
+                onHoverEnd={e => { }}>
+                <Button className="hover:border-black hover:border-2 flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg" onClick={() => setSelecteCompoId(1)}>
+                  북리스트
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.1 }} onHoverStart={e => { }} whileTap={{ scale: 0.9 }}
+                onHoverEnd={e => { }}>
+                <Button className="hover:border-black hover:border-2 flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg" onClick={() => setSelecteCompoId(3)}>
+                  마이페이지
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.1 }} onHoverStart={e => { }} whileTap={{ scale: 0.9 }}
+                onHoverEnd={e => { }}>
+                <Button className="hover:border-black hover:border-2 flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg" onClick={() => setSelecteCompoId(12)}>
+                  게시판 목록
+                </Button>
+              </motion.div>
 
 
             </div>
@@ -109,14 +119,14 @@ export function Navibar({ setSelecteCompoId }) {
 
         <div className=" absolute left-1/2 transform -translate-x-1/2 text-4xl font-bold ">
           <h2 className="animated-gradient">
-            BooKids
+            북키즈
           </h2>
         </div>
 
 
         <div className="flex  gap-1 text-blue-600 min-w-fit group pr-5">
 
-          {userInfo.name && <Profile_hover setSelecteCompoId={setSelecteCompoId} userinfo={userInfo.name} className="basis-1/6 justify-items-center" />}
+          {userInfo.name && <Profile_hover setSelecteCompoId={setSelecteCompoId} username={username} className="basis-1/6 justify-items-center" />}
 
 
           <div className="flex items-center group-hover:opacity-100 min-w-15">
