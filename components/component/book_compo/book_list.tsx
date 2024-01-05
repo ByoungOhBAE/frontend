@@ -55,7 +55,7 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
                 onClick={() =>
                   showBookDetails(book.id)
                 }>
-                <h3 className="text-white ml-4 text-lg font-semibold">
+                <h3 className="text-white text-lg font-bold">
                   {book.book_name}
                 </h3>
                 <h1 className="text-white text-lg">
