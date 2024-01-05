@@ -5,7 +5,7 @@ import { CardHeader, CardContent, Card } from "@/components/ui/card";
 import { useBookList } from '@/components/component/book_compo/usebooklist';
 import { useRouter } from 'next/navigation';
 import { CSSTransition } from 'react-transition-group';
-
+import { motion } from "framer-motion";
 const PER_PAGE = 8;
 
 export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
@@ -23,11 +23,11 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
   const totalPages = bookList ? Math.ceil(bookList.length / PER_PAGE) : 0;
   return (
     <div className="mx-3 my-3 p-3 bg-slate-200/90 rounded-lg">
-      <div className=" mx-3 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 " style={{minHeight: '464px',}}>
+      <div className=" mx-3 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 " style={{ minHeight: '464px', }}>
         {/* 책 목록 렌더링 */}
         {currentBooks.map(book => (
           <button>
-            <div key={book.id}
+            <motion.div whileHover={{ scale: 1.1 }} key={book.id}
 
               className="relative group overflow-hidden rounded-lg"
               onClick={() => showBookDetails(book.id)}>
@@ -51,7 +51,7 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
               </Card>
 
               {/* 밑은 호버 띄우기 */}
-              <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+              <motion.div whileHover={{ scale: 1.2 }} className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                 onClick={() =>
                   showBookDetails(book.id)
                 }>
@@ -61,16 +61,20 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
                 <h1 className="text-white text-lg">
                   {book.author}
                 </h1>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </button>
         ))}
       </div >
       {/* 페이지네이션 버튼 */}
       <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '30px' }}>
-        <Button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>이전 페이지</Button>
+        <motion.div whileHover={{ scale: 1.1 }}>
+          <Button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>이전 페이지</Button>
+        </motion.div>
         <span className="items-center p-2"> {currentPage} / {totalPages}</span>
-        <Button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>다음 페이지</Button>
+        <motion.div whileHover={{ scale: 1.1 }}>
+          <Button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>다음 페이지</Button>
+        </motion.div>
       </div>
     </div>
   )
