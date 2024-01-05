@@ -19,12 +19,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const Quiz_image = ({ bookid }) => {
     const router = useRouter();
     const [book, setBook] = useState(null);
-    const [userAnswer, setUserAnswer] = useState('');
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const audioRef = useRef();
-
+    const [ImagePath, setImagePath] = useState('https://health.chosun.com/site/data/img_dir/2023/06/20/2023062002262_0.jpg');
+    const quiz = '사진이 무엇인지 말해보세요!';
+    const [quizAnswer, setQuizAnswer] = useState('');
+    const [userAnswer, setUserAnswer] = useState('');
+    const [feedback, setFeedback] = useState('');
+    
     useEffect(() => {
-
+        fetchImage();
     }, []);
 
     const goToPrevPage = () => {
@@ -51,7 +55,7 @@ const Quiz_image = ({ bookid }) => {
     const fetchPostimageQuizSave = async () => {
         try {
         const token = Cookies.get('token');
-        const response = await axios.post(`http://127.0.0.1:8000/api/QuizList/`, {//현재는 api 미연결로 인해 quiz와 quizAnswer이 없어서 400 ERROR 발생
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/QuizList/`, {//현재는 api 미연결로 인해 quiz와 quizAnswer이 없어서 400 ERROR 발생
             BookList: bookid,
             category: 1,
             question: 'quiz_image', // Quiz_image 로 사용?
@@ -84,7 +88,7 @@ const Quiz_image = ({ bookid }) => {
     console.log(newQuizId)
             // newQuizId를 이용하여 LearningStatus에 데이터 추가
             const learnResponse = await axios.post(
-                'http://127.0.0.1:8000/api/LearningStatus/',
+                `${process.env.NEXT_PUBLIC_API_URL}/api/LearningStatus/`,
                 {
                     User: userId,
                     QuizList: newQuizId,
@@ -105,7 +109,7 @@ const Quiz_image = ({ bookid }) => {
     const fetchPostSaveHistory = async () => {
         const token = Cookies.get('token');
         const user_id = Cookies.get('user_id')
-        axios.post(`http://127.0.0.1:8000/api/ReadingStatus/`, {
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/ReadingStatus/`, {
             User: user_id,
             BookList: bookid,
         },{
@@ -122,17 +126,67 @@ const Quiz_image = ({ bookid }) => {
     };
 
     function handleMikeClick() {
-        axios.post('http://127.0.0.1:8000/recognize_speech/')
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/recognize_speech/`)
             .then(response => {
                 console.log(response);
                 setUserAnswer(response.data.text);
 
-                // fetchPostFeedback(); // 피드백 추가
+                fetchPostFeedback(); // 피드백 추가
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     }
+
+    const fetchImage = async () => {
+        try {
+          // FormData 객체 생성
+        //   const formData = new FormData();
+          // 'content' 필드에 값을 추가
+        //   formData.append('content', content);
+      
+          // Fetch 요청을 보냄
+          const response = await fetch('http://34.64.172.218:8000/stable/api/generate_quiz_image/', {
+            method: 'POST',
+            // body: formData, // FormData를 요청 본문으로 사용
+          });
+  
+          const data = await response.json();
+          console.log(data);
+          if (response.ok) {
+            
+            setImagePath(data.image_path);
+            setQuizAnswer(data.quiz_answer);
+            
+          } else {
+            console.error('Error fetching image:', data.error);
+          }
+        } catch (error) {
+          console.error('Error fetching image:', error.message);
+        }
+    };
+
+    const fetchPostFeedback = async () => {
+        const token = Cookies.get('token');
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/ChatGPT/Feedback/`, {
+            // bookid: bookid,
+            content: '사진에 대해서 무엇인지 맞추기',
+            quiz: quiz,
+            user_answer: userAnswer,
+            quiz_answer: quizAnswer,
+        },{
+            headers: {
+                'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
+            }
+        })
+            .then(response => {
+                console.log(response);
+                setFeedback(response.data.feedback);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
 
     return (
         <main className='bg-sky-100'>
@@ -140,7 +194,7 @@ const Quiz_image = ({ bookid }) => {
                 <div className="flex flex-row items-start justify-center w-full">
                     {/* 이미지 섹션 */}
                     <div className="w-full lg:w-2/5 max-w-xl mr-10">
-                        <img className="w-full h-auto object-cover rounded-lg shadow-lg" src='https://health.chosun.com/site/data/img_dir/2023/06/20/2023062002262_0.jpg' alt='Quiz Image'/>
+                        <img className="w-full h-auto object-cover rounded-lg shadow-lg" src={`${ImagePath}`} alt='Quiz Image'/>
                     </div>
                     {/* 텍스트 및 버튼 섹션 */}
                     <div className="w-full lg:w-3/5 max-w-xl">
@@ -170,7 +224,7 @@ const Quiz_image = ({ bookid }) => {
                                 <span className="mr-2 text-xl">&#x1F4A1;</span> 선생님의 조언
                             </h2>
                             <div className="p-6 text-center rounded-lg bg-white shadow-md">
-                                <p>참 잘했어요!</p>
+                                <p>{feedback}</p>
                             </div>
                         </div>
 

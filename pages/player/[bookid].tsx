@@ -36,6 +36,7 @@ const BookPage = ({ bookid }) => {
   const [prevPageAnimation, setPrevPageAnimation] = useState('');
   const [showTextLayer, setShowTextLayer] = useState(false);
   const [nextContent, setNextContent] = useState('');
+  const [imagePath, setImagePath] = useState('');
 
   useEffect(() => {
     fetchGetData(bookid);
@@ -56,6 +57,7 @@ const BookPage = ({ bookid }) => {
               setBook(response.data.results);
               console.log(response.data.results[0].content);
               const content = response.data.results[0].content;
+              fetchImage(content);
               fetchPostSpeech(content);
               // setPosts(response.data.results);
               // setNextPageUrl(response.data.next);
@@ -63,6 +65,33 @@ const BookPage = ({ bookid }) => {
           .catch(error => {
               router.push(`/quiz/${bookid}`);
           });
+    };
+
+
+    const fetchImage = async (content) => {
+      try {
+        // FormData 객체 생성
+        const formData = new FormData();
+        // 'content' 필드에 값을 추가
+        formData.append('content', content);
+    
+        // Fetch 요청을 보냄
+        const response = await fetch('http://34.64.172.218/stable/api/generate_image/', {
+          method: 'POST',
+          body: formData, // FormData를 요청 본문으로 사용
+        });
+
+        const data = await response.json();
+        console.log(data);
+        if (response.ok) {
+          
+          setImagePath(data.image_path);
+        } else {
+          console.error('Error fetching image:', data.error);
+        }
+      } catch (error) {
+        console.error('Error fetching image:', error.message);
+      }
     };
 
     const fetchGetNextContent = async (bookid) => {
@@ -140,7 +169,7 @@ const BookPage = ({ bookid }) => {
           <div
             className="h-full w-full rounded-md shadow-lg bg-cover bg-center"
             style={{
-              backgroundImage: `url('/image/mouse2.png')`,
+              backgroundImage: `url(${imagePath})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               borderRadius: '4px',

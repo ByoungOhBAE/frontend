@@ -73,7 +73,7 @@ const Quiz = ({ bookid }) => {
     const fetchPostQuizSave = async () => {
         try {
         const token = Cookies.get('token');
-        const response = await axios.post(`http://127.0.0.1:8000/api/QuizList/`, {//현재는 api 미연결로 인해 quiz와 quizAnswer이 없어서 400 ERROR 발생
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/QuizList/`, {//현재는 api 미연결로 인해 quiz와 quizAnswer이 없어서 400 ERROR 발생
             BookList: bookid,
             category: 0,
             question: 'fortest1',//quiz
@@ -107,7 +107,7 @@ const Quiz = ({ bookid }) => {
     console.log(newQuizId)
             // newQuizId를 이용하여 LearningStatus에 데이터 추가
             const learnResponse = await axios.post(
-                'http://127.0.0.1:8000/api/LearningStatus/',
+                `${process.env.NEXT_PUBLIC_API_URL}/api/LearningStatus/`,
                 {
                     User: userId,
                     QuizList: newQuizId,
