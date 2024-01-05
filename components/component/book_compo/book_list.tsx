@@ -23,7 +23,7 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
   const totalPages = bookList ? Math.ceil(bookList.length / PER_PAGE) : 0;
   return (
     <div className="mx-3 my-3 p-3 bg-slate-200/90 rounded-lg">
-      <div className=" mx-3 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 ">
+      <div className=" mx-3 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 " style={{minHeight: '464px',}}>
         {/* 책 목록 렌더링 */}
         {currentBooks.map(book => (
           <button>
@@ -33,7 +33,7 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
               onClick={() => showBookDetails(book.id)}>
 
               {/* 책 정보 렌더링 */}
-              <Card className="border-4 p-4 border-violet-300 border-double" style={{
+              <Card className="border-4 p-4 border-black-300 border-double" style={{
                 backgroundImage: `url(${book.img_path})`,
                 backgroundOrigin: 'content-box',
                 backgroundSize: 'cover',

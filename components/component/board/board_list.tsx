@@ -14,9 +14,10 @@ const Board_list = ({ }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [nextPageUrl, setNextPageUrl] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [totalPage,settotalPage] = useState('1');
+    const [totalPage,settotalPage] = useState('');
     const totalPages = Math.ceil(totalPage / PER_PAGE);
-    console.log(posts)
+    console.log(totalPages)
+    console.log(currentPage)
 
     useEffect(() => {
         fetchGetData();
