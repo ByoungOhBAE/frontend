@@ -27,7 +27,7 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
         {/* 책 목록 렌더링 */}
         {currentBooks.map(book => (
           <button>
-            <motion.div whileHover={{ scale: 1.1 }} key={book.id}
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} key={book.id}
 
               className="relative group overflow-hidden rounded-lg"
               onClick={() => showBookDetails(book.id)}>
@@ -51,13 +51,13 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
               </Card>
 
               {/* 밑은 호버 띄우기 */}
-              <motion.div whileHover={{ scale: 1.2 }} className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+              <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }} className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                 onClick={() =>
                   showBookDetails(book.id)
                 }>
-                <h2 className="text-white ml-4 text-lg font-semibold">
+                <h3 className="text-white ml-4 text-lg font-semibold">
                   {book.book_name}
-                </h2>
+                </h3>
                 <h1 className="text-white text-lg">
                   {book.author}
                 </h1>
@@ -68,11 +68,11 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
       </div >
       {/* 페이지네이션 버튼 */}
       <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '30px' }}>
-        <motion.div whileHover={{ scale: 1.1 }}>
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <Button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>이전 페이지</Button>
         </motion.div>
         <span className="items-center p-2"> {currentPage} / {totalPages}</span>
-        <motion.div whileHover={{ scale: 1.1 }}>
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <Button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>다음 페이지</Button>
         </motion.div>
       </div>

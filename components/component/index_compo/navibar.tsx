@@ -87,19 +87,19 @@ export function Navibar({ setSelecteCompoId }) {
               북키즈
             </h2>
             <div className="grid gap-4 py-12">
-              <motion.div whileHover={{ scale: 1.1 }} onHoverStart={e => { }}
+              <motion.div whileHover={{ scale: 1.1 }} onHoverStart={e => { }} whileTap={{ scale: 0.9 }}
                 onHoverEnd={e => { }}>
                 <Button className="hover:border-black hover:border-2 flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg" onClick={() => setSelecteCompoId(1)}>
                   북리스트
                 </Button>
               </motion.div>
-              <motion.div whileHover={{ scale: 1.1 }} onHoverStart={e => { }}
+              <motion.div whileHover={{ scale: 1.1 }} onHoverStart={e => { }} whileTap={{ scale: 0.9 }}
                 onHoverEnd={e => { }}>
                 <Button className="hover:border-black hover:border-2 flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg" onClick={() => setSelecteCompoId(3)}>
                   마이페이지
                 </Button>
               </motion.div>
-              <motion.div whileHover={{ scale: 1.1 }} onHoverStart={e => { }}
+              <motion.div whileHover={{ scale: 1.1 }} onHoverStart={e => { }} whileTap={{ scale: 0.9 }}
                 onHoverEnd={e => { }}>
                 <Button className="hover:border-black hover:border-2 flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg" onClick={() => setSelecteCompoId(12)}>
                   게시판 목록
@@ -119,7 +119,7 @@ export function Navibar({ setSelecteCompoId }) {
 
         <div className=" absolute left-1/2 transform -translate-x-1/2 text-4xl font-bold ">
           <h2 className="animated-gradient">
-            BooKids
+            북키즈
           </h2>
         </div>
 
