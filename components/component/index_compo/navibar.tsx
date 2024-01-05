@@ -18,6 +18,7 @@ interface User {
 export function Navibar({ setSelecteCompoId }) {
   const router = useRouter();
   const [userInfo, setUserInfo] = useState({ name: "", email: "" });
+  const username = userInfo.name;
 
 
 
@@ -116,7 +117,7 @@ export function Navibar({ setSelecteCompoId }) {
 
         <div className="flex  gap-1 text-blue-600 min-w-fit group pr-5">
 
-          {userInfo.name && <Profile_hover setSelecteCompoId={setSelecteCompoId} userinfo={userInfo.name} className="basis-1/6 justify-items-center" />}
+          {userInfo.name && <Profile_hover setSelecteCompoId={setSelecteCompoId} username={username} className="basis-1/6 justify-items-center" />}
 
 
           <div className="flex items-center group-hover:opacity-100 min-w-15">

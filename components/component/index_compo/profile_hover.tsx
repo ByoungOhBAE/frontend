@@ -7,7 +7,7 @@ import { HoverCardTrigger, HoverCardContent, HoverCard } from "@/components/ui/h
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-export default function Component({ setSelecteCompoId, user }) {
+export default function Component({ setSelecteCompoId, username }) {
   const router = useRouter();
 
   const handleLogout = () => {
@@ -26,22 +26,24 @@ export default function Component({ setSelecteCompoId, user }) {
         </Avatar>
       </HoverCardTrigger>
       <HoverCardContent className="w-80 p-4 space-y-3">
-        <div className="flex items-center space-x-3">
+        <div className="flex justify-between items-center space-x-3">
           <Avatar className="w-16 h-16">
             <AvatarImage alt="User's Avatar" src="/placeholder.svg?height=50&width=50" />
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
           <div className="space-y-1">
 
-            <h4 className="text-lg font-semibold">{user}</h4>
-            <p className="text-sm text-gray-500">Bio</p>
+            <h4 className="text-lg font-semibold">{username}</h4>
+            
           </div>
-        </div>
-        <div className="justify-end">
-          <Button className="w-full" variant="outline" onClick={handleLogout}>logout</Button>
-        </div>
+          <div></div>
+          <Button className="w-fit font-bold" variant="outline" onClick={handleLogout}>logout</Button>
 
-        <Button className="w-full" variant="outline" onClick={() => setSelecteCompoId(3)}>
+
+        </div>
+        
+
+        <Button className="w-full font-bold" variant="outline" onClick={() => setSelecteCompoId(3)}>
           마이페이지
         </Button>
       </HoverCardContent>
