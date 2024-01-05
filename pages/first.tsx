@@ -44,6 +44,14 @@ const screens = [
           </div>
         ),
       },
+      {
+        id: 3,
+        content: (
+          <div>
+            서비스
+          </div>
+        ),
+      },
 ];
 
 export default function Index() {
@@ -60,6 +68,10 @@ export default function Index() {
     backgroundAttachment: 'scroll',
   };
 
+  const screenStyle: React.CSSProperties = {
+    height: '500px',
+  }
+
   // 다음 화면으로 이동하는 함수
   const moveToNextScreen = () => {
     setCurrentScreenIndex((prevIndex) => (prevIndex + 1) % screens.length);
@@ -74,44 +86,44 @@ export default function Index() {
 
   return (
     <div className="min-h-screen p-6 lg:p-10 bg-cover bg-center relative" style={backgroundStyle}>
-      <div className="text-center mb-8">
-        <h2 className="text-5xl font-bold text-gray-800">
-          BooKids
-        </h2>
-      </div>
+        <div className="text-center mb-8">
+            <h2 className="text-5xl font-bold text-gray-800">
+                BooKids
+            </h2>
+        </div>
 
-      <div className="lg:flex justify-between p-6 lg:p-10">
-        {showBooklist ? (
-            // 로그인 상태가 true일 때 Login 컴포넌트를 렌더링
-          <div></div>
-        ) : (
-            // 로그인 상태가 false일 때 기본 화면을 렌더링
-          <>
-            <div className="lg:w-3/4 h-400 justify-start bg-blue-100/50 rounded-lg relative">
-                <div className="flex items-center">
-                    <button className="text-6xl mx-4" onClick={moveToPrevScreen}>
+        <div className="lg:flex justify-between p-6 lg:p-10" style={screenStyle}>
+            {showBooklist ? (
+                // 로그인 상태가 true일 때 Login 컴포넌트를 렌더링
+            <div></div>
+            ) : (
+                // 로그인 상태가 false일 때 기본 화면을 렌더링
+            <>
+                <div className="lg:w-3/4 justify-start bg-blue-100/50 rounded-lg flex items-center relative">
+                    <button className="text-6xl absolute left-4 top-1/2 transform -translate-y-1/2" onClick={moveToPrevScreen}>
                         {'<'}
                     </button>
-                    {screens[currentScreenIndex].content}
-                    <button className="text-6xl mx-4" onClick={moveToNextScreen}>
+                    <div className="flex items-center justify-center mx-16">
+                        {screens[currentScreenIndex].content}
+                    </div>
+                    <button className="text-6xl absolute right-4 top-1/2 transform -translate-y-1/2" onClick={moveToNextScreen}>
                         {'>'}
                     </button>
                 </div>
-            </div>
-            <div className="lg:w-1/5 lg:flex justify-center">
-              {showSignup ? (
-                <Signup setShowSignup={setShowSignup} />
-                // 로그인 상태가 true일 때 Login 컴포넌트를 렌더링
-              ) : (
-                // 로그인 상태가 false일 때 기본 화면을 렌더링
-                <>
-                  <Login setShowLogin={setShowLogin} setShowSignup={setShowSignup}/>
-                </>
-              )}
-            </div>
-          </>
-        )}
-      </div>
+                <div className="lg:w-1/5 lg:flex justify-center">
+                {showSignup ? (
+                    <Signup setShowSignup={setShowSignup} />
+                    // 로그인 상태가 true일 때 Login 컴포넌트를 렌더링
+                ) : (
+                    // 로그인 상태가 false일 때 기본 화면을 렌더링
+                    <>
+                    <Login setShowLogin={setShowLogin} setShowSignup={setShowSignup}/>
+                    </>
+                )}
+                </div>
+            </>
+            )}
+        </div>
     </div>
   );
 }
