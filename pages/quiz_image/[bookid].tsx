@@ -22,13 +22,13 @@ const Quiz_image = ({ bookid }) => {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const audioRef = useRef();
     const [ImagePath, setImagePath] = useState('https://health.chosun.com/site/data/img_dir/2023/06/20/2023062002262_0.jpg');
-    const quiz = '사진이 무엇인지 말해보세요!';
+    const [quiz, setQuiz] = useState('');
     const [quizAnswer, setQuizAnswer] = useState('');
     const [userAnswer, setUserAnswer] = useState('');
     const [feedback, setFeedback] = useState('');
     
     useEffect(() => {
-        fetchImage();
+        fetchPostImageGenerate();
     }, []);
 
     const goToPrevPage = () => {
@@ -138,7 +138,8 @@ const Quiz_image = ({ bookid }) => {
             });
     }
 
-    const fetchImage = async () => {
+    // 이미지 생성 함수
+    const fetchPostImageGenerate = async () => {
         try {
           // FormData 객체 생성
         //   const formData = new FormData();
@@ -156,6 +157,7 @@ const Quiz_image = ({ bookid }) => {
           if (response.ok) {
             
             setImagePath(data.image_path);
+            setQuiz('이 사진은 무엇인가요?');
             setQuizAnswer(data.quiz_answer);
             
           } else {
@@ -204,7 +206,7 @@ const Quiz_image = ({ bookid }) => {
                                 <span className="mr-2 text-xl">&#x1F4DA;</span> 퀴즈
                             </h2>
                             <div className="p-6 text-center rounded-lg bg-white shadow-md">
-                                <p>사진이 무엇인지 말해보세요!</p>
+                                <p>{quiz}</p>
                             </div>
                         </div>
                         

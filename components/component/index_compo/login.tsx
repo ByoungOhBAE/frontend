@@ -31,7 +31,7 @@ export default function Login({ setShowLogin, setShowSignup }) {
             router.push('/mainpage');
         } catch (error) {
             console.error("An error occurred:", error);
-            setError("로그인 실패: " + error.message);
+            setError("아이디 또는 비밀번호를 확인하세요.");
         }
     };
 
@@ -51,7 +51,7 @@ export default function Login({ setShowLogin, setShowSignup }) {
                         name="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 pr-10 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                 </div>
                 <div className="mb-6">
@@ -69,7 +69,9 @@ export default function Login({ setShowLogin, setShowSignup }) {
                         onChange={(e) => setPassword(e.target.value)}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                     />
+                    {error && <p className="text-red-500">{error}</p>}
                 </div>
+                
                 <div className="flex items-center justify-between">
                     <button
                         type="submit"
@@ -91,7 +93,7 @@ export default function Login({ setShowLogin, setShowSignup }) {
                     {/* 임시 땜빵용 이 부분은 회원가입 호출 연결로 바꿔야 함 */}
 
                 </div>
-                {error && <p className="text-red-500">{error}</p>}
+                
             </form>
         </div>
     );

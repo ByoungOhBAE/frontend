@@ -49,16 +49,19 @@ const Board_update = ({ onCancel, goBack, postId, PostTitle, PostContent, fetchG
     }
     return (
         
-        <div>
+        <div className='container mx-auto px-4'>
             {/* 뒤로가기 버튼 */}
             <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out mb-4" onClick={onCancel()}>
                 뒤로가기
             </button>
-            <h2 className="text-2xl font-bold mb-4">글 수정하기</h2>
+            <div className="flex justify-center">
+                <h2 className="text-2xl font-bold mb-4">글 수정하기</h2>
+            </div>
+            
             <form onSubmit={handlePutSubmit}>
                 {/* 제목 입력 */}
                 <div className="mb-4">
-                    <label htmlFor="postTitle" className="block text-sm font-bold mb-2">제목</label>
+                    <label htmlFor="postTitle" className="block text-xl mb-2">제목</label>
                     <input
                         id="postTitle"
                         type="text"
@@ -69,28 +72,17 @@ const Board_update = ({ onCancel, goBack, postId, PostTitle, PostContent, fetchG
                     />
                 </div>
                 {/* 내용 입력 */}
-                <div className="mb-4">
-                    <label htmlFor="postContent" className="block text-sm font-bold mb-2">내용</label>
+                <div className="mb-4 my-9">
+                    <label htmlFor="postContent" className="block text-xl mb-2">내용</label>
                     <TextEditor content={postContent} setContent={setPostContent} />
                     
                 </div>
-                {/* <div className='mb-4'>
-                    <label htmlFor='fileInput' className='block text-sm font-bold text-gray-700 mb-2'>
-                        첨부파일
-                    </label>
-                    <input
-                        type="file"
-                        id="fileInput"
-                        name="fileInput"
-                        className="p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 w-full"
-                        onChange={handleFileChange}
-                    />
-                </div> */}
+
                 {/* 작성 완료 버튼 */}
-                <div className='flex justify-end'>
+                <div className='text-right my-6'>
                 <Button
                     type="submit"
-                    className="bg-blue-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
                 >
                     수정하기
                 </Button>

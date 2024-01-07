@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button"
 import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet"
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Profile_hover from "@/components/component/index_compo/profile_hover"
@@ -19,7 +19,7 @@ export function Navibar({ setSelecteCompoId }) {
   const router = useRouter();
   const [userInfo, setUserInfo] = useState({ name: "", email: "" });
   const username = userInfo.name;
-
+  const [CompoId, SetCompoId] = useState(0);
 
 
 
@@ -30,6 +30,7 @@ export function Navibar({ setSelecteCompoId }) {
   };
 
   useEffect(() => {
+    SetCompoId(1);
     // 쿠키에서 user_id 읽기
     const userId = Cookies.get("user_id");
     if (userId) {
@@ -89,19 +90,19 @@ export function Navibar({ setSelecteCompoId }) {
             <div className="grid gap-4 py-12">
               <motion.div whileHover={{ scale: 1.1 }} onHoverStart={e => { }} whileTap={{ scale: 0.9 }}
                 onHoverEnd={e => { }}>
-                <Button className="hover:border-black hover:border-2 flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg" onClick={() => setSelecteCompoId(1)}>
+                <Button className={`hover:border-black hover:border-2 flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg ${CompoId===1 ? 'bg-gray-100 text-black border-2 border-black' : ''}`} onClick={() => {setSelecteCompoId(1); SetCompoId(1);}}>
                   북리스트
                 </Button>
               </motion.div>
               <motion.div whileHover={{ scale: 1.1 }} onHoverStart={e => { }} whileTap={{ scale: 0.9 }}
                 onHoverEnd={e => { }}>
-                <Button className="hover:border-black hover:border-2 flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg" onClick={() => setSelecteCompoId(3)}>
+                <Button className={`hover:border-black hover:border-2 flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg ${CompoId===3 ? 'bg-gray-100 text-black border-2 border-black' : ''}`} onClick={() => {setSelecteCompoId(3); SetCompoId(3);}}>
                   마이페이지
                 </Button>
               </motion.div>
               <motion.div whileHover={{ scale: 1.1 }} onHoverStart={e => { }} whileTap={{ scale: 0.9 }}
                 onHoverEnd={e => { }}>
-                <Button className="hover:border-black hover:border-2 flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg" onClick={() => setSelecteCompoId(12)}>
+                <Button className={`hover:border-black hover:border-2 flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg ${CompoId===12 ? 'bg-gray-100 text-black border-2 border-black' : ''}`} onClick={() => {setSelecteCompoId(12); SetCompoId(12);}}>
                   게시판 목록
                 </Button>
               </motion.div>

@@ -37,7 +37,7 @@ export default function Component({ setSelecteCompoId, username }) {
             
           </div>
           <div></div>
-          <Button className="w-fit font-bold" variant="outline" onClick={handleLogout}>logout</Button>
+          <Button className="w-fit font-bold" variant="outline" onClick={handleLogout}>로그아웃</Button>
 
 
         </div>

@@ -43,19 +43,17 @@ const board_write = ({ onCancel, fetchGetData }) => {
     </style>
     return (
         <div>
-            <div className="flex justify-between">
-                {/* 뒤로가기 버튼 */}
-                <div></div>
-
+            <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out mb-4" onClick={onCancel}>
+                뒤로가기
+            </button>
+        
+            <div className="flex justify-center">
                 <h2 className="text-2xl font-bold mb-4">글 작성하기</h2>
-                <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out mb-4" onClick={onCancel}>
-                    뒤로가기
-                </button>
             </div>
             <form onSubmit={handlePostSubmit}>
                 {/* 제목 입력 */}
                 <div className="mb-4">
-                    <label htmlFor="postTitle" className="block text-sm font-bold mb-2">제목</label>
+                    <label htmlFor="postTitle" className="block text-xl mb-2">제목</label>
                     <input
                         id="postTitle"
                         type="text"
@@ -67,7 +65,7 @@ const board_write = ({ onCancel, fetchGetData }) => {
                 </div>
                 {/* 내용 입력 */}
                 <div className="mb-4 my-9">
-                    <label htmlFor="postContent" className="block text-sm font-bold mb-2">내용</label>
+                    <label htmlFor="postContent" className="block text-xl mb-2">내용</label>
                     <TextEditor content={postContent} setContent={setPostContent} />
                 </div>
                 {/* 작성 완료 버튼 */}

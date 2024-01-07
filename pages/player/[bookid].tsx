@@ -15,6 +15,7 @@ import 'react-h5-audio-player/lib/styles.css';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import Cookies from "js-cookie";
+import Link from "next/link";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { bookid } = context.query;
@@ -37,6 +38,7 @@ const BookPage = ({ bookid }) => {
   const [showTextLayer, setShowTextLayer] = useState(false);
   const [nextContent, setNextContent] = useState('');
   const [imagePath, setImagePath] = useState('');
+  const mouseMoveTimer = useRef(null);
 
   useEffect(() => {
     fetchGetData(bookid);
@@ -49,6 +51,10 @@ const BookPage = ({ bookid }) => {
     fetchGetNextContent(bookid);
         return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 해제
     }, [currentPage]);
+
+    useEffect(() => {
+      return () => clearTimeout(mouseMoveTimer.current);
+    }, []);
     
     // 줄거리 데이터 가지고 오기
     const fetchGetData = async (bookid) => {
@@ -58,7 +64,6 @@ const BookPage = ({ bookid }) => {
               console.log(response.data.results[0].content);
               const content = response.data.results[0].content;
               fetchImage(content);
-              fetchPostSpeech(content);
               // setPosts(response.data.results);
               // setNextPageUrl(response.data.next);
           })
@@ -67,6 +72,15 @@ const BookPage = ({ bookid }) => {
           });
     };
 
+    // 마우스를 버튼 위에 올렸을 때
+    const handleMouseMove = () => {
+      clearTimeout(mouseMoveTimer.current); // 이미 실행 중인 타이머가 있다면 초기화
+      setIsPlayerVisible(true);
+
+      mouseMoveTimer.current = setTimeout(() => {
+        setIsPlayerVisible(false);
+        }, 2500);
+    };
 
     const fetchImage = async (content) => {
       try {
@@ -84,8 +98,12 @@ const BookPage = ({ bookid }) => {
         const data = await response.json();
         console.log(data);
         if (response.ok) {
-          
+          console.log('이미지 세팅');
           setImagePath(data.image_path);
+          
+          console.log('줄거리 읽어주기');
+          fetchPostSpeech(content); // 이미지 생성후 줄거리 읽어주기
+          
         } else {
           console.error('Error fetching image:', data.error);
         }
@@ -145,9 +163,24 @@ const BookPage = ({ bookid }) => {
     }, 1000);
   };
 
+  const handleMoveMainPage = () => {
+    // '/mainpage'로 이동하면서 뒤로 가기로 못돌아가게 함
+    router.replace('/mainpage', undefined);
+  };
+
   return (
     <>
-      <main className="flex flex-row gap-2 md:gap-2 min-h-screen bg-gray-100">
+      <main className="flex flex-row gap-2 md:gap-2 min-h-screen bg-gray-100" 
+            onMouseMove={handleMouseMove}
+      >
+
+        <button onClick={handleMoveMainPage}
+            className={`bg-transparent fixed top-0 pt-10 pl-10 duration-1000 transition-opacity ease-in-out ${isPlayerVisible ? 'opacity-100' : 'opacity-0'}`} style={{zIndex: 2}}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12">
+            <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+          </svg>
+        </button>
         <aside className="w-1/2 h-screen p-5 overflow-hidden" 
                 style={{ transformStyle: 'preserve-3d', animation: prevPageAnimation, transformOrigin: 'right', zIndex: prevPageAnimation ? 1 : 0 }}>
             {book.map(detail => (
@@ -169,7 +202,7 @@ const BookPage = ({ bookid }) => {
           <div
             className="h-full w-full rounded-md shadow-lg bg-cover bg-center"
             style={{
-              backgroundImage: `url(${imagePath})`,
+              backgroundImage: `url(https://i.pinimg.com/originals/a2/37/6c/a2376c7360c9f3092096180633e763eb.png)`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               borderRadius: '4px',
@@ -196,10 +229,7 @@ const BookPage = ({ bookid }) => {
       </main>
       <div className="flex items-center justify-center">
         <div
-          className={`w-full md:w-full fixed bottom-0 px-5 bg-white transition-opacity ease-in-out ${isPlayerVisible ? 'opacity-100' : 'opacity-0'}`}
-          onMouseEnter={() => setIsPlayerVisible(true)}
-          onMouseLeave={() => setIsPlayerVisible(false)}
-          >
+          className={`w-full md:w-full fixed bottom-0 px-5 bg-white duration-1000 transition-opacity ease-in-out ${isPlayerVisible ? 'opacity-100' : 'opacity-0'}`}>
 
           <AudioPlayer
             ref={audioPlayerRef}
