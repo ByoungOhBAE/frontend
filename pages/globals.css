@@ -218,3 +218,53 @@
     transform: rotateY(-180deg);
   }
 }
+
+/* 스와이퍼 슬라이드 전체 스타일 */
+.mySwiper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  /* min-width: 80%; */
+  /* margin: 0 auto; */
+}
+
+.swiper-slide {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 18px;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5%;
+  
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.swiper-pagination {
+  bottom: 10px;
+}
+
+.swiper {
+  margin: 0 auto;
+}
+
+.swiper-slide.swiper-slide-active{
+  max-width: 90%;
+  /* margin: 5% auto; */
+  margin-left: 5%;
+  align-items: center;
+  text-align: center;
+  margin-top: 5%;
+  z-index: 1;
+}
