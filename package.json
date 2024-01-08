@@ -32,6 +32,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
     "react-h5-audio-player": "^3.9.1",
+    "react-pageflip": "^2.0.3",
     "react-quill": "^2.0.0",
     "react-transition-group": "^4.4.5",
     "swr": "^2.2.4",
