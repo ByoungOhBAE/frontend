@@ -19,11 +19,28 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 //페이지 커버,페이지 내용 관리
-const Page = React.forwardRef((props, ref) => {
+const Page = React.forwardRef(({ children, image, pageNumber }, ref) => {
+  const isEvenPage = pageNumber % 2 === 0;
+
   return (
     <div className="h-screen" ref={ref}>
-
-      <p>{props.children}</p> {/* 여기서 children을 사용합니다. */}
+      {isEvenPage ? (
+        image ? (
+          // 짝수 페이지이고 이미지가 있는 경우 이미지 표시
+          <img src={image} alt="Page content" className="w-full h-full object-cover" />
+        ) : (
+          // 짝수 페이지이지만 이미지가 없는 경우 로딩 화면 표시
+          <div className="flex flex-col items-center justify-center w-full h-screen bg-white">
+            <div className="animate-spin">
+              <LoaderIcon className="w-20 h-20 text-blue-500" />
+            </div>
+            <h1 className="mt-5 text-3xl font-semibold text-gray-700">그림이 만들어지고 있어요!</h1>
+          </div>
+        )
+      ) : (
+        // 홀수 페이지의 경우 children 표시
+        <p>{children}</p>
+      )}
     </div>
   );
 });
@@ -158,7 +175,7 @@ function MyBook(props) {
   };
 
   const NextPage = () => {
-     // 애니메이션 시간과 일치
+    // 애니메이션 시간과 일치
     if (flipBookRef.current) {
       flipBookRef.current.pageFlip().flipNext();
     }
@@ -166,7 +183,7 @@ function MyBook(props) {
 
   const PrevPage = () => {
     if (currentPage <= 1) return;
-    
+
     if (flipBookRef.current) {
       flipBookRef.current.pageFlip().flipPrev();
     }
@@ -202,31 +219,7 @@ function MyBook(props) {
     router.replace('/mainpage', undefined);
   };
 
-  function LoaderIcon(props) {
-    return (
-      <svg
-        {...props}
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <line x1="12" x2="12" y1="2" y2="6" />
-        <line x1="12" x2="12" y1="18" y2="22" />
-        <line x1="4.93" x2="7.76" y1="4.93" y2="7.76" />
-        <line x1="16.24" x2="19.07" y1="16.24" y2="19.07" />
-        <line x1="2" x2="6" y1="12" y2="12" />
-        <line x1="18" x2="22" y1="12" y2="12" />
-        <line x1="4.93" x2="7.76" y1="19.07" y2="16.24" />
-        <line x1="16.24" x2="19.07" y1="7.76" y2="4.93" />
-      </svg>
-    )
-  }
+  
 
   return (
     <div className="container" onMouseMove={handleMouseMove}>
@@ -252,8 +245,9 @@ function MyBook(props) {
         <PageCover coverImage='http://127.0.0.1:8000/media/book/%EC%8B%9C%EA%B3%A8%EC%A5%90%20%EC%84%9C%EC%9A%B8%EA%B5%AC%EA%B2%BD.png'></PageCover>
         {[...Array(pageCount)].map((_, index) => {
           const pageNumber = index + 1;
+          const pageImage = pageContent[pageNumber];
           return (
-            <Page key={pageNumber} number={pageNumber}>
+            <Page key={pageNumber} pageNumber={pageNumber} image={pageImage}>
 
               {pageNumber % 2 === 1
                 ? <aside className="w-full h-screen p-5 overflow-hidden"
@@ -271,30 +265,32 @@ function MyBook(props) {
                   </Card>
                 </aside>
                 || 'Loading...' // 로딩 화면
-                : <div>
-                  {pageContent[currentPage]
-                    ? <aside className="w-full p-5 overflow-hidden"
-                      style={{ transformStyle: 'preserve-3d', animation: nextPageAnimation, transformOrigin: 'left', zIndex: nextPageAnimation ? 1 : 0 }}>
-                      <div
-                        className="h-full w-full rounded-md shadow-lg bg-cover bg-center"
-                        style={{
-                          backgroundImage: `url(${pageContent[currentPage]})`,
-                          backgroundSize: 'cover',
-                          backgroundPosition: 'center',
-                          borderRadius: '4px',
-                          aspectRatio: '1 / 1',
-                        }}
-                      >
-                      </div>
-                    </aside>
-                    : <div key="1" className="flex flex-col items-center justify-center w-full h-screen">
-                      <div className="animate-spin">
-                        <LoaderIcon className="w-20 h-20 text-blue-500" />
-                      </div>
-                      <h1 className="mt-5 text-3xl font-semibold text-gray-700">그림이 만들어지고 있어요!</h1>
-                    </div>
-                  }
-                </div>
+                : <></>
+                // <div>
+                //   {pageContent[currentPage]
+                //     ? <></>
+                //     <aside className="w-full p-5 overflow-hidden">
+                //       <div
+                //         className="h-full w-full rounded-md shadow-lg bg-cover bg-center"
+                //         style={{
+                //           backgroundImage: `url(${pageContent[currentPage]})`,
+                //           backgroundSize: 'cover',
+                //           backgroundPosition: 'center',
+                //           borderRadius: '4px',
+                //           aspectRatio: '1 / 1',
+                //         }}
+                //       >
+                //       </div>
+                //     </aside>
+                //     :
+                //     <div key="1" className="flex flex-col items-center justify-center w-full h-screen">
+                //       <div className="animate-spin">
+                //         <LoaderIcon className="w-20 h-20 text-blue-500" />
+                //       </div>
+                //       <h1 className="mt-5 text-3xl font-semibold text-gray-700">그림이 만들어지고 있어요!</h1>
+                //     </div>
+                //   }
+                // </div>
               }
             </Page>
           );
@@ -323,6 +319,32 @@ function MyBook(props) {
       </div>
     </div>
   );
+}
+
+function LoaderIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <line x1="12" x2="12" y1="2" y2="6" />
+      <line x1="12" x2="12" y1="18" y2="22" />
+      <line x1="4.93" x2="7.76" y1="4.93" y2="7.76" />
+      <line x1="16.24" x2="19.07" y1="16.24" y2="19.07" />
+      <line x1="2" x2="6" y1="12" y2="12" />
+      <line x1="18" x2="22" y1="12" y2="12" />
+      <line x1="4.93" x2="7.76" y1="19.07" y2="16.24" />
+      <line x1="16.24" x2="19.07" y1="7.76" y2="4.93" />
+    </svg>
+  )
 }
 
 export default MyBook;
