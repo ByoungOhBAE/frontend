@@ -114,20 +114,8 @@ export function Signup({ setShowSignup }) {
             return;
         }
     
-        if (formData.password.length < 8) {
-            setErrorMessage('비밀번호는 최소 8글자 이상이어야 합니다.');
-            return;
-        }
-
-        // 영문자 포함 검사
-        if (!/[a-zA-Z]/.test(formData.password)) {
-            setErrorMessage('비밀번호에는 최소 하나의 영문자가 포함되어야 합니다.');
-            return;
-        }
-
-        // 특수문자 포함 검사
-        if (!/[!@#$%^&*(),.?":{}|<>]/.test(formData.password)) {
-            setErrorMessage('비밀번호에는 최소 하나의 특수문자가 포함되어야 합니다.');
+        if (formData.password.length < 6) {
+            setErrorMessage('비밀번호는 최소 6글자 이상이어야 합니다.');
             return;
         }
     
@@ -166,7 +154,7 @@ export function Signup({ setShowSignup }) {
     };
 
     return (
-        <main key="1" className="p-6">
+        <main key="1" className="flex justify-center p-3 w-full">
             <Card className="min-w-96 mx-auto">
                 <CardHeader>
                     <Button
@@ -177,21 +165,21 @@ export function Signup({ setShowSignup }) {
                         <ArrowLeftIcon className="mr-2 h-4 w-4" />
                         뒤로가기
                     </Button>
-                    <h2 className="text-xl font-medium">회원가입 하기</h2>
-                    <p className="text-gray-500">
+                    <h2 className="text-xl font-medium text-center mt-2">회원가입 하기</h2>
+                    {/* <p className="text-gray-500 text-center">
                         회원가입 정보를 입력해 주세요
-                    </p>
+                    </p> */}
                 </CardHeader>
-                <CardContent className="space-y-6">
+                <CardContent className="min-w-96 mx-auto">
                     {errorMessage && (
                         <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
                     )}
-                    <form className="space-y-4" onSubmit={handleSubmit}>
-                        <div className="space-y-2 flex justify-between items-center">
-                            <Label htmlFor="name" className="font-medium lg:w-1/5">이름</Label>
+                     <form className="space-y-1" onSubmit={handleSubmit}>
+                     <div className="space-y-1 flex justify-between items-center">
+                            <Label htmlFor="name" className="flex-1 text-center">이름</Label>
                             <Input 
                                 id="name" 
-                                placeholder="홍길동" 
+                                placeholder="홍길동" min-w-96 mx-auto
                                 required 
                                 value={formData.name}
                                 onChange={handleChange}
@@ -199,8 +187,8 @@ export function Signup({ setShowSignup }) {
                             />
                         </div>
 
-                        <div className="space-y-2 flex justify-between items-center">
-                            <Label htmlFor="ID" className="font-medium lg:w-1/5">아이디</Label>
+                        <div className="space-y-1 flex justify-between items-center">
+                            <Label htmlFor="ID" className="flex-1 text-center">아이디</Label>
                             <Input
                                 id="email"
                                 placeholder="johndoe@example.com"
@@ -211,8 +199,8 @@ export function Signup({ setShowSignup }) {
                                 className="font-medium lg:w-3/5"
                             />
                         </div>
-                        <div className="space-y-2 flex justify-between items-center">
-                            <Label htmlFor="PW" className="font-medium lg:w-1/5">비밀번호</Label>
+                        <div className="space-y-1 flex justify-between items-center">
+                            <Label htmlFor="PW" className="flex-1 text-center">비밀번호</Label>
                             <Input
                                 id="password"
                                 placeholder="비밀번호"
@@ -223,8 +211,8 @@ export function Signup({ setShowSignup }) {
                                 className="font-medium lg:w-3/5"
                             />
                         </div>
-                        <div className="space-y-2 flex justify-between items-center">
-                            <Label htmlFor="PW_re" className="font-medium lg:w-1/5">비밀번호 확인</Label>
+                        <div className="space-y-1 flex justify-between items-center mb-2">
+                            <Label htmlFor="PW_re" className="flex-1 text-center ">비밀번호 확인</Label>
                             <Input
                                 id="confirmPassword"
                                 placeholder="비밀번호 확인"
@@ -238,7 +226,7 @@ export function Signup({ setShowSignup }) {
                         <div>
                             <span>
                                 이용약관에 대한 자세한 내용은{' '}
-                                <button onClick={openTermsModal} className="text-sky-500">
+                                <button onClick={openTermsModal} className="text-sky-500 mt-5">
                                     여기(서비스 이용약관)
                                 </button>
                                 를 확인하세요.

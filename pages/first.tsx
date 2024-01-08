@@ -81,10 +81,6 @@ export default function Index() {
     height: '100%',
   };
 
-  const screenStyle: React.CSSProperties = {
-    height: '500px',
-    // overflow: 'hidden',
-  }
 
   const screenContainerStyle: React.CSSProperties = {
     display: 'flex',
@@ -120,18 +116,18 @@ export default function Index() {
 
   return (
     <div className="min-h-screen p-6 lg:p-10 bg-cover bg-center relative" style={backgroundStyle}>
-      <div className="text-center mb-8">
+      <div className="text-center mb-3">
         <h2 className="text-5xl font-bold text-gray-800">
           북키즈
         </h2>
       </div>
 
-      <div className="lg:flex justify-between p-6 lg:p-10" style={screenStyle}>
+      <div className="lg:flex justify-between h-fit">
         {showSignup ? (
           <Signup setShowSignup={setShowSignup} />
         ) : (
           <>
-            <div className="lg:w-3/4 justify-start bg-blue-100/50 rounded-lg flex items-center relative overflow-hidden">
+            <div className="lg:w-3/4 justify-start bg-blue-100/50 rounded-lg flex items-center relative overflow-hidden mt-10">
               <button className="hover:text-8xl text-6xl absolute left-4 top-1/2 transform -translate-y-1/2" onClick={moveToPrevScreen}>
                 {'<'}
               </button>
