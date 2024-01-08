@@ -39,17 +39,13 @@ const BookPage = ({ bookid }) => {
   const [nextContent, setNextContent] = useState('');
   const [imagePath, setImagePath] = useState('');
   const mouseMoveTimer = useRef(null);
+  const [isImageLoading, setImageLoading] = useState(true);
 
   useEffect(() => {
     fetchGetData(bookid);
-    const timer = setTimeout(() => {
-      setIsReadyToPlay(true);
-      if (audioPlayerRef.current) {
-        audioPlayerRef.current.audio.current.play();
-      }
-    }, 2000); // 1초 뒤에 재생 시작
+    
     fetchGetNextContent(bookid);
-        return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 해제
+        
     }, [currentPage]);
 
     useEffect(() => {
@@ -64,8 +60,6 @@ const BookPage = ({ bookid }) => {
               console.log(response.data.results[0].content);
               const content = response.data.results[0].content;
               fetchImage(content);
-              // setPosts(response.data.results);
-              // setNextPageUrl(response.data.next);
           })
           .catch(error => {
               router.push(`/quiz/${bookid}`);
@@ -83,6 +77,8 @@ const BookPage = ({ bookid }) => {
     };
 
     const fetchImage = async (content) => {
+      setImageLoading(true);
+
       try {
         // FormData 객체 생성
         const formData = new FormData();
@@ -90,7 +86,7 @@ const BookPage = ({ bookid }) => {
         formData.append('content', content);
     
         // Fetch 요청을 보냄
-        const response = await fetch('http://34.64.172.218/stable/api/generate_image/', {
+        const response = await fetch('http://34.64.255.242:8000/stable/api/generate_image/', {
           method: 'POST',
           body: formData, // FormData를 요청 본문으로 사용
         });
@@ -102,13 +98,15 @@ const BookPage = ({ bookid }) => {
           setImagePath(data.image_path);
           
           console.log('줄거리 읽어주기');
-          fetchPostSpeech(content); // 이미지 생성후 줄거리 읽어주기
           
+          fetchPostSpeech(content); // 이미지 생성후 줄거리 읽어주기
         } else {
           console.error('Error fetching image:', data.error);
         }
       } catch (error) {
         console.error('Error fetching image:', error.message);
+      } finally {
+        setImageLoading(false);
       }
     };
 
@@ -134,10 +132,14 @@ const BookPage = ({ bookid }) => {
           .then(response => {
               setAudioPath(response.data.file_path);
               console.log(response.data.file_path);
-              // console.log(response);
-              // setQuiz(response.data.question);
-              // setContent(response.data.content);
-              // setQuizAnswer(response.data.quiz_answer);
+              // 2초 뒤에 오디오 플레이어 재생
+              const timer = setTimeout(() => {
+                setIsReadyToPlay(true);
+                if (audioPlayerRef.current) {
+                  audioPlayerRef.current.audio.current.play();
+                }
+              }, 1000); // 2초 뒤에 재생 시작
+              return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 해제
           })
           .catch(error => {
               console.log(error);
@@ -146,6 +148,7 @@ const BookPage = ({ bookid }) => {
 
   const NextPage = () => {
     setShowTextLayer(true); // 애니메이션 넘어갈 때 숨겨진 컨텐츠 보이기
+    audioPlayerRef.current.audio.current.pause();
     setNextPageAnimation('turnPage 1s forwards');
     setTimeout(() => {
       setCurrentPage(currentPage + 1);
@@ -156,6 +159,7 @@ const BookPage = ({ bookid }) => {
 
   const PrevPage = () => {
     if (currentPage <= 1) return;
+    audioPlayerRef.current.audio.current.pause();
     setPrevPageAnimation('turnPageReverse 1s backwards');
     setTimeout(() => {
       setCurrentPage(currentPage - 1);
@@ -167,6 +171,33 @@ const BookPage = ({ bookid }) => {
     // '/mainpage'로 이동하면서 뒤로 가기로 못돌아가게 함
     router.replace('/mainpage', undefined);
   };
+
+  function LoaderIcon(props) {
+    return (
+      <svg
+        {...props}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <line x1="12" x2="12" y1="2" y2="6" />
+        <line x1="12" x2="12" y1="18" y2="22" />
+        <line x1="4.93" x2="7.76" y1="4.93" y2="7.76" />
+        <line x1="16.24" x2="19.07" y1="16.24" y2="19.07" />
+        <line x1="2" x2="6" y1="12" y2="12" />
+        <line x1="18" x2="22" y1="12" y2="12" />
+        <line x1="4.93" x2="7.76" y1="19.07" y2="16.24" />
+        <line x1="16.24" x2="19.07" y1="7.76" y2="4.93" />
+      </svg>
+    )
+  }
+  
 
   return (
     <>
@@ -199,17 +230,26 @@ const BookPage = ({ bookid }) => {
         </aside>
         <aside className="w-1/2 h-screen p-5 overflow-hidden" 
                 style={{ transformStyle: 'preserve-3d', animation: nextPageAnimation, transformOrigin: 'left', zIndex: nextPageAnimation ? 1 : 0 }}>
-          <div
-            className="h-full w-full rounded-md shadow-lg bg-cover bg-center"
-            style={{
-              backgroundImage: `url(https://i.pinimg.com/originals/a2/37/6c/a2376c7360c9f3092096180633e763eb.png)`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              borderRadius: '4px',
-              aspectRatio: '1 / 1',
-            }}
-          >
-          </div>
+          {isImageLoading ? (
+            <div key="1" className="flex flex-col items-center justify-center w-full h-screen">
+                <div className="animate-spin">
+                <LoaderIcon className="w-20 h-20 text-blue-500" />
+                </div>
+                <h1 className="mt-5 text-3xl font-semibold text-gray-700">그림이 만들어지고 있어요!</h1>
+            </div>
+          ) : (
+            <div
+              className="h-full w-full rounded-md shadow-lg bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${imagePath})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                borderRadius: '4px',
+                aspectRatio: '1 / 1',
+              }}
+            >
+            </div>
+          )}
         </aside>
         <div className={`absolute top-0 left-1/2 w-1/2 h-screen p-5 flex items-center justify-center ${showTextLayer ? 'opacity-1' : 'opacity-0'}`}>
           {book.map(detail => (

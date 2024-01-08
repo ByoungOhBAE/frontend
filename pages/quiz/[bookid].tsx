@@ -23,51 +23,65 @@ const Quiz = ({ bookid }) => {
     const [quizAnswer, setQuizAnswer] = useState('');
     const [feedback, setFeedback] = useState('');
     const [content, setContent] = useState('');
+    const [isQuizLoading, setQuizLoading] = useState(false);
+    const [isFeedbackLoading, setIsFeedbackLoading] = useState(false);
 
     useEffect(() => {
         fetchPostQuiz();
     }, []);
 
     const fetchPostQuiz = async () => {
+        setQuizLoading(true); // 로딩 시작
         const token = Cookies.get('token');
-        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/ChatGPT/Question/`, {
-            bookid: bookid,
-        },{
-            headers: {
-                'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
-            }
-        })
-            .then(response => {
-                console.log(response);
-                setQuiz(response.data.question);
-                setContent(response.data.content);
-                setQuizAnswer(response.data.quiz_answer);
-            })
-            .catch(error => {
-                console.log(error);
+
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/ChatGPT/Question/`, {
+                bookid: bookid,
+            },{
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
+
+            console.log(response);
+            setQuiz(response.data.question);
+            setContent(response.data.content);
+            setQuizAnswer(response.data.quiz_answer);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setQuizLoading(false); // 로딩 완료
+        }
     };
 
     const fetchPostFeedback = async () => {
+
+        setTimeout(() => {
+            setIsFeedbackLoading(true); // 1초 후 로딩 시작
+        }, 1000);
+        
         const token = Cookies.get('token');
-        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/ChatGPT/Feedback/`, {
-            // bookid: bookid,
-            content: content,
-            quiz: quiz,
-            user_answer: userAnswer,
-            quiz_answer: quizAnswer,
-        },{
-            headers: {
-                'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
-            }
-        })
-            .then(response => {
-                console.log(response);
-                setFeedback(response.data.feedback);
-            })
-            .catch(error => {
-                console.log(error);
+
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/ChatGPT/Feedback/`, {
+                // bookid: bookid,
+                content: content,
+                quiz: quiz,
+                user_answer: userAnswer,
+                quiz_answer: quizAnswer,
+            },{
+                headers: {
+                    'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
+                }
             });
+
+            console.log(response);
+            setFeedback(response.data.feedback);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsFeedbackLoading(false); // 로딩 완료
+        }
     };
     
     const fetchPostQuizSave = async () => {
@@ -76,8 +90,8 @@ const Quiz = ({ bookid }) => {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/QuizList/`, {//현재는 api 미연결로 인해 quiz와 quizAnswer이 없어서 400 ERROR 발생
             BookList: bookid,
             category: 0,
-            question: 'fortest1',//quiz
-            answer: 'fortest1',//quizAnswer
+            question: quiz,
+            answer: quizAnswer,
             
         },{
             headers: {
@@ -88,23 +102,16 @@ const Quiz = ({ bookid }) => {
         console.log('New Quiz ID:', newQuizId);
         setFeedback(response.data.feedback);
         await fetchPostLearnQuizSave(newQuizId);
-    } catch (error) {
-        console.error(error);
-    }
-};
-    //         .then(response => {
-    //             console.log(response);
-    //             setFeedback(response.data.feedback);
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         });
-    // };
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const fetchPostLearnQuizSave = async (newQuizId) => {
         try {
             const token = Cookies.get('token');
             const userId = Cookies.get('user_id');
-    console.log(newQuizId)
+            console.log(newQuizId)
             // newQuizId를 이용하여 LearningStatus에 데이터 추가
             const learnResponse = await axios.post(
                 `${process.env.NEXT_PUBLIC_API_URL}/api/LearningStatus/`,
@@ -126,22 +133,25 @@ const Quiz = ({ bookid }) => {
             console.error(error);
         }
     };
-    function handleMikeClick() {
-        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/recognize_speech/`)
-            .then(response => {
-                console.log(response);
-                setUserAnswer(response.data.text);
 
+    async function handleMikeClick() {
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/recognize_speech/`);
+            console.log(response.data.text);
+    
+            if (response.data.text === undefined) {
+                setUserAnswer("말하기 버튼을 누른 후 다시 말해주세요");
+            } else {
+                setUserAnswer(response.data.text);
                 fetchPostFeedback(); // 피드백 추가
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 
     const goToNextPage = () => {
         fetchPostQuizSave(); //quizdata 저장
-        fetchPostLearnQuizSave();//LearningStatus 저장
         router.push(`/quiz_image/${bookid}`)
     };
 
@@ -150,8 +160,8 @@ const Quiz = ({ bookid }) => {
     };
 
     return (
-        <main className='bg-sky-100'>
-            <div className="flex flex-row items-start justify-center h-screen p-5 mx-10">
+        <main className='bg-sky-100 justify-center items-center h-screen'>
+            <div className="flex flex-row items-center justify-center h-full p-5 mx-10">
                 
                 {/* 이미지 섹션 */}
                 <div className="w-full lg:w-1/2 xl:w-1/2 mb-6 lg:mb-0">
@@ -162,17 +172,21 @@ const Quiz = ({ bookid }) => {
                 <div className="w-full lg:w-2/5 max-w-xl">
                     {/* 퀴즈 섹션 */}
                     <div className="mb-5">
-                        <h2 className="text-white text-center mb-2.5 py-3 px-5 rounded-lg bg-blue-600 shadow-md font-bold text-lg">
+                        <h2 className="text-white text-center mb-2.5 py-3 px-5 rounded-lg bg-blue-600 shadow-md text-lg">
                             <span className="mr-2 text-xl">&#x1F4DA;</span> 퀴즈
                         </h2>
                         <div className="p-6 text-center rounded-lg bg-white shadow-md">
+                        {isQuizLoading ? (
+                            <p>퀴즈 생성중...</p> // 여기에 로딩 애니메이션 또는 로딩 표시를 추가하세요.
+                        ) : (
                             <p>{quiz}</p>
+                        )}
                         </div>
                     </div>
                     
                     {/* 대답 섹션 */}
                     <div className="mb-5">
-                        <h2 className="text-white text-center mb-2.5 py-3 px-5 rounded-lg bg-green-600 shadow-md font-bold text-lg">
+                        <h2 className="text-white text-center mb-2.5 py-3 px-5 rounded-lg bg-green-600 shadow-md text-lg">
                             <span className="mr-2 text-xl">&#x1F4AC;</span> 대답
                         </h2>
                         <div className="p-6 text-center rounded-lg bg-white shadow-md">
@@ -182,11 +196,15 @@ const Quiz = ({ bookid }) => {
 
                     {/* 피드백 섹션 */}
                     <div className="mb-5">
-                        <h2 className="text-white text-center mb-2.5 py-3 px-5 rounded-lg bg-yellow-600 shadow-md font-bold text-lg">
+                        <h2 className="text-white text-center mb-2.5 py-3 px-5 rounded-lg bg-yellow-600 shadow-md text-lg">
                             <span className="mr-2 text-xl">&#x1F4A1;</span> 선생님의 조언
                         </h2>
                         <div className="p-6 text-center rounded-lg bg-white shadow-md">
-                            <p>{feedback}</p>
+                            {isFeedbackLoading ? (
+                                <div>선생님의 조언 생성중...</div> // 로딩
+                            ) : (
+                                <p>{feedback}</p>
+                            )}
                         </div>
                     </div>
         

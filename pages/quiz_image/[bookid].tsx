@@ -21,11 +21,14 @@ const Quiz_image = ({ bookid }) => {
     const [book, setBook] = useState(null);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const audioRef = useRef();
-    const [ImagePath, setImagePath] = useState('https://health.chosun.com/site/data/img_dir/2023/06/20/2023062002262_0.jpg');
+    // const [ImagePath, setImagePath] = useState('https://health.chosun.com/site/data/img_dir/2023/06/20/2023062002262_0.jpg');
+    const [ImagePath, setImagePath] = useState('');
     const [quiz, setQuiz] = useState('');
     const [quizAnswer, setQuizAnswer] = useState('');
     const [userAnswer, setUserAnswer] = useState('');
     const [feedback, setFeedback] = useState('');
+    const [isQuizLoading, setQuizLoading] = useState(false);
+    const [isFeedbackLoading, setIsFeedbackLoading] = useState(false);
     
     useEffect(() => {
         fetchPostImageGenerate();
@@ -69,23 +72,16 @@ const Quiz_image = ({ bookid }) => {
         const newQuizId = response.data.id;
         console.log('New Quiz ID:', newQuizId);
         await fetchPostLearnimageQuizSave(newQuizId);
-    } catch (error) {
-        console.error(error);
-    }
-};
-    //         .then(response => {
-    //             console.log(response);
-    //             setFeedback(response.data.feedback);
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         });
-    // };
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const fetchPostLearnimageQuizSave = async (newQuizId) => {
         try {
             const token = Cookies.get('token');
             const userId = Cookies.get('user_id');
-    console.log(newQuizId)
+            console.log(newQuizId)
             // newQuizId를 이용하여 LearningStatus에 데이터 추가
             const learnResponse = await axios.post(
                 `${process.env.NEXT_PUBLIC_API_URL}/api/LearningStatus/`,
@@ -125,31 +121,28 @@ const Quiz_image = ({ bookid }) => {
             });
     };
 
-    function handleMikeClick() {
-        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/recognize_speech/`)
-            .then(response => {
-                console.log(response);
+    async function handleMikeClick() {
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/recognize_speech/`);
+            console.log(response.data.text);
+    
+            if (response.data.text === undefined) {
+                setUserAnswer("말하기 버튼을 누른 후 다시 말해주세요");
+            } else {
                 setUserAnswer(response.data.text);
-
                 fetchPostFeedback(); // 피드백 추가
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 
     // 이미지 생성 함수
     const fetchPostImageGenerate = async () => {
+        setQuizLoading(true);
         try {
-          // FormData 객체 생성
-        //   const formData = new FormData();
-          // 'content' 필드에 값을 추가
-        //   formData.append('content', content);
-      
-          // Fetch 요청을 보냄
-          const response = await fetch('http://34.64.172.218:8000/stable/api/generate_quiz_image/', {
+            const response = await fetch('http://34.64.255.242:8000/stable/api/generate_quiz_image/', {
             method: 'POST',
-            // body: formData, // FormData를 요청 본문으로 사용
           });
   
           const data = await response.json();
@@ -165,38 +158,80 @@ const Quiz_image = ({ bookid }) => {
           }
         } catch (error) {
           console.error('Error fetching image:', error.message);
+        }finally{
+            setQuizLoading(false);
         }
     };
 
     const fetchPostFeedback = async () => {
+        setIsFeedbackLoading(true);
+
         const token = Cookies.get('token');
-        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/ChatGPT/Feedback/`, {
-            // bookid: bookid,
-            content: '사진에 대해서 무엇인지 맞추기',
-            quiz: quiz,
-            user_answer: userAnswer,
-            quiz_answer: quizAnswer,
-        },{
-            headers: {
-                'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
-            }
-        })
-            .then(response => {
-                console.log(response);
-                setFeedback(response.data.feedback);
-            })
-            .catch(error => {
-                console.log(error);
+    
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/ChatGPT/Feedback/`, {
+                // bookid: bookid,
+                content: '사진에 대해서 무엇인지 맞추기',
+                quiz: quiz,
+                user_answer: userAnswer,
+                quiz_answer: quizAnswer,
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
+                }
             });
+    
+            console.log(response);
+            setFeedback(response.data.feedback);
+        } catch (error) {
+            console.log(error);
+        } finally{
+            setIsFeedbackLoading(false);
+        }
     };
+    function LoaderIcon(props) {
+        return (
+          <svg
+            {...props}
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <line x1="12" x2="12" y1="2" y2="6" />
+            <line x1="12" x2="12" y1="18" y2="22" />
+            <line x1="4.93" x2="7.76" y1="4.93" y2="7.76" />
+            <line x1="16.24" x2="19.07" y1="16.24" y2="19.07" />
+            <line x1="2" x2="6" y1="12" y2="12" />
+            <line x1="18" x2="22" y1="12" y2="12" />
+            <line x1="4.93" x2="7.76" y1="19.07" y2="16.24" />
+            <line x1="16.24" x2="19.07" y1="7.76" y2="4.93" />
+          </svg>
+        )
+      }
+      
 
     return (
-        <main className='bg-sky-100'>
-            <div className="flex flex-col items-center justify-start h-screen p-5">
+        <main className='bg-sky-100 justify-center items-center h-screen'>
+            <div className="flex flex-row items-center justify-center h-full p-5 mx-10">
                 <div className="flex flex-row items-start justify-center w-full">
                     {/* 이미지 섹션 */}
                     <div className="w-full lg:w-2/5 max-w-xl mr-10">
-                        <img className="w-full h-auto object-cover rounded-lg shadow-lg" src={`${ImagePath}`} alt='Quiz Image'/>
+                        {isQuizLoading ? (
+                            <div key="1" className="flex flex-col items-center justify-center w-full pt-32">
+                                <div className="animate-spin">
+                                <LoaderIcon className="w-20 h-20 text-blue-500" />
+                                </div>
+                                <h1 className="mt-5 text-3xl font-semibold text-gray-700">그림이 만들어지고 있어요!</h1>
+                            </div>
+                        ) : (
+                            <img className="w-full h-auto object-cover rounded-lg shadow-lg" src={`${ImagePath}`} alt='Quiz Image'/>
+                        )}
                     </div>
                     {/* 텍스트 및 버튼 섹션 */}
                     <div className="w-full lg:w-3/5 max-w-xl">
@@ -226,7 +261,12 @@ const Quiz_image = ({ bookid }) => {
                                 <span className="mr-2 text-xl">&#x1F4A1;</span> 선생님의 조언
                             </h2>
                             <div className="p-6 text-center rounded-lg bg-white shadow-md">
-                                <p>{feedback}</p>
+                            {isFeedbackLoading ? (
+                                    <div>선생님의 조언 생성중...</div> // 로딩
+                                ) : (
+                                    <p>{feedback}</p>
+                                )}
+                                
                             </div>
                         </div>
 

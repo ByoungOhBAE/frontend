@@ -10,13 +10,13 @@ export default function LoadingPage() {
       <div className="animate-spin">
         <LoaderIcon className="w-20 h-20 text-blue-500" />
       </div>
-      <h1 className="mt-5 text-3xl font-semibold text-gray-700">Loading</h1>
-      <Card className="mt-10 p-5 max-w-lg mx-auto">
+      <h1 className="mt-5 text-3xl font-semibold text-gray-700">잠시만 기다려주세요...</h1>
+      {/* <Card className="mt-10 p-5 max-w-lg mx-auto">
         <CardContent className="p-4">
           <h2 className="text-2xl font-bold mb-3">Bookids</h2>
           <p className="text-gray-600">로딩중입니다 잠시만 기다려주세요</p>
         </CardContent>
-      </Card>
+      </Card> */}
       
     </main>
   )
