@@ -90,16 +90,31 @@ export default function Index() {
                     <SwiperSlide>퀴즈</SwiperSlide>
                     <SwiperSlide>
                         <div className="flex items-center justify-center">
-                            <img src="/bookhistory.png" alt="Slide 5" style={{ width: '70%', maxHeight: '50%', marginTop: '-5%' }}/>
-                            <p className="text-xl leading-loose ml-4">
-                                마이페이지에서 읽은 책 목록 확인 가능<br />
+                            <img src="/bookhistory.png" alt="Slide 5" style={{ width: '80%', maxHeight: '60%', marginTop: '-5%' }}/>
+                            <p className="text-lg leading-loose ml-4">
+                                마이페이지에서 읽은 책 목록 확인<br />
                             </p>
                         </div>
                     </SwiperSlide>
-                    <SwiperSlide>Slide 6</SwiperSlide>
-                    <SwiperSlide>Slide 7</SwiperSlide>
-                    <SwiperSlide>Slide 8</SwiperSlide>
-                    <SwiperSlide>Slide 9</SwiperSlide>
+                    <SwiperSlide>
+                        <div className="flex items-center justify-center">
+                            <img src="/mypage_study.png" alt="Slide 6" style={{ width: '80%', maxHeight: '60%', marginTop: '-5%' }}/>
+                            <p className="text-lg leading-loose ml-4">
+                                학습 현황에서 읽은 책 수 및 퀴즈 수 확인<br />
+                                원하는 테마색 변경 가능
+                            </p>
+                        </div>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <div className="flex items-center justify-center">
+                            <img src="/board.png" alt="Slide 7" style={{ width: '70%', maxHeight: '50%', marginTop: '-5%' }}/>
+                            <p className="text-lg leading-loose ml-4">
+                                모두와 대화할 수 있는 게시판
+                            </p>
+                        </div>
+                    </SwiperSlide>
+                    {/* <SwiperSlide>Slide 8</SwiperSlide>
+                    <SwiperSlide>Slide 9</SwiperSlide> */}
                 </Swiper>
               </>
             </div>
