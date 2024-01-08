@@ -51,7 +51,7 @@ export default function Index() {
               <>
                 <Swiper
                     slidesPerView={1}
-                    spaceBetween={100}
+                    spaceBetween={55}
                     loop={true}
                     pagination={{
                         clickable: true,
@@ -61,18 +61,41 @@ export default function Index() {
                     className="mySwiper"
                     style={{ minHeight: "90%", alignItems: "center" }}
                 >
-                    <SwiperSlide>유아시기는 만3세~만5세인데, 유아기의 아이가
-                        언어를 배우는 시기의 뇌는 스펀지와 같다고 한다.<br />
-                        스펀지가 물을 흡수하는 것처럼 언어를 흡수하게
-                        된다는 것이다. 이순영 고려대 국어교육과 교수는
-                        미취학 아동의 시기가 독서 관심도의 차이를
-                        결정하는 골든타임이라고 말했다.<br /> 
-                        그래서 아이의 흥미를 이끌고 독서 습관을 자연스럽게 체득할 수
-                        있게 도움을 주는 서비스를 제공하고자 한다.</SwiperSlide>
-                    <SwiperSlide>Slide 2</SwiperSlide>
-                    <SwiperSlide>Slide 3</SwiperSlide>
-                    <SwiperSlide>Slide 4</SwiperSlide>
-                    <SwiperSlide>Slide 5</SwiperSlide>
+                    <SwiperSlide style={{ textAlign: 'left' }}>
+                        <h1 className="text-3xl font-bold mb-4 mx-4 inset-y-0 left-0">
+                            서비스 소개
+                        </h1>
+                        <p className="text-lg leading-loose inset-y-0 left-0">
+                            유아시기는 만3세~만5세인데, 유아기의 아이가
+                            언어를 배우는 시기의 뇌는 스펀지와 같다고 한다.<br />
+                            스펀지가 물을 흡수하는 것처럼 언어를 흡수하게
+                            된다는 것이다. 이순영 고려대 국어교육과 교수는
+                            미취학 아동의 시기가 독서 관심도의 차이를
+                            결정하는 골든타임이라고 말했다.<br /> 
+                            그래서 아이의 흥미를 이끌고 독서 습관을 자연스럽게 체득할 수
+                            있게 도움을 주는 서비스를 제공하고자 한다.
+                        </p>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <div className="flex">
+                            <img src="/booklist.png" alt="Slide 2" style={{ maxWidth: '70%', maxHeight: '50%', marginTop: '-5%' }}/>
+                            <p className="text-xl leading-loose justify-center content-center m-8">
+                                아이들에게 맞는 다양한 동화책 선정<br />
+
+                                
+                            </p>
+                        </div>
+                    </SwiperSlide>
+                    <SwiperSlide>책 읽어주기</SwiperSlide>
+                    <SwiperSlide>퀴즈</SwiperSlide>
+                    <SwiperSlide>
+                        <div className="flex items-center justify-center">
+                            <img src="/bookhistory.png" alt="Slide 5" style={{ width: '70%', maxHeight: '50%', marginTop: '-5%' }}/>
+                            <p className="text-xl leading-loose ml-4">
+                                마이페이지에서 읽은 책 목록 확인 가능<br />
+                            </p>
+                        </div>
+                    </SwiperSlide>
                     <SwiperSlide>Slide 6</SwiperSlide>
                     <SwiperSlide>Slide 7</SwiperSlide>
                     <SwiperSlide>Slide 8</SwiperSlide>

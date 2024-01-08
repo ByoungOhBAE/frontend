@@ -260,17 +260,11 @@
 }
 
 .swiper-slide.swiper-slide-active{
-  max-width: 80%;
+  max-width: 90%;
   /* margin: 5% auto; */
-  margin-left: 10%;
+  margin-left: 5%;
   align-items: center;
   text-align: center;
   margin-top: 5%;
   z-index: 1;
 }
-
-/* .swiper-button-next,
-.swiper-button-prev {
-  top: 50%;
-  transform: translateY(-50%);
-} */
