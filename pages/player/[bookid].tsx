@@ -61,7 +61,7 @@ function MyBook(props) {
   const [imagePath, setImagePath] = useState('');
   const mouseMoveTimer = useRef(null);
   const [isImageLoading, setImageLoading] = useState(true);
-
+  const flipBookRef = useRef(null);
 
   useEffect(() => {
     const fetchAllPageContent = async () => {
@@ -131,24 +131,24 @@ function MyBook(props) {
     try {
       const formData = new FormData();
       formData.append('content', content);
-  
-      const response = await fetch('http://34.64.255.242:8000/stable/api/generate_image/', {
+
+      const response = await fetch('http://127.0.0.1:8000/stable/api/generate_image/', {
         method: 'POST',
         body: formData,
       });
-  
+
       const img_data = await response.json();
       if (response.ok) {
         const audioPath = await fetchPostSpeech(content); // 오디오 파일 경로 받기
         console.log(img_data.image_path);
-  
+
         // 이미지 경로와 오디오 경로를 상태에 저장
         setPageContent(prevContent => ({
           ...prevContent,
           [pageNumber]: img_data.image_path,
           ...(audioPath && { [audioNumber]: audioPath }), // audioPath가 있는 경우에만 추가
         }));
-  
+
       } else {
         console.error('Error fetching image:', img_data.error);
       }
@@ -158,22 +158,18 @@ function MyBook(props) {
   };
 
   const NextPage = () => {
-    setShowTextLayer(true); // 애니메이션 넘어갈 때 숨겨진 컨텐츠 보이기
-    setNextPageAnimation('turnPage 1s forwards');
-    setTimeout(() => {
-      setCurrentPage(currentPage + 1);
-      setNextPageAnimation('');
-      setShowTextLayer(false); // 애니메이션 끝나고 다시 숨기기
-    }, 1000); // 애니메이션 시간과 일치
+     // 애니메이션 시간과 일치
+    if (flipBookRef.current) {
+      flipBookRef.current.pageFlip().flipNext();
+    }
   };
 
   const PrevPage = () => {
     if (currentPage <= 1) return;
-    setPrevPageAnimation('turnPageReverse 1s backwards');
-    setTimeout(() => {
-      setCurrentPage(currentPage - 1);
-      setPrevPageAnimation('');
-    }, 1000);
+    
+    if (flipBookRef.current) {
+      flipBookRef.current.pageFlip().flipPrev();
+    }
   };
 
   const handlePageChange = (e) => {
@@ -184,16 +180,16 @@ function MyBook(props) {
     const token = Cookies.get('token');
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/TextToSpeech/`, {
-          content: content,
-      },{
-          headers: {
-              'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
-          }
+        content: content,
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
+        }
       });
-  
+
       const audioPath = response.data.file_path;
       console.log(audioPath);
-  
+
       return audioPath; // 오디오 경로 반환
     } catch (error) {
       console.error('Error in fetchPostSpeech:', error);
@@ -235,13 +231,15 @@ function MyBook(props) {
   return (
     <div className="container" onMouseMove={handleMouseMove}>
       <button onClick={handleMoveMainPage}
-              className={`bg-transparent fixed top-0 pt-5 pl-5 duration-1000 transition-opacity ease-in-out ${isPlayerVisible ? 'opacity-100' : 'opacity-0'}`} style={{zIndex: 2}}
+        className={`bg-transparent fixed top-0 pt-5 pl-5 duration-1000 transition-opacity ease-in-out ${isPlayerVisible ? 'opacity-100' : 'opacity-0'}`} style={{ zIndex: 2 }}
       >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12">
           <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
         </svg>
       </button>
-      <HTMLFlipBook width={550}
+      <HTMLFlipBook
+        ref={flipBookRef}
+        width={550}
         height={500}
         size="stretch"
         minWidth={315}
@@ -256,46 +254,46 @@ function MyBook(props) {
           const pageNumber = index + 1;
           return (
             <Page key={pageNumber} number={pageNumber}>
-              
+
               {pageNumber % 2 === 1
-                ? <aside className="w-full h-screen p-5 overflow-hidden" 
-                          style={{ transformStyle: 'preserve-3d', animation: prevPageAnimation, transformOrigin: 'right', zIndex: prevPageAnimation ? 1 : 0 }}>
-                        <Card className="h-full rounded-md bg-white border-2 shadow-lg">
-                          <CardContent className="flex flex-col h-full p-4">
-                            <ScrollArea className="flex-1 mt-6 w-full rounded-md border max-h-full overflow-auto">
-                              <div className="p-1 text-sm">
-                                <p className="mt-4 text-3xl tracking-wide px-5" style={{ lineHeight: '2.5em' }}>
-                                  &nbsp;&nbsp;&nbsp; {pageContent[pageNumber]}
-                                </p>
-                              </div>
-                            </ScrollArea>
-                          </CardContent>
-                        </Card>
-                  </aside>
-                 || 'Loading...' // 로딩 화면
+                ? <aside className="w-full h-screen p-5 overflow-hidden"
+                  style={{ transformStyle: 'preserve-3d', animation: prevPageAnimation, transformOrigin: 'right', zIndex: prevPageAnimation ? 1 : 0 }}>
+                  <Card className="h-full rounded-md bg-white border-2 shadow-lg">
+                    <CardContent className="flex flex-col h-full p-4">
+                      <ScrollArea className="flex-1 mt-6 w-full rounded-md border max-h-full overflow-auto">
+                        <div className="p-1 text-sm">
+                          <p className="mt-4 text-3xl tracking-wide px-5" style={{ lineHeight: '2.5em' }}>
+                            &nbsp;&nbsp;&nbsp; {pageContent[pageNumber]}
+                          </p>
+                        </div>
+                      </ScrollArea>
+                    </CardContent>
+                  </Card>
+                </aside>
+                || 'Loading...' // 로딩 화면
                 : <div>
                   {pageContent[currentPage]
-                    ? <aside className="w-full p-5 overflow-hidden" 
-                              style={{ transformStyle: 'preserve-3d', animation: nextPageAnimation, transformOrigin: 'left', zIndex: nextPageAnimation ? 1 : 0 }}>
-                          <div
-                            className="h-full w-full rounded-md shadow-lg bg-cover bg-center"
-                            style={{
-                              backgroundImage: `url(${pageContent[currentPage]})`,
-                              backgroundSize: 'cover',
-                              backgroundPosition: 'center',
-                              borderRadius: '4px',
-                              aspectRatio: '1 / 1',
-                            }}
-                          >
-                          </div>
-                      </aside>
-                    : <div key="1" className="flex flex-col items-center justify-center w-full h-screen">
-                          <div className="animate-spin">
-                          <LoaderIcon className="w-20 h-20 text-blue-500" />
-                          </div>
-                          <h1 className="mt-5 text-3xl font-semibold text-gray-700">그림이 만들어지고 있어요!</h1>
+                    ? <aside className="w-full p-5 overflow-hidden"
+                      style={{ transformStyle: 'preserve-3d', animation: nextPageAnimation, transformOrigin: 'left', zIndex: nextPageAnimation ? 1 : 0 }}>
+                      <div
+                        className="h-full w-full rounded-md shadow-lg bg-cover bg-center"
+                        style={{
+                          backgroundImage: `url(${pageContent[currentPage]})`,
+                          backgroundSize: 'cover',
+                          backgroundPosition: 'center',
+                          borderRadius: '4px',
+                          aspectRatio: '1 / 1',
+                        }}
+                      >
                       </div>
-                    }
+                    </aside>
+                    : <div key="1" className="flex flex-col items-center justify-center w-full h-screen">
+                      <div className="animate-spin">
+                        <LoaderIcon className="w-20 h-20 text-blue-500" />
+                      </div>
+                      <h1 className="mt-5 text-3xl font-semibold text-gray-700">그림이 만들어지고 있어요!</h1>
+                    </div>
+                  }
                 </div>
               }
             </Page>

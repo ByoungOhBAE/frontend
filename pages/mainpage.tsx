@@ -1,11 +1,8 @@
 "use client"
 import { Navibar } from '@/components/component/index_compo/navibar';
 import React, { useState } from 'react';
-import Board_write from '@/components/component/board/board_detail';
 import Book_list from '@/components/component/book_compo/book_list';
 import Mypage from '@/components/component/mypage_compo/mypage';
-import Board_update from '@/components/component/board/board_update';
-import Userwritepage from '@/components/component/board/userwritepage';
 import Board_list from '@/components/component/board/board_list';
 import { useRouter } from 'next/navigation';
 import './globals.css'
@@ -23,16 +20,8 @@ export default function Mainpage({ }) {
     switch (SelecteCompoId) {
       case 1:
         return <Book_list setSelecteCompoId={setSelecteCompoId} setSelectedBookId={setSelectedBookId} />;
-      case 2:
-        return <Board_detail bookId={selectedBookId} setSelecteCompoId={setSelecteCompoId} />;
       case 3:
         return <Mypage setSelecteCompoId={setSelecteCompoId} />;
-      case 4:
-        return <Board_write />;
-      case 5:
-        return <Userwritepage bookId={selectedBookId} setSelecteCompoId={setSelecteCompoId} />;
-      case 6:
-        return router.push('/player/?history=${selectedBookId}');
       case 12:
         return <Board_list bookId={1} setSelecteCompoId={setSelecteCompoId} />;
       default:

@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import dynamic from 'next/dynamic';
 const TextEditor = dynamic(() => import('./TextEditor'), { ssr: false });
 
-const board_write = ({ onCancel, fetchGetData }) => {
+const Board_write = ({ onCancel, fetchGetData }) => {
     const [postTitle, setPostTitle] = useState("");
     const [postContent, setPostContent] = useState("");
 
@@ -82,4 +82,4 @@ const board_write = ({ onCancel, fetchGetData }) => {
     );
 };
 
-export default board_write;
+export default Board_write;
