@@ -25,6 +25,7 @@ const Quiz = ({ bookid }) => {
     const [content, setContent] = useState('');
     const [isQuizLoading, setQuizLoading] = useState(false);
     const [isFeedbackLoading, setIsFeedbackLoading] = useState(false);
+    console.log(bookid)
 
     useEffect(() => {
         fetchPostQuiz();

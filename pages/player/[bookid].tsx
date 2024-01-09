@@ -27,7 +27,9 @@ const Page = React.forwardRef(({ children, image, pageNumber }, ref) => {
       {isEvenPage ? (
         image ? (
           // 짝수 페이지이고 이미지가 있는 경우 이미지 표시
-          <img src={image} alt="Page content" className="w-full h-full object-cover" />
+          
+            <img src={image} alt="Page content" className="w-full h-full object-cover" />
+          
         ) : (
           // 짝수 페이지이지만 이미지가 없는 경우 로딩 화면 표시
           <div className="flex flex-col items-center justify-center w-full h-screen bg-white">
@@ -180,14 +182,23 @@ function MyBook(props) {
   const NextPage = () => {
     if (isLoading) return;
     // 애니메이션 시간과 일치
-    if (flipBookRef.current) {
-      flipBookRef.current.pageFlip().flipNext();
-    }
-  };
+    audioPlayerRef.current.audio.current.pause();
+    if (currentPage >= pageCount) {
+      // 마지막 페이지일 경우 특정 경로로 리디렉션
+      router.push(`/quiz/${props.bookid}`);
+
+    } else {
+      // 아닐 경우 다음 페이지로 넘김
+      if (flipBookRef.current) {
+        flipBookRef.current.pageFlip().flipNext();
+      }
+    };
+  }
 
   const PrevPage = () => {
     if (currentPage <= 1) return;
     if (isLoading) return;
+    audioPlayerRef.current.audio.current.pause();
 
     if (flipBookRef.current) {
       flipBookRef.current.pageFlip().flipPrev();
@@ -229,7 +240,7 @@ function MyBook(props) {
     router.replace('/mainpage', undefined);
   };
 
-  
+
 
   return (
     <div className="container" onMouseMove={handleMouseMove}>
@@ -288,31 +299,6 @@ function MyBook(props) {
                   </aside>
                   || 'Loading...' // 로딩 화면
                   : <></>
-                  // <div>
-                  //   {pageContent[currentPage]
-                  //     ? <></>
-                  //     <aside className="w-full p-5 overflow-hidden">
-                  //       <div
-                  //         className="h-full w-full rounded-md shadow-lg bg-cover bg-center"
-                  //         style={{
-                  //           backgroundImage: `url(${pageContent[currentPage]})`,
-                  //           backgroundSize: 'cover',
-                  //           backgroundPosition: 'center',
-                  //           borderRadius: '4px',
-                  //           aspectRatio: '1 / 1',
-                  //         }}
-                  //       >
-                  //       </div>
-                  //     </aside>
-                  //     :
-                  //     <div key="1" className="flex flex-col items-center justify-center w-full h-screen">
-                  //       <div className="animate-spin">
-                  //         <LoaderIcon className="w-20 h-20 text-blue-500" />
-                  //       </div>
-                  //       <h1 className="mt-5 text-3xl font-semibold text-gray-700">그림이 만들어지고 있어요!</h1>
-                  //     </div>
-                  //   }
-                  // </div>
                 }
               </Page>
             );
