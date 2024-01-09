@@ -38,7 +38,7 @@ export default function Index() {
     <div className="min-h-screen p-6 lg:p-10 bg-cover bg-center relative" style={backgroundStyle}>
       <div className="text-center mb-3">
         <h2 className="text-5xl font-bold text-gray-800">
-          BooKids
+          북키즈
         </h2>
       </div>
 
