@@ -77,12 +77,13 @@ function MyBook(props) {
   const [nextContent, setNextContent] = useState('');
   const [imagePath, setImagePath] = useState('');
   const mouseMoveTimer = useRef(null);
-  const [isImageLoading, setImageLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false); // 책 들어가서 이미지, 오디오 생성하는 동안 로딩하기 위한 변수
   const flipBookRef = useRef(null);
 
   useEffect(() => {
     const fetchAllPageContent = async () => {
       try {
+        setLoading(true) // 로딩 시작
         // 페이지 수를 가져오는 API 요청
         const pageCountResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/BookDetail/${Bookid}`);
         const totalPageCount = pageCountResponse.data.count;
@@ -119,6 +120,8 @@ function MyBook(props) {
         }
       } catch (error) {
         console.error('Error fetching page content:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -149,7 +152,7 @@ function MyBook(props) {
       const formData = new FormData();
       formData.append('content', content);
 
-      const response = await fetch('http://127.0.0.1:8000/stable/api/generate_image/', {
+      const response = await fetch('http://34.64.255.242:8000/stable/api/generate_image/', {
         method: 'POST',
         body: formData,
       });
@@ -175,6 +178,7 @@ function MyBook(props) {
   };
 
   const NextPage = () => {
+    if (isLoading) return;
     // 애니메이션 시간과 일치
     if (flipBookRef.current) {
       flipBookRef.current.pageFlip().flipNext();
@@ -183,6 +187,7 @@ function MyBook(props) {
 
   const PrevPage = () => {
     if (currentPage <= 1) return;
+    if (isLoading) return;
 
     if (flipBookRef.current) {
       flipBookRef.current.pageFlip().flipPrev();
@@ -190,13 +195,18 @@ function MyBook(props) {
   };
 
   const handlePageChange = (e) => {
+    if (isLoading) {
+      // 로딩 중이면 페이지 변경 로직을 실행하지 않음
+      return;
+    }
+
     setCurrentPage(e.data + 1);
   };
 
   const fetchPostSpeech = async (content) => {
     const token = Cookies.get('token');
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/TextToSpeech/`, {
+      const response = await axios.post(`http://34.64.255.242:8000/api/TextToSpeech/`, {
         content: content,
       }, {
         headers: {
@@ -230,75 +240,89 @@ function MyBook(props) {
           <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
         </svg>
       </button>
-      <HTMLFlipBook
-        ref={flipBookRef}
-        width={550}
-        height={500}
-        size="stretch"
-        minWidth={315}
-        maxWidth={1200}
-        minHeight={400}
-        maxHeight={800}
-        maxShadowOpacity={0.5}
-        showCover={true}
-        mobileScrollSupport={true} onFlip={handlePageChange}>
-        <PageCover coverImage='http://127.0.0.1:8000/media/book/%EC%8B%9C%EA%B3%A8%EC%A5%90%20%EC%84%9C%EC%9A%B8%EA%B5%AC%EA%B2%BD.png'></PageCover>
-        {[...Array(pageCount)].map((_, index) => {
-          const pageNumber = index + 1;
-          const pageImage = pageContent[pageNumber];
-          return (
-            <Page key={pageNumber} pageNumber={pageNumber} image={pageImage}>
+      {isLoading ? (
+        <div className="flex flex-col items-center justify-center w-full h-screen bg-white">
+          <div className="animate-spin">
+            <LoaderIcon className="w-20 h-20 text-blue-500" />
+          </div>
+          <h1 className="mt-5 text-3xl font-semibold text-gray-700">그림과 음성이 만들어지고 있어요!</h1>
+        </div>
+      ) : (
+        <HTMLFlipBook
+          ref={flipBookRef}
+          width={550}
+          height={500}
+          size="stretch"
+          minWidth={315}
+          maxWidth={1200}
+          minHeight={400}
+          maxHeight={800}
+          maxShadowOpacity={0.5}
+          showCover={true}
+          mobileScrollSupport={true} 
+          onFlip={handlePageChange}
+          >
+            
 
-              {pageNumber % 2 === 1
-                ? <aside className="w-full h-screen p-5 overflow-hidden"
-                  style={{ transformStyle: 'preserve-3d', animation: prevPageAnimation, transformOrigin: 'right', zIndex: prevPageAnimation ? 1 : 0 }}>
-                  <Card className="h-full rounded-md bg-white border-2 shadow-lg">
-                    <CardContent className="flex flex-col h-full p-4">
-                      <ScrollArea className="flex-1 mt-6 w-full rounded-md border max-h-full overflow-auto">
-                        <div className="p-1 text-sm">
-                          <p className="mt-4 text-3xl tracking-wide px-5" style={{ lineHeight: '2.5em' }}>
-                            &nbsp;&nbsp;&nbsp; {pageContent[pageNumber]}
-                          </p>
-                        </div>
-                      </ScrollArea>
-                    </CardContent>
-                  </Card>
-                </aside>
-                || 'Loading...' // 로딩 화면
-                : <></>
-                // <div>
-                //   {pageContent[currentPage]
-                //     ? <></>
-                //     <aside className="w-full p-5 overflow-hidden">
-                //       <div
-                //         className="h-full w-full rounded-md shadow-lg bg-cover bg-center"
-                //         style={{
-                //           backgroundImage: `url(${pageContent[currentPage]})`,
-                //           backgroundSize: 'cover',
-                //           backgroundPosition: 'center',
-                //           borderRadius: '4px',
-                //           aspectRatio: '1 / 1',
-                //         }}
-                //       >
-                //       </div>
-                //     </aside>
-                //     :
-                //     <div key="1" className="flex flex-col items-center justify-center w-full h-screen">
-                //       <div className="animate-spin">
-                //         <LoaderIcon className="w-20 h-20 text-blue-500" />
-                //       </div>
-                //       <h1 className="mt-5 text-3xl font-semibold text-gray-700">그림이 만들어지고 있어요!</h1>
-                //     </div>
-                //   }
-                // </div>
-              }
-            </Page>
-          );
-        })}
-      </HTMLFlipBook>
+          <PageCover coverImage='http://127.0.0.1:8000/media/book/%EC%8B%9C%EA%B3%A8%EC%A5%90%20%EC%84%9C%EC%9A%B8%EA%B5%AC%EA%B2%BD.png' isLoading={isLoading}></PageCover>
+          {[...Array(pageCount)].map((_, index) => {
+            const pageNumber = index + 1;
+            const pageImage = pageContent[pageNumber];
+            return (
+              <Page key={pageNumber} pageNumber={pageNumber} image={pageImage}>
+
+                {pageNumber % 2 === 1
+                  ? <aside className="w-full h-screen p-5 overflow-hidden"
+                    style={{ transformStyle: 'preserve-3d', animation: prevPageAnimation, transformOrigin: 'right', zIndex: prevPageAnimation ? 1 : 0 }}>
+                    <Card className="h-full rounded-md bg-white border-2 shadow-lg">
+                      <CardContent className="flex flex-col h-full p-4">
+                        <ScrollArea className="flex-1 mt-6 w-full rounded-md border max-h-full overflow-auto">
+                          <div className="p-1 text-sm">
+                            <p className="mt-4 text-3xl tracking-wide px-5" style={{ lineHeight: '2.5em' }}>
+                              &nbsp;&nbsp;&nbsp; {pageContent[pageNumber]}
+                            </p>
+                          </div>
+                        </ScrollArea>
+                      </CardContent>
+                    </Card>
+                  </aside>
+                  || 'Loading...' // 로딩 화면
+                  : <></>
+                  // <div>
+                  //   {pageContent[currentPage]
+                  //     ? <></>
+                  //     <aside className="w-full p-5 overflow-hidden">
+                  //       <div
+                  //         className="h-full w-full rounded-md shadow-lg bg-cover bg-center"
+                  //         style={{
+                  //           backgroundImage: `url(${pageContent[currentPage]})`,
+                  //           backgroundSize: 'cover',
+                  //           backgroundPosition: 'center',
+                  //           borderRadius: '4px',
+                  //           aspectRatio: '1 / 1',
+                  //         }}
+                  //       >
+                  //       </div>
+                  //     </aside>
+                  //     :
+                  //     <div key="1" className="flex flex-col items-center justify-center w-full h-screen">
+                  //       <div className="animate-spin">
+                  //         <LoaderIcon className="w-20 h-20 text-blue-500" />
+                  //       </div>
+                  //       <h1 className="mt-5 text-3xl font-semibold text-gray-700">그림이 만들어지고 있어요!</h1>
+                  //     </div>
+                  //   }
+                  // </div>
+                }
+              </Page>
+            );
+          })}
+        </HTMLFlipBook>
+      )} 
+      
       <div className="flex items-center justify-center ">
         <div
-          className={`w-full md:w-full fixed bottom-0 left-0 bg-white duration-1000 transition-opacity ease-in-out ${isPlayerVisible ? 'opacity-100' : 'opacity-0'}`}>
+          className={`w-full md:w-full fixed bottom-0 left-0 bg-white ${isLoading ? 'invisible' : 'visible'}`}>
 
           <AudioPlayer
             ref={audioPlayerRef}
