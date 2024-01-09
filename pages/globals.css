@@ -182,6 +182,10 @@
   }
 }
 
+.h-setting{
+  min-height: 83svh;
+  max-height: 83svh;
+}
 .fade-enter {
   opacity: 0;
 }

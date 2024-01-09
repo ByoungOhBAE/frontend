@@ -106,12 +106,7 @@ export function Navibar({ setSelecteCompoId }) {
                   게시판 목록
                 </Button>
               </motion.div>
-              <motion.div whileHover={{ scale: 1.1 }} onHoverStart={e => { }} whileTap={{ scale: 0.9 }}
-                onHoverEnd={e => { }}>
-                <Button className={`fixed bottom-0 hover:border-black hover:border-2 flex w-full items-center py-4 justify-center text-lg font-semibold hover:bg-gray-100 hover:text-black rounded-lg ${CompoId===12 ? 'bg-gray-100 text-black border-2 border-black' : ''}`} onClick={() => {handleLogout}}>
-                  로그아웃
-                </Button>
-              </motion.div>
+           
 
 
             </div>

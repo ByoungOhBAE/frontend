@@ -27,7 +27,9 @@ const Page = React.forwardRef(({ children, image, pageNumber }, ref) => {
       {isEvenPage ? (
         image ? (
           // 짝수 페이지이고 이미지가 있는 경우 이미지 표시
-          <img src={image} alt="Page content" className="w-full h-full object-cover" />
+          <div className='h-setting'>
+            <img src={image} alt="Page content" className="w-full h-full object-cover" />
+          </div>
         ) : (
           // 짝수 페이지이지만 이미지가 없는 경우 로딩 화면 표시
           <div className="flex flex-col items-center justify-center w-full h-screen bg-white">
@@ -149,7 +151,7 @@ function MyBook(props) {
       const formData = new FormData();
       formData.append('content', content);
 
-      const response = await fetch('http://127.0.0.1:8000/stable/api/generate_image/', {
+      const response = await fetch('http://34.64.255.242:8000/stable/api/generate_image/', {
         method: 'POST',
         body: formData,
       });
@@ -176,13 +178,22 @@ function MyBook(props) {
 
   const NextPage = () => {
     // 애니메이션 시간과 일치
-    if (flipBookRef.current) {
-      flipBookRef.current.pageFlip().flipNext();
-    }
-  };
+    audioPlayerRef.current.audio.current.pause();
+    if (currentPage >= pageCount) {
+      // 마지막 페이지일 경우 특정 경로로 리디렉션
+      router.push(`/quiz/${props.bookid}`);
+
+    } else {
+      // 아닐 경우 다음 페이지로 넘김
+      if (flipBookRef.current) {
+        flipBookRef.current.pageFlip().flipNext();
+      }
+    };
+  }
 
   const PrevPage = () => {
     if (currentPage <= 1) return;
+    audioPlayerRef.current.audio.current.pause();
 
     if (flipBookRef.current) {
       flipBookRef.current.pageFlip().flipPrev();
@@ -196,7 +207,7 @@ function MyBook(props) {
   const fetchPostSpeech = async (content) => {
     const token = Cookies.get('token');
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/TextToSpeech/`, {
+      const response = await axios.post(`http://34.64.255.242:8000/api/TextToSpeech/`, {
         content: content,
       }, {
         headers: {
@@ -219,7 +230,7 @@ function MyBook(props) {
     router.replace('/mainpage', undefined);
   };
 
-  
+
 
   return (
     <div className="container" onMouseMove={handleMouseMove}>
@@ -236,12 +247,12 @@ function MyBook(props) {
         height={500}
         size="stretch"
         minWidth={315}
-        maxWidth={1200}
+        maxWidth={1000}
         minHeight={400}
-        maxHeight={800}
+        maxHeight={1533}
         maxShadowOpacity={0.5}
         showCover={true}
-        mobileScrollSupport={true} onFlip={handlePageChange}>
+        mobileScrollSupport={false} onFlip={handlePageChange}>
         <PageCover coverImage='http://127.0.0.1:8000/media/book/%EC%8B%9C%EA%B3%A8%EC%A5%90%20%EC%84%9C%EC%9A%B8%EA%B5%AC%EA%B2%BD.png'></PageCover>
         {[...Array(pageCount)].map((_, index) => {
           const pageNumber = index + 1;
@@ -250,7 +261,7 @@ function MyBook(props) {
             <Page key={pageNumber} pageNumber={pageNumber} image={pageImage}>
 
               {pageNumber % 2 === 1
-                ? <aside className="w-full h-screen p-5 overflow-hidden"
+                ? <aside className="w-full h-setting p-5 overflow-hidden"
                   style={{ transformStyle: 'preserve-3d', animation: prevPageAnimation, transformOrigin: 'right', zIndex: prevPageAnimation ? 1 : 0 }}>
                   <Card className="h-full rounded-md bg-white border-2 shadow-lg">
                     <CardContent className="flex flex-col h-full p-4">
