@@ -162,7 +162,7 @@ function MyBook(props) {
       const formData = new FormData();
       formData.append('content', content);
 
-      const response = await fetch('http://34.64.255.242:8000/stable/api/generate_image/', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/stable/api/generate_image/`, {
         method: 'POST',
         body: formData,
       });
@@ -231,7 +231,7 @@ function MyBook(props) {
   const fetchPostSpeech = async (content) => {
     const token = Cookies.get('token');
     try {
-      const response = await axios.post(`http://34.64.255.242:8000/api/TextToSpeech/`, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/TextToSpeech/`, {
         content: content,
       }, {
         headers: {

@@ -14,16 +14,23 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
   const PER_PAGE = 8;
   const [currentPage, setCurrentPage] = useState(1);
   const { bookList } = useBookList();
-
+  const [showModal, setShowModal] = useState(false);
   const router = useRouter();
+
   const showBookDetails = (bookid) => {
-    router.push(`/player/${bookid}`);
+    if(bookid === 1 || bookid === 2){
+      router.push(`/player/${bookid}`);
+    }
+    else {
+      setShowModal(true);
+    }
   };
   const currentBooks = bookList ? bookList.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE) : [];
   const totalPages = bookList ? Math.ceil(bookList.length / PER_PAGE) : 0;
   return (
     <div className="mx-3 my-3 p-3 bg-slate-200/90 rounded-lg">
       <div className=" mx-3 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 " style={{ minHeight: '464px', }}>
+        
         {/* 책 목록 렌더링 */}
         {currentBooks.map(book => (
           <button>
@@ -76,6 +83,18 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
           <Button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>다음 페이지</Button>
         </motion.div>
       </div>
+      {/* 모달창 */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-4 rounded-lg shadow-lg">
+            {/* 모달 내용 */}
+            <p className='mb-3'>서비스 준비중입니다.</p>
+            <Button className='w-full' onClick={() => setShowModal(false)}>
+              닫기
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

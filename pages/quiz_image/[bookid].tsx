@@ -141,7 +141,7 @@ const Quiz_image = ({ bookid }) => {
     const fetchPostImageGenerate = async () => {
         setQuizLoading(true);
         try {
-            const response = await fetch('http://34.64.255.242:8000/stable/api/generate_quiz_image/', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/stable/api/generate_quiz_image/`, {
             method: 'POST',
           });
   
