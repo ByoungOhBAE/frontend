@@ -86,8 +86,22 @@ export default function Index() {
                             </p>
                         </div>
                     </SwiperSlide>
-                    <SwiperSlide>책 읽어주기</SwiperSlide>
-                    <SwiperSlide>퀴즈</SwiperSlide>
+                    <SwiperSlide>
+                        <div className="flex items-center justify-center">
+                            <img src="/bookread.png" alt="Slide 3" style={{ width: '70%', maxHeight: '50%', marginTop: '-5%' }}/>
+                            <p className="text-lg leading-loose ml-4">
+                                STT를 통한 동화책 읽어주기<br />
+                            </p>
+                        </div>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <div className="flex items-center justify-center">
+                            <img src="/quiz_1.png" alt="Slide 4" style={{ width: '70%', maxHeight: '50%' }}/>
+                            <p className="text-lg leading-loose ml-4">
+                                동화책 기반 문제 제공<br />
+                            </p>
+                        </div>
+                    </SwiperSlide>
                     <SwiperSlide>
                         <div className="flex items-center justify-center">
                             <img src="/bookhistory.png" alt="Slide 5" style={{ width: '80%', maxHeight: '60%', marginTop: '-5%' }}/>
