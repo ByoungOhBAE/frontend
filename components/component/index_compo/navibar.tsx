@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { NavigationMenuLink, NavigationMenuList, NavigationMenu } from "@/components/ui/navigation-menu"
 import { useRouter } from "next/navigation";
 
+
 interface User {
   id: number;
   username: string;
@@ -125,7 +126,7 @@ export function Navibar({ setSelecteCompoId }) {
 
 
         <div className=" absolute left-1/2 transform -translate-x-1/2 text-4xl font-bold ">
-          <h2 className="animated-gradient">
+          <h2 className="animated-gradient" onClick={() => {setSelecteCompoId(1); SetCompoId(1);}}>
             북키즈
           </h2>
         </div>
