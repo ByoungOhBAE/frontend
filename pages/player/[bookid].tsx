@@ -63,6 +63,7 @@ function MyBook(props) {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageContent, setPageContent] = useState({});
+  const [audioContent, setAudioContent] = useState({});
   const [pageCount, setPageCount] = useState(0); // 페이지 수를 저장할 상태
   const Bookid = props.bookid;
   // 오디오 상태관리
@@ -132,8 +133,15 @@ function MyBook(props) {
 
   useEffect(() => {
     // 현재 페이지에 대한 오디오 경로를 설정
-    if (pageContent[currentPage]) {
-      setAudioPath(pageContent[currentPage]);
+    if (audioContent[currentPage]) {
+      setAudioPath(audioContent[currentPage]);
+      const timer = setTimeout(() => {
+        setIsReadyToPlay(true);
+        if (audioPlayerRef.current) {
+          audioPlayerRef.current.audio.current.play();
+        }
+      }, 1000); // 2초 뒤에 재생 시작
+      return () => clearTimeout(timer);
     }
   }, [currentPage, pageContent]);
 
@@ -167,9 +175,15 @@ function MyBook(props) {
         // 이미지 경로와 오디오 경로를 상태에 저장
         setPageContent(prevContent => ({
           ...prevContent,
-          [pageNumber]: img_data.image_path,
-          ...(audioPath && { [audioNumber]: audioPath }), // audioPath가 있는 경우에만 추가
+          [pageNumber]: img_data.image_path
         }));
+        
+        if (audioPath) {
+          setAudioContent(prevAudio => ({
+            ...prevAudio,
+            [audioNumber]: audioPath
+          }));
+        }
 
       } else {
         console.error('Error fetching image:', img_data.error);
@@ -276,6 +290,7 @@ function MyBook(props) {
             
 
           <PageCover coverImage='http://127.0.0.1:8000/media/book/%EC%8B%9C%EA%B3%A8%EC%A5%90%20%EC%84%9C%EC%9A%B8%EA%B5%AC%EA%B2%BD.png' isLoading={isLoading}></PageCover>
+
           {[...Array(pageCount)].map((_, index) => {
             const pageNumber = index + 1;
             const pageImage = pageContent[pageNumber];
@@ -306,9 +321,9 @@ function MyBook(props) {
         </HTMLFlipBook>
       )} 
       
-      <div className="flex items-center justify-center ">
+      <div className={`flex items-center justify-center ${isLoading ? 'invisible' : 'visible'}`}>
         <div
-          className={`w-full md:w-full fixed bottom-0 left-0 bg-white ${isLoading ? 'invisible' : 'visible'}`}>
+          className={`w-full md:w-full fixed bottom-0 left-0 bg-white duration-1000 transition-opacity ease-in-out ${isPlayerVisible && currentPage !== 1? 'opacity-100' : 'opacity-0'}`}>
 
           <AudioPlayer
             ref={audioPlayerRef}
