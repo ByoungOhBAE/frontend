@@ -18,7 +18,7 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
   const router = useRouter();
 
   const showBookDetails = (bookid) => {
-    if(bookid === 1 || bookid === 2){
+    if(bookid === 1){
       router.push(`/player/${bookid}`);
     }
     else {

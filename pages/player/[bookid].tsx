@@ -294,7 +294,7 @@ function MyBook(props) {
           >
             
 
-          <PageCover coverImage='http://127.0.0.1:8000/media/book/%EC%8B%9C%EA%B3%A8%EC%A5%90%20%EC%84%9C%EC%9A%B8%EA%B5%AC%EA%B2%BD.png' isLoading={isLoading}></PageCover>
+          <PageCover coverImage={`${process.env.NEXT_PUBLIC_API_URL}/media/book/%EC%8B%9C%EA%B3%A8%EC%A5%90%20%EC%84%9C%EC%9A%B8%EA%B5%AC%EA%B2%BD.png`} isLoading={isLoading}></PageCover>
 
           {[...Array(pageCount)].map((_, index) => {
             const pageNumber = index + 1;
