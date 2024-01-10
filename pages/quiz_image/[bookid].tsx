@@ -29,6 +29,8 @@ const Quiz_image = ({ bookid }) => {
     const [feedback, setFeedback] = useState('');
     const [isQuizLoading, setQuizLoading] = useState(false);
     const [isFeedbackLoading, setIsFeedbackLoading] = useState(false);
+    const [mikeText, setMikeText] = useState('말하기');
+    
     
     useEffect(() => {
         fetchPostImageGenerate();
@@ -45,16 +47,42 @@ const Quiz_image = ({ bookid }) => {
         router.replace('/');
     };
 
-    const togglePlayPause = () => {
-        if (audioRef.current) {
-        const player = audioRef.current.audioEl.current;
-        if (player.paused) {
-            player.play();
-        } else {
-            player.pause();
+    const fetchPostSpeech = async (content) => {
+        const token = Cookies.get('token');
+        try {
+          const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/TextToSpeech/`, {
+            content: content,
+          }, {
+            headers: {
+              'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
+            }
+          });
+    
+          const audioPath = response.data.file_path;
+          console.log(audioPath);
+    
+          return audioPath; // 오디오 경로 반환
+        } catch (error) {
+          console.error('Error in fetchPostSpeech:', error);
+          return null; // 오류 발생 시 null 반환
         }
+      };
+
+      const togglePlayPause = async () => {
+        const audioPath = await fetchPostSpeech(quiz);
+        console.log(audioPath);
+        if (audioRef.current && audioPath) {
+            const player = audioRef.current;
+            player.src = audioPath; // 오디오 경로 설정
+    
+            if (player.paused) {
+                player.play();
+            } else {
+                player.pause();
+            }
         }
     };
+
     const fetchPostimageQuizSave = async () => {
         try {
         const token = Cookies.get('token');
@@ -121,19 +149,72 @@ const Quiz_image = ({ bookid }) => {
             });
     };
 
-    async function handleMikeClick() {
+    let mediaRecorder;
+    let audioChunks = [];
+
+    function startRecording() {
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(stream => {
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.start();
+
+                mediaRecorder.addEventListener("dataavailable", event => {
+                    audioChunks.push(event.data);
+                });
+
+                mediaRecorder.addEventListener("stop", () => {
+                    // Blob 타입을 'audio/wav'로 변경
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    sendAudioToServer(audioBlob);
+                    audioChunks = [];
+                });
+            });
+    }
+
+    function stopRecording() {
+        mediaRecorder.stop();
+    }
+
+    async function sendAudioToServer(audioBlob) {
+        const token = Cookies.get('token');
+        const formData = new FormData();
+        // 파일 이름을 'recording.wav'로 변경
+        formData.append("audio_file", audioBlob, "recording.wav");
+        console.log(formData.audio_file);
+        
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/recognize_speech/`);
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/recognize_speech/`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
+                }
+            });
+            
             console.log(response.data.text);
-    
-            if (response.data.text === undefined) {
-                setUserAnswer("말하기 버튼을 누른 후 다시 말해주세요");
-            } else {
-                setUserAnswer(response.data.text);
-                fetchPostFeedback(); // 피드백 추가
-            }
+            setUserAnswer(response.data.text || "말하기 버튼을 누른 후 다시 말해주세요");
         } catch (error) {
             console.error('Error:', error);
+        }
+    }
+
+    async function handleMikeClick() {
+        if (mediaRecorder && mediaRecorder.state === "recording") {
+            // stopRecording();
+            // setMikeText('말하기');
+        } else {
+            startRecording();
+            setMikeText('녹음중...');
+            setUserAnswer('대답을 생성하고 있어요...');
+            setTimeout(() => {
+                if (mediaRecorder && mediaRecorder.state === "recording") {
+                    stopRecording();
+                    setMikeText('말하기');
+                }
+            }, 3000);
+
+            setTimeout(() => {
+                fetchPostFeedback(); // 대답 후 피드백 생성
+            }, 5000);
         }
     }
 
@@ -215,9 +296,11 @@ const Quiz_image = ({ bookid }) => {
         )
       }
       
+      
 
     return (
         <main className='bg-sky-100 justify-center items-center h-screen'>
+            <audio ref={audioRef} style={{ display: 'none' }}></audio>
             <div className="flex flex-row items-center justify-center h-full p-5 mx-10">
                 <div className="flex flex-row items-start justify-center w-full">
                     {/* 이미지 섹션 */}
@@ -270,15 +353,6 @@ const Quiz_image = ({ bookid }) => {
                             </div>
                         </div>
 
-                        <AudioPlayer
-                            ref={audioRef}
-                            preload="none"
-                            src="/audio/photo.mp3"
-                            style={{
-                            background: 'transparent',
-                            width: '100%',
-                            }}
-                        />
                         {/* 버튼 컨테이너 */}
                         <div className="flex justify-between mt-6">
                             <div className="buttons-container flex justify-center mt-3">
@@ -298,9 +372,9 @@ const Quiz_image = ({ bookid }) => {
                                     <svg className="w-7 h-7 mr-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
                                     </svg>
-                                    말하기
+                                    {mikeText}
                                 </button>
-                                <button onClick={goToMainPage} className="flex items-center justify-center px-7 py-3 text-lg font-semibold cursor-pointer border-0 rounded-lg bg-gray-500 text-white shadow-md transition duration-300 hover:bg-gray-600">
+                                <button onClick={goToMainPage} className="flex items-center justify-center px-5 py-3 text-lg font-semibold cursor-pointer border-0 rounded-lg bg-gray-500 text-white shadow-md transition duration-300 hover:bg-gray-600">
                                     <span className="mr-2">종료</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />

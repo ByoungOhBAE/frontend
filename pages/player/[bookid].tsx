@@ -19,11 +19,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 //페이지 커버,페이지 내용 관리
-const Page = React.forwardRef(({ children, image, pageNumber }, ref) => {
+const Page = React.forwardRef(({ children, image, pageNumber, handlePageChange }, ref) => {
   const isEvenPage = pageNumber % 2 === 0;
 
   return (
-    <div className="h-screen" ref={ref}>
+    <div className="h-screen" ref={ref} onClick={handlePageChange}>
       {isEvenPage ? (
         image ? (
           // 짝수 페이지이고 이미지가 있는 경우 이미지 표시
@@ -82,6 +82,7 @@ function MyBook(props) {
   const mouseMoveTimer = useRef(null);
   const [isLoading, setLoading] = useState(false); // 책 들어가서 이미지, 오디오 생성하는 동안 로딩하기 위한 변수
   const flipBookRef = useRef(null);
+  // const [Page]
 
   useEffect(() => {
     const fetchAllPageContent = async () => {
@@ -92,6 +93,7 @@ function MyBook(props) {
         const totalPageCount = pageCountResponse.data.count;
         const realPageCount = Math.ceil(totalPageCount / 2); // 전체 페이지 수의 절반 계산
         setPageCount(totalPageCount * 2); // 총 페이지 수 설정
+        
 
         // 홀수 페이지에 대한 API 요청 생성
         const requests = [...Array(totalPageCount)].map((_, index) => {
@@ -121,6 +123,7 @@ function MyBook(props) {
           }
 
         }
+        
       } catch (error) {
         console.error('Error fetching page content:', error);
       } finally {
@@ -295,7 +298,7 @@ function MyBook(props) {
             const pageNumber = index + 1;
             const pageImage = pageContent[pageNumber];
             return (
-              <Page key={pageNumber} pageNumber={pageNumber} image={pageImage}>
+              <Page key={pageNumber} pageNumber={pageNumber} image={pageImage} handlePageChange={handlePageChange}>
 
                 {pageNumber % 2 === 1
                   ? <aside className="w-full h-screen p-5 overflow-hidden"
