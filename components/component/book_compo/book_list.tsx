@@ -33,7 +33,7 @@ export default function Book_list({ setSelecteCompoId, setSelectedBookId }) {
         
         {/* 책 목록 렌더링 */}
         {currentBooks.map(book => (
-          <button>
+          <button key = {book}>
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} key={book.id}
 
               className="relative group overflow-hidden rounded-lg"

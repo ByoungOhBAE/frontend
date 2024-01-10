@@ -20,6 +20,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 //페이지 커버,페이지 내용 관리
 const Page = React.forwardRef(({ children, image, pageNumber, handlePageChange }, ref) => {
+  Page.displayName = 'Page'
   const isEvenPage = pageNumber % 2 === 0;
 
   return (
@@ -47,6 +48,7 @@ const Page = React.forwardRef(({ children, image, pageNumber, handlePageChange }
   );
 });
 const PageCover = React.forwardRef((props, ref) => {
+  PageCover.displayName = 'PageCover'
   return (
     <div className="page" ref={ref} data-density="hard">
       <div className="page-content">
