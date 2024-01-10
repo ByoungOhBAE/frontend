@@ -1,5 +1,5 @@
 // components/BookDetailComponent.js 또는 .tsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Button } from "@/components/ui/button";
 import { Router } from 'lucide-react';
@@ -26,7 +26,7 @@ const Quiz = ({ bookid }) => {
     const [isQuizLoading, setQuizLoading] = useState(false);
     const [isFeedbackLoading, setIsFeedbackLoading] = useState(false);
     const [mikeText, setMikeText] = useState('말하기');
-    console.log(bookid)
+    const audioRef = useRef(null);
 
     useEffect(() => {
         fetchPostQuiz();
@@ -106,6 +106,42 @@ const Quiz = ({ bookid }) => {
         await fetchPostLearnQuizSave(newQuizId);
         } catch (error) {
             console.error(error);
+        }
+    };
+
+    const fetchPostSpeech = async (content) => {
+        const token = Cookies.get('token');
+        try {
+          const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/TextToSpeech/`, {
+            content: content,
+          }, {
+            headers: {
+              'Authorization': `Bearer ${token}` // 토큰을 헤더에 추가
+            }
+          });
+    
+          const audioPath = response.data.file_path;
+          console.log(audioPath);
+    
+          return audioPath; // 오디오 경로 반환
+        } catch (error) {
+          console.error('Error in fetchPostSpeech:', error);
+          return null; // 오류 발생 시 null 반환
+        }
+      };
+
+    const togglePlayPause = async () => {
+        const audioPath = await fetchPostSpeech(quiz);
+        console.log(audioPath);
+        if (audioRef.current && audioPath) {
+            const player = audioRef.current;
+            player.src = audioPath; // 오디오 경로 설정
+    
+            if (player.paused) {
+                player.play();
+            } else {
+                player.pause();
+            }
         }
     };
 
@@ -216,6 +252,7 @@ const Quiz = ({ bookid }) => {
 
     return (
         <main className='bg-sky-100 justify-center items-center h-screen'>
+            <audio ref={audioRef} style={{ display: 'none' }}></audio>
             <div className="flex flex-row items-center justify-center h-full p-5 mx-10">
                 
                 {/* 이미지 섹션 */}
@@ -272,7 +309,7 @@ const Quiz = ({ bookid }) => {
                                 </svg>
                                 이전
                             </button>
-                            <button className="flex items-center justify-center px-7 py-3 text-lg font-semibold cursor-pointer border-0 rounded-lg bg-green-500 text-white shadow-md transition duration-300 hover:bg-green-600 mr-1">
+                            <button onClick={togglePlayPause} className="flex items-center justify-center px-7 py-3 text-lg font-semibold cursor-pointer border-0 rounded-lg bg-green-500 text-white shadow-md transition duration-300 hover:bg-green-600 mr-1">
                                 <svg className="w-7 h-7 mr-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
                                 </svg>
