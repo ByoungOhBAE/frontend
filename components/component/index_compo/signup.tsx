@@ -114,10 +114,23 @@ export function Signup({ setShowSignup }) {
             return;
         }
     
-        if (formData.password.length < 6) {
-            setErrorMessage('비밀번호는 최소 6글자 이상이어야 합니다.');
+        if (formData.password.length < 8) {
+            setErrorMessage('비밀번호는 최소 8글자 이상이어야 합니다.');
             return;
         }
+
+        // 영문자 포함 검사
+        if (!/[a-zA-Z]/.test(formData.password)) {
+            setErrorMessage('비밀번호에는 최소 하나의 영문자가 포함되어야 합니다.');
+            return;
+        }
+
+        // 특수문자 포함 검사
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(formData.password)) {
+            setErrorMessage('비밀번호에는 최소 하나의 특수문자가 포함되어야 합니다.');
+            return;
+        }
+    
     
         if (formData.password !== formData.confirmPassword) {
             setErrorMessage('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
