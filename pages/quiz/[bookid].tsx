@@ -181,6 +181,9 @@ const Quiz = ({ bookid }) => {
                 mediaRecorder = new MediaRecorder(stream);
                 mediaRecorder.start();
 
+                setMikeText('녹음중...');
+                setUserAnswer('대답을 생성하고 있어요...');
+
                 mediaRecorder.addEventListener("dataavailable", event => {
                     audioChunks.push(event.data);
                 });
@@ -191,6 +194,17 @@ const Quiz = ({ bookid }) => {
                     sendAudioToServer(audioBlob);
                     audioChunks = [];
                 });
+
+                setTimeout(() => {
+                    if (mediaRecorder && mediaRecorder.state === "recording") {
+                        stopRecording();
+                        setMikeText('말하기');
+                    }
+                }, 3000);
+
+                setTimeout(() => {
+                    fetchPostFeedback(); // 대답 후 피드백 생성
+                }, 5000);
             });
     }
 
@@ -226,18 +240,6 @@ const Quiz = ({ bookid }) => {
             // setMikeText('말하기');
         } else {
             startRecording();
-            setMikeText('녹음중...');
-            setUserAnswer('대답을 생성하고 있어요...');
-            setTimeout(() => {
-                if (mediaRecorder && mediaRecorder.state === "recording") {
-                    stopRecording();
-                    setMikeText('말하기');
-                }
-            }, 3000);
-
-            setTimeout(() => {
-                fetchPostFeedback(); // 대답 후 피드백 생성
-            }, 5000);
         }
     }
 
